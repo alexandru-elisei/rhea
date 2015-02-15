@@ -1,0 +1,281 @@
+<triggers>
+<!-- DEF -->
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^The Enigma is upon you\.$"
+   name="def_enigma"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("enigma", nil, nil, "fromdef")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^You are taught by D\'varsha in Highmagic\.$"
+   name="def_teacher"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("teacher", nil, nil, "fromdef")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^You are able to beseech the Princess\.$"
+   name="def_princess"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>defs:ondef("princess", nil, nil, true)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^A fool will mask your next (\d+) tarot flings\.$"
+   name="def_fool"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("fool", "%1 fling(s)", nil, "fromdef")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^You are assisted by the Warrior\.$"
+   name="def_warrior"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("warrior", nil, nil, "fromdef")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^You are strengthened by the power of Kiakoda for (\d+) more tarot flings\.$"
+   name="def_world"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("world", "%1 fling(s)", true)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^You are protected by the Starleaper\.$"
+   name="def_starleaper"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("starleaper", nil, nil, "fromdef")</send>
+  </trigger>
+
+<!-- Defenses up -->
+  <trigger
+   enabled="y"
+   group="System_Tarot"
+   match="^You fling a tarot card upon the ground\, and an image of Klangratch\, the Axe of War rises up\. He salutes you\, and gives you a knowing wink\, before fading from sight\.$"
+   name="ondef_warrior"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("warrior", nil, "silent")
+display.success ("warrior")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Tarot"
+   match="^You fling a tarot card upon the ground\, and you hear the jingling of the bells of a jester\.$"
+   name="ondef_fool"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("fool", nil, "silent")
+display.success ("fool")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Tarot"
+   match="^You fling the card at the ground\, and an image of Tzaraziko the Enigmatic springs forth\. She smiles at you cryptically and raises her dark crystal hand\. A deep vibration passes through you\, and she mysteriously vanishes in the blink of an eye\.$"
+   name="ondef_enigma"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("enigma", nil, "silent")
+display.success ("enigma")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Tarot"
+   match="^You fling a tarot card upon the ground\, which explodes on impact and expands into a bubble of green light that rises up and engulfs you\. The image of Kiakoda rises up in your mind and the ground vibrates beneath your feet\.$"
+   name="ondef_world"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("world", nil, "silent")
+display.success ("world")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Tarot"
+   match="^You fling a tarot card upon the ground\, and an image of Shanth of the Quiet Mind rises up\, circling around you so fast that he becomes nothing but a blur\. His speed becomes so great that even the blur fades from sight\, though you sense his presence protecting you\.$"
+   name="ondef_starleaper"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("starleaper", nil, "silent")
+display.success ("starleaper")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Tarot"
+   match="^You fling a tarot card at the ground\, and a fountain of sparkling flecks of colour erupt at your feet\. An image of the Imperial Princess appears and touches your brow\, leaving a strange feeling in its wake\.$"
+   name="ondef_princess"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("princess")
+display.success ("princess")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Tarot"
+   match="^You fling a tarot card at yourself\, which transforms into the image of D\'varsha\, who then whispers the secrets of Highmagic to you\. Though your mind expands\, it is a struggle to retain this new understanding\.$"
+   name="ondef_teacher"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("teacher")
+display.success ("teacher")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Tarot"
+   match="^Your tarot will already be flung with the power of the Warrior\.$"
+   name="has_warrior"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>defs:ondef ("warrior")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Tarot"
+   match="^The Fool already masks your tarot with his mischief\.$"
+   name="has_fool"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>defs:ondef ("fool")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Tarot"
+   match="^The Enigma is already on you\.$"
+   name="has_enigma"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>defs:ondef ("enigma")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Tarot"
+   match="^The starleaper already protects you\.$"
+   name="has_starleaper"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>defs:ondef ("starleaper")</send>
+  </trigger>
+
+<!-- Defenses down -->
+  <trigger
+   enabled="y"
+   group="System_Tarot"
+   match="^The jingling of the bells of a jester fall silent\.$"
+   name="lostdef_fool"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>defs:lostdef ("fool")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Tarot"
+   match="^The Enigma passes away from your being\.$"
+   name="lostdef_enigma"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>defs:lostdef ("enigma")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Tarot"
+   match="^The presence of the Warrior leaves you\.$"
+   name="lostdef_warrior"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>defs:lostdef ("warrior")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Tarot"
+   match="^The image of Kiakoda leaves your mind and the green glow around you fades away\.$"
+   name="lostdef_world"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>defs:lostdef ("world")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Tarot"
+   match="^The last vestiges of the Starleaper\	's power leave your being\.$"
+   name="lostdef_starleaper"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>defs:lostdef ("starleaper")</send>
+  </trigger>
+</triggers>

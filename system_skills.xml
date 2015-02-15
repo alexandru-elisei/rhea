@@ -1,0 +1,44 @@
+<triggers>
+  <trigger
+   enabled="n"
+   group="System_Skills"
+   lines_to_match="2"
+   match="^To see your abilities within each skill\, type AB \&lt;Skill\&gt;\.\n^HELP \&lt;skill\&gt; to get more information on a skill\.$"
+   multi_line="y"
+   name="skills_end"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>EnableTriggerGroup ("System_Skills", false)
+silent = nil
+display.system ("Skills Installed")
+skills:get_available ()
+skills:save ()</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Skills"
+   match="^(Athletics|Kata|Cosmic|Rituals|Acrobatics|Astrology|Dreamweaving|Harmony|Healing|Hexes|Runes|Stealth|Tarot|Combat|Resilience|Discernment|Planar|Discipline|Environment|Influence|Beastmastery|Dramatics|Arts|Aethercraft|Lowmagic|Highmagic)(?:\s+)(Inept|Novice|Apprentice|Capable|Adept|Master|Gifted|Expert|Virtuoso|Fabled|Mythical|Transcendent)(?:\s+)(?:[A-Z][a-z]+)$"
+   name="skills"
+   regexp="y"
+   send_to="12"
+   sequence="1"
+  >
+  <send>skills:set (string.lower ("%1"), string.lower ("%2"))</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Skills"
+   lines_to_match="2"
+   match="^(?:Knighthood|Cosmic|Elementalism|Hunting|Illusions|Kata|Music|Nature|Psionics|Rituals|Totems)(?:\s+)(Inept|Novice|Apprentice|Capable|Adept|Master|Gifted|Expert|Virtuoso|Fabled|Mythical|Transcendent)(?:\s+)(?:Melee|Willpower|Mysticism|Communion|Intellect|Performance|Arcana)\n(?:\s+)(Bonecrusher|Pureblade|Axelord|Blademaster|Celestialism|Nihilism|Aeromancy|Aquamancy|Geomancy|Pyromancy|Ecology|Tracking|Glamours|Phantasms|Nekotai|Ninjakari|Shofangi|Tahtetso|Necroscream|Shadowbeat|Starhymn|Wildarrane|Drudiry \(Crow\)|Druidry \(Stag\)|Wicca \(Moon\)|Wicca \(Night\)|Psychometablism|Telekinesis|Telepathy|Aeonics|Necromancy|Paradigmatics|Sacraments|Crow|Moon|Night|Stag)$"
+   multi_line="y"
+   name="skills_guild"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>skills:set (string.lower ("%2"), string.lower ("%1"))</send>
+  </trigger>
+</triggers>
+

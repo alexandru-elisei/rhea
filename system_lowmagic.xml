@@ -1,0 +1,258 @@
+<triggers>
+<!-- Lowmagic defense tracking -->
+  <trigger
+   enabled="y"
+   group="System_Lowmagic"
+   match="^Spreading your arms wide\, you spin clockwise and visualize a circle of protection\. A shimmering white orb springs up around you\.$"
+   name="ondef_shield_circle"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("shield")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Lowmagic"
+   match="^Pressing your hands together before you\, you concentrate on your root chakra\. A red glow runs down your spine\, helping anchor you to the earth\.$"
+   name="ondef_red"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("red")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Lowmagic"
+   match="^Pressing your hands together before you\, you concentrate on your third eye chakra\. An indigo glow suffuses your forehead and reveals that which is hidden from sight\.$"
+   name="ondef_indigo"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("indigo")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Lowmagic"
+   match="^Pressing your hands together before you\, you concentrate on your belly chakra\. An orange glow suffuses the area around your stomach and the pangs of hunger disappear\.$"
+   name="ondef_orange"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("orange")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Lowmagic"
+   match="^Pressing your hands together before you\, you concentrate on your solar plexus chakra\. A golden glow suffuses your solar plexus and your body swells with power\.$"
+   name="ondef_yellow"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("yellow")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Lowmagic"
+   match="^Turning to the west\, you beseech the Spirits of Autumn to make your harvest plentiful\. A sparkling wind comes forth and wraps around you\, promising your harvests will be fruitful\.$"
+   name="ondef_autumn"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("autumn")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Lowmagic"
+   match="^Pressing your hands together before you\, you concentrate on your throat chakra\. A blue glow suffuses your throat\, protecting all your communications\.$"
+   name="ondef_blue"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("blue")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Lowmagic"
+   match="^Pressing your hands together before you\, you concentrate on all your chakras together\. A serpent of rainbow energy surges up from the root of your spine and travels to the top of your head\, bursting forth from your crown chakra and surrounding you with an aura of prismatic energy\.$"
+   name="ondef_serpent"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ({ "serpent", "prismatic" })</send>
+  </trigger>
+
+  <trigger
+   enabled="y"
+   group="System_Lowmagic"
+   match="^A renewed aura of prismatic energy surges once more from your crown chakra and surrounds you\.$"
+   name="has_serpent"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ({ "serpent", "prismatic" })</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Lowmagic"
+   match="^The red chakra already burns bright within your body\.$"
+   name="has_red"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("red")</send>
+  </trigger>
+
+  <trigger
+   enabled="y"
+   group="System_Lowmagic"
+   match="^You feel your (orange|yellow) chakra fade\.$"
+   name="lostdef_yellow_orange"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:lostdef ("%1")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Lowmagic"
+   match="^You feel the autumn wind subside\.$"
+   name="lostdef_autumn"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:lostdef ("autumn")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Lowmagic"
+   match="^The aura of prismatic energy surrounding you flickers and retreats into your crown chakra\.$"
+   name="lostdef_prismatic_serpent"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:lostdef ("prismatic")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Lowmagic"
+   match="^Your serpent\'s aura of prismatic energy flickers and fades\.$"
+   name="lostdef_serpent"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:lostdef ({ "serpent", "prismatic" })</send>
+  </trigger>
+
+<!-- DEF -->
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^You are followed by the autumn wind\.$"
+   name="def_autumn"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>defs:ondef ("autumn", nil, "silent", true)
+display.system ("Autumn")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^You have empowered your blue chakra\.$"
+   name="def_blue"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>defs:ondef ("blue", nil, nil, true)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^You have empowered your orange chakra\.$"
+   name="def_orange"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>defs:ondef ("orange", nil, nil, true)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^The pull of the earth roots you more firmly to the ground\.$"
+   name="def_red"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>defs:ondef ("red", nil, nil, true)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^You have empowered your yellow chakra\.$"
+   name="def_yellow"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>defs:ondef ("yellow", nil, nil, true)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Lowmagic"
+   match="^Turning your head to the south\, you beseech the Spirits of Summer to set you free\. A sparkling wind comes forth from the south"
+   name="invoke_summer"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>if (flags:get ("fastwrithe") or "nil") == "summer" then
+   affs:del_queue ({"trussed", "entangled", "roped", "shackled"})
+   flags:del ("fastwrithe")
+   fst:disable ("fastwrithe")
+   for k, v in ipairs ({"trussed", "entangled", "roped", "shackled"}) do
+     if (flags:get ("writhing_start") or "nil") == v or (flags:get ("writhing") or "nil") == v then
+	   flags:del ({"writhing_start", "writhing"})
+        fst:disable ("writhing")
+	   break
+	end--if
+   end--for
+end --if</send>
+  </trigger>
+</triggers>

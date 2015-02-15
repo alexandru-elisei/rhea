@@ -1,0 +1,2507 @@
+<triggers>
+  <trigger
+   enabled="y"
+   group="System_Prompt"
+   match="^(?P<ch>\d+)h\, (?P<cm>\d+)m\, (?P<ce>\d+)e\, (?P<cp>\d+)p\, (?P<cen>\d+)en\, (?P<cw>\d+)w(?:\, \d+mo)?(?P<cs> .*?)\-$"
+   name="prompt_normal"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="90"
+  >
+  <send>prompt:normal (%&lt;ch&gt;, %&lt;cm&gt;, %&lt;ce&gt;, %&lt;cp&gt;, %&lt;cen&gt;, %&lt;cw&gt;, "%&lt;cs&gt;")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Prompt"
+   match="^(\d+)h\, (\d+)m\, (\d+)e\, (\d+)p\, (\d+)en\, (\d+)w(?:\, \d+mo)?( .*?)\-$"
+   name="prompt_aeon"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="85"
+  >
+  <send>sca:cure ("aeon", %1, %2, %3, %4, %5, %6, "%7")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Prompt"
+   match="^(\d+)h\, (\d+)m\, (\d+)e\, (\d+)p\, (\d+)en\, (\d+)w(?:\, \d+mo)?( .*?)\-$"
+   name="prompt_sap"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="86"
+  >
+  <send>sca:cure ("sap", %1, %2, %3, %4, %5, %6, "%7")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Prompt"
+   match="^(\d+)h\, (\d+)m\, (\d+)e\, (\d+)p\, (\d+)en\, (\d+)w(?:\, \d+mo)?( .*?)\-$"
+   name="prompt_choke"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="87"
+  >
+  <send>sca:cure ("choke", %1, %2, %3, %4, %5, %6, "%7")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Blackout"
+   keep_evaluating="y"
+   match="^(?:\<\>)?\-$"
+   name="prompt_blackout"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="80"
+  >
+  <send>prompt:normal(prompt ["vitals"] ["c_health"], prompt ["vitals"] ["c_mana"], prompt ["vitals"] ["c_ego"], prompt ["vitals"] ["c_power"], prompt ["vitals"] ["c_endurance"], prompt ["vitals"] ["c_willpower"], "*")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Blackout"
+   keep_evaluating="y"
+   match="^\d+h\, \d+\m\, \d+e\, \d+p\, \d+en\, \d+w(?:\, \d+mo)? .*?\-$"
+   name="prompt_cureblackout"
+   regexp="y"
+   send_to="14"
+   sequence="70"
+  >
+  <send>system:cured ("blackout")</send>
+  </trigger>
+  <trigger
+   group="System_Tracking"
+   match="^You grow still and begin to pray silently for preservation of your soul while you are out of the land\.$"
+   name="logout"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>system:logout ()</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Tracking"
+   match="^You cease your praying\.$"
+   name="logout_stop"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>EnableTrigger ("login", false)
+EnableTrigger ("logout_stop", false)
+EnableTrigger ("logout", false)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Tracking"
+   match="^Password correct\. Welcome to Lusternia\.$"
+   name="login"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>system:login ()</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Tracking"
+   lines_to_match="7"
+   match="^  Sex    \: (?:Male|Female)\s+Race      \: .+?\n  Level  \: (?:\d+) \(?:(\d+)\%\)\s+Rank      \: (?:.+?)\n  Health \: (?P<ch>\d+)\/(?P<mh>\d+)     Endurance \: (?P<cend>\d+)\/(?P<mend>\d+)\n  Mana   \: (?P<cmana>\d+)\/(?P<mmana>\d+)     Willpower \: (?P<cwill>\d+)\/(?P<mwill>\d+)\n  Ego    \: (?P<cego>\d+)\/(?P<mego>\d+)     Reserves  \: (?:\d+)\%\n  Karma  \: (?:\d+)\%           Esteem    \: (?:\d+)\%\nYou are ranked (?:\d+)\w\w in (?:Lusternia)?\.$"
+   multi_line="y"
+   name="oldscore"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>prompt ["vitals"] ["c_health"] = %&lt;ch&gt;
+prompt ["vitals"] ["max_health"] = %&lt;mh&gt;
+prompt ["vitals"] ["c_endurance"] = %&lt;cend&gt;
+prompt ["vitals"] ["max_endurance"] = %&lt;mend&gt;
+prompt ["vitals"] ["c_mana"] = %&lt;cmana&gt;
+prompt ["vitals"] ["max_mana"] = %&lt;mmana&gt;
+prompt ["vitals"] ["c_willpower"] = %&lt;cwill&gt;
+prompt ["vitals"] ["max_willpower"] = %&lt;mwill&gt;
+prompt ["vitals"] ["c_ego"] = %&lt;cego&gt;
+prompt ["vitals"] ["max_ego"] = %&lt;mego&gt;
+fst:fire ("score", "now", "silent")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Tracking"
+   lines_to_match="4"
+   keep_evaluating="y"
+   match="^\| .+? \-+ \#(\d+) \|\n\| Level  \:\s+(\d+) \((\d+\.\d+)\%\)\s+Power\:\s+\d+p \(\s*(\d+)\%\)\s+Karma\:\s+(\d+)\%\s+Esteem\:\s+(\d+)\%\s+\|\n\| Health \:\s+(?P<ch>\d+)\/(?P<mh>\d+)\s+Mana \:\s+(?P<cmana>\d+)\/(?P<mmana>\d+)\s+Ego  \:\s+(?P<cego>\d+)\/(?P<mego>\d+)\s+\w+\s+\|\n\|\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\|$"
+   multi_line="y"
+   name="qsc"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>prompt ["vitals"] ["c_health"] = %&lt;ch&gt;
+prompt ["vitals"] ["max_health"] = %&lt;mh&gt;
+prompt ["vitals"] ["c_mana"] = %&lt;cmana&gt;
+prompt ["vitals"] ["max_mana"] = %&lt;mmana&gt;
+prompt ["vitals"] ["c_ego"] = %&lt;cego&gt;
+prompt ["vitals"] ["max_ego"] = %&lt;mego&gt;
+fst:fire ("score", "now", "silent")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Tracking"
+   lines_to_match="4"
+   keep_evaluating="y"
+   match="^\| .+? \-+ \#(\d+) \|\n\| Essence\:\s+(\d+)\s+\s+Power\:\s+\d+p \(\s*(\d+)\%\)\s+Karma\:\s+(\d+)\%\s+Esteem\:\s+(\d+)\%\s+\|\n\| Health \:\s+(?P<ch>\d+)\/(?P<mh>\d+)\s+Mana \:\s+(?P<cmana>\d+)\/(?P<mmana>\d+)\s+Ego  \:\s+(?P<cego>\d+)\/(?P<mego>\d+)\s+\w+\s+\|\n\|\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\|$"
+   multi_line="y"
+   name="qsc_demi"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>prompt ["vitals"] ["c_health"] = %&lt;ch&gt;
+prompt ["vitals"] ["max_health"] = %&lt;mh&gt;
+prompt ["vitals"] ["c_mana"] = %&lt;cmana&gt;
+prompt ["vitals"] ["max_mana"] = %&lt;mmana&gt;
+prompt ["vitals"] ["c_ego"] = %&lt;cego&gt;
+prompt ["vitals"] ["max_ego"] = %&lt;mego&gt;
+fst:fire ("score", "now", "silent")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Tracking"
+   lines_to_match="6"
+   match="^\| Race   \: (?P<race>.+?)Age.+?\n.+?\n\|\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\- VITALS\|\n\| Health \: (?P<ch>\d+)\/(?P<mh>\d+)\s+Endurance \: (?P<cend>\d+)\/(?P<mend>\d+)\s+Power    \: \d+p\s+\|\n\| Mana   \: (?P<cmana>\d+)\/(?P<mmana>\d+)\s+Willpower \: (?P<cwill>\d+)\/(?P<mwill>\d+)\s+Reserves \: (\d+)\%\s+\|\n\| Ego    \: (?P<cego>\d+)\/(?P<mego>\d+)\s+Mindset   \: \w+\s+Esteem   \: (\d+)\%\s+\|$"
+   multi_line="y"
+   name="score_vitals"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>prompt ["vitals"] ["c_health"] = %&lt;ch&gt;
+prompt ["vitals"] ["max_health"] = %&lt;mh&gt;
+prompt ["vitals"] ["c_endurance"] = %&lt;cend&gt;
+prompt ["vitals"] ["max_endurance"] = %&lt;mend&gt;
+prompt ["vitals"] ["c_mana"] = %&lt;cmana&gt;
+prompt ["vitals"] ["max_mana"] = %&lt;mmana&gt;
+prompt ["vitals"] ["c_willpower"] = %&lt;cwill&gt;
+prompt ["vitals"] ["max_willpower"] = %&lt;mwill&gt;
+prompt ["vitals"] ["c_ego"] = %&lt;cego&gt;
+prompt ["vitals"] ["max_ego"] = %&lt;mego&gt;
+local r = "%&lt;race&gt;"
+if string.find (r, "Archlich") then
+	defs:ondef ("archlich", nil, true)
+elseif string.find (r, "Undead") then
+	defs:ondef ("lich", nil, true)
+else
+	defs:lostdef ("lich", true)
+	defs:lostdef ("archlich", true)
+end--if
+fst:fire ("score", "now", "silent")</send>
+  </trigger>
+  
+<!--VOTING-->
+  <trigger
+   enabled="y"
+   group="System_Voting"
+   match="^Think there are too many bards\, scholars\, and pilgrims running around\? Vote for Lusternia to help clear them out\.$"
+   name="vote1"
+   omit_from_output="y"
+   regexp="y"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Voting"
+   match="^A raspy voice whispers\, \&quot;If you vote for it\, they will come\.\&quot;$"
+   name="vote2"
+   omit_from_output="y"
+   regexp="y"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Voting"
+   match="^Ask not what Lusternia can do for you\, but what you can do for Lusternia\! Vote now\!$"
+   name="vote3"
+   omit_from_output="y"
+   regexp="y"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Voting"
+   match="^Do you know of an easy way to help Lusternia\? By voting\! The more players we have\, the faster we can grow\.$"
+   name="vote4"
+   omit_from_output="y"
+   regexp="y"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Voting"
+   match="^Trader Bob says\, \&quot;The credit market prices are all my fault\! Vote for Lusternia if you want cheaper credits\!\&quot;$"
+   name="vote5"
+   omit_from_output="y"
+   regexp="y"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Voting"
+   match="^If you weren\'t cool\, you\'d let this pass you by without voting\. But you\'re cool\. Aren\'t you\? Vote Lusternia\.$"
+   name="vote6"
+   omit_from_output="y"
+   regexp="y"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Voting"
+   match="^Please take a moment to cast your vote for Lusternia\. Help us show that we\'re the number one MUD\!$"
+   name="vote7"
+   omit_from_output="y"
+   regexp="y"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Voting"
+   match="^Ever wonder what happened to some of the forgotten gods\? They didn\'t vote Lusternia\, so Estarra tossed Them into the void\. Don\'t let this happen to you\- vote Lusternia now\.$"
+   name="vote8"
+   omit_from_output="y"
+   regexp="y"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Voting"
+   match="^Do you really want to know what happened at the end of the Elder Wars\? Better get to voting for Lusternia\!$"
+   name="vote9"
+   omit_from_output="y"
+   regexp="y"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Voting"
+   match="^Experiencing a shortness of company\, you suddenly black out\. You quickly vote for Lusternia\. Your ability to play greatly improves as your world fills with friends once again\.$"
+   name="vote10"
+   omit_from_output="y"
+   regexp="y"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Voting"
+   match="^Spindle\, Skein and Bobbins are being paid to dawdle\. Make them work for their wages\! Vote Lusternia\!$"
+   name="vote11"
+   omit_from_output="y"
+   regexp="y"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Voting"
+   match="^If you haven\'t already\, please consider voting for Lusternia on TopMudSites\. This will help bring in new players and thus help our world grow\!$"
+   name="vote12"
+   omit_from_output="y"
+   regexp="y"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Voting"
+   match="^Current leaders not cutting it for you\? Help bring in more potential candidates by voting for Lusternia\.$"
+   name="vote13"
+   omit_from_output="y"
+   regexp="y"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Voting"
+   match="^Friends don\'t let friends play bad MUDs\, so vote for Lusternia and show them the way\.$"
+   name="vote14"
+   omit_from_output="y"
+   regexp="y"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Voting"
+   match="^Remember how pointless your life was before Lusternia\? Vote for Lusternia\, and help us bring others out from the cesspool known as \'real life\.\'$"
+   name="vote15"
+   omit_from_output="y"
+   regexp="y"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Voting"
+   match="^Every time you vote\, Kethuru loses a little piece of himself\.$"
+   name="vote16"
+   omit_from_output="y"
+   regexp="y"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Voting"
+   match="^Win a chance at a free cookie\, Vote for the Pastries\! I mean\, um\.\.\. Vote for Lusternia\. PS\. Power to the Pastries\!$"
+   name="vote17"
+   omit_from_output="y"
+   regexp="y"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Voting"
+   match="^If you don\'t vote right now\, the Soulless win\.$"
+   name="vote18"
+   omit_from_output="y"
+   regexp="y"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Voting"
+   match="^Vote for Lusternia to make all your dreams come true\! \(Disclaimer\: Only if your dreams involve more players enjoying Lusternia\.\)$"
+   name="vote19"
+   omit_from_output="y"
+   regexp="y"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Voting"
+   match="^VOTE LUSTERNIA or the furrikin gets it\!$"
+   name="vote20"
+   omit_from_output="y"
+   regexp="y"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Voting"
+   match="^Every time we lose a rank on Topmuds\, Fain kills a kitten\. Please\, think of the kittens\. And Vote for Lusternia\!$"
+   name="vote21"
+   omit_from_output="y"
+   regexp="y"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Voting"
+   match="^Vote here\: http\:\/\/www\.ironrealms\.com(?:.*)$"
+   name="votex"
+   omit_from_output="y"
+   regexp="y"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Voting"
+   match="^Thank you for your consideration\!$"
+   name="votey"
+   omit_from_output="y"
+   regexp="y"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   custom_colour="17"
+   enabled="y"
+   group="System_Tracking"
+   keep_evaluating="y"
+   match="^You have recovered balance on all limbs\.$"
+   name="onbal_limbs"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+   other_text_colour="white"
+   other_back_colour="forestgreen"
+  >
+  <send></send>
+  </trigger>
+  <trigger
+   enabled="y"
+   expand_variables="y"
+   group="System_Tracking"
+   match="^You have recovered balance on your (left|right) arm\.$"
+   omit_from_output="y"
+   regexp="y"
+   name="onbal_arms"
+   send_to="14"
+   sequence="100"
+   other_text_colour="white"
+   other_back_colour="forestgreen"
+  >
+  <send>ColourNote ("blue", "lime", "&lt;&lt; "..string.upper ("%1").." &gt;&gt;")</send>
+  </trigger>
+  <trigger
+   custom_colour="17"
+   enabled="y"
+   group="System_Tracking"
+   match="^You have recovered balance\.$"
+   name="onbal_bal"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+   other_text_colour="white"
+   other_back_colour="forestgreen"
+  >
+  </trigger>
+  <trigger
+   custom_colour="17"
+   enabled="y"
+   group="System_Tracking"
+   match="^You have recovered equilibrium\.$"
+   name="onbal_eq"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+   other_text_colour="white"
+   other_back_colour="forestgreen"
+  >
+  <send></send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Tracking"
+   match="^You assess the bodily wounds as follows\:$"
+   name="assessing"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send></send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Tracking"
+   match="^\* (Head|Chest|Gut|Left arm|Left leg|Right arm|Right leg) has (no|negligible|trifling|light|medium|heavy|critical) wounds\.$"
+   name="assessing_wounds"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>offense:assess ("%1", "%2")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Tracking"
+   match="^You glance over [A-Z][a-z]+ and see that (?:[Hh]is|[Hh]er) health is at (\d+)\/(\d+)\.$"
+   name="start_assess"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>offense:assess ("health", %1, %2)
+EnableTrigger ("assessing_wounds", true)
+EnableTrigger ("assessing", true)
+prompt:queue (function ()
+	EnableTrigger ("start_assess", false)
+	EnableTrigger ("assessing_wounds", false)
+	EnableTrigger ("assessing", false)
+	offense:assess ()
+end, "start_assess")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Tracking"
+   match="^You remove (\d+) (\w+)\, bringing the total in the [Rr]ift to \d+\.$"
+   name="outrifting"
+   regexp="y"
+   send_to="12"
+   sequence="90"
+  >
+  <send>act:add_inv ("%2", %1)
+EnableTrigger ("outrifting", false)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Tracking"
+   match="^You (?:point|rub) .+? (?:towards .+?\, and sparks fly out of it|and it begins to glow with a pulsating light)\.$"
+   name="using_enchantments"
+   regexp="y"
+   send_to="12"
+   sequence="91"
+  >
+  <send>if flags:get_check ("magic") then
+magic:used (flags:get_check ("magic"))
+end --if</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Tracking"
+   match="^You fill your pipe with .*?(coltsfoot|faeleaf|myrtle).*?\.$"
+   name="pipesfilled"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>pipes:filled ()
+act:del_inv ("%1")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Tracking"
+   match="^Th(?:at|e) pipe is full\.$"
+   name="pipesfull"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>pipes:filled ()</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Tracking"
+   match="^Your pipe has gone cold and dark\.$"
+   name="pipesunlit"
+   omit_from_output="y"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>pipes:set_unlit ("myrtle")
+pipes:set_unlit ("faeleaf")
+pipes:set_unlit ("coltsfoot")
+pipes:scan ()</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Tracking"
+   match="^That pipe isn\'t lit\.$"
+   name="smoking_pipesunlit"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>pipes:set_unlit ("myrtle")
+pipes:set_unlit ("faeleaf")
+pipes:set_unlit ("coltsfoot")
+pipes:err ("unlit")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Tracking"
+   match="^You take a long drag off your pipe\.$"
+   name="smoking_"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>if flags:get ("smoking") then
+	pipes:smoking ()
+else
+	flags:add ("forced_smoking")
+	prompt:queue (function ()
+		prompt:queue (function () flags:del ("forced_smoking") end, "inside_job")
+	end, "smoking_")
+end
+system:cures_on ()</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Tracking"
+   match="^What is it you wish to smoke\?$"
+   name="smoking_empty"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>pipes:err ("empty")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Tracking"
+   match="^You attempt to inhale\, but only end up making a wheezing noise\.$"
+   name="smoking_phrenic"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>pipes:err ("phrenicnerve")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Tracking"
+   match="^What is it you wish to light\?$"
+   name="pipeslight_unknown"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>if (affs:has ("sap") or affs:has ("aeon") or affs:has ("choke")) then
+if flags:get ("curing") and flags:get ("curing") == "pipes_unlit" then
+	fst:enable ("sca")
+	flags:add ("curing", "pipel")
+	Execute ("pipel")
+end --if
+elseif flags:get ("pipes_unlit") then
+	Execute ("pipel")
+end --if</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Tracking"
+   match="^You carefully light your treasured pipe until it is smoking nicely\.$"
+   name="pipeslight"
+   omit_from_output="y"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>pipes:light ()</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Tracking"
+   match="^There is nothing in the pipe to light\.$"
+   name="pipeslight_empty"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>if (affs:has ("sap") or affs:has ("aeon") or affs:has ("choke")) then
+if flags:get ("curing") and flags:get ("curing") == "pipes_unlit" then
+	fst:enable ("sca")
+	flags:add ("curing", "pipel")
+	Execute ("pipel")
+end --if
+elseif flags:get ("pipes_unlit") then
+Execute ("pipel")
+end --if</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Tracking"
+   match="^That pipe is already lit and burning nicely\.$"
+   name="pipeslight_already"
+   omit_from_output="y"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>pipes:light ()</send>
+  </trigger>
+   <trigger
+   enabled="n"
+   group="System_Tracking"
+   match="^It is enchanted with the (\w+)(?: script)? spell\, holding (\d+) charges\.$"
+   name="magicsync"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>if (flags:get ("todo_free") or "nil") == "magic_sync" then
+magic ["synced"] = (magic ["synced"] or {})
+magic ["synced"] ["%1"] = true
+magic ["synced"] ["number"] = (magic ["synced"] ["number"] or 0)+1
+magic:assign ("%1", nil, %2)
+todo:done ("magic_sync", "free")
+magic:sync_done ()
+end --if</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Tracking"
+   match="^What do you wish to examine\?$"
+   name="magicsync_missingitem"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>if (flags:get ("todo_free") or "nil") == "magic_sync" then
+todo:done ("magic_sync", "free")
+display.warning ("MISSING Item!")
+magic:sync_done ()
+end --if</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_MagicRecharge"
+   match="^You(?: pay \d+ gold to)? recharge (.*) with \d+ charges from an energy cube\.$"
+   name="magicrecharge"
+   omit_from_output="y"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>if (flags:get ("todo_free") or "nil") == "recharge" then
+magic:recharged ()
+todo:done ("recharge", "free")
+end --if</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_MagicRecharge"
+   lines_to_match="2"
+   match="^What are you trying to recharge\?\nSyntax\: RECHARGE \&lt;item\&gt; FROM \&lt;cube\&gt;$"
+   multi_line="y"
+   name="magicrecharge_missingitem"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>if (flags:get ("todo_free") or "nil") == "recharge" then
+todo:done ("recharge", "free")
+magic:recharge_abort ("Missing Item")
+end--if</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_MagicRecharge"
+   match="^There is not enough energy in this cube to fully recharge that item\.$"
+   name="magicrecharge_emptycube"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>if (flags:get ("todo_free") or "nil") == "recharge" then
+todo:done ("recharge", "free")
+magic:recharge_abort ("Missing Recharges")
+end--if</send>
+  </trigger>
+   <trigger
+   enabled="y"
+   group="System_MagicRecharge"
+   match="^That item may not be charged any further\.$"
+   name="magicrecharge_full"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>if (flags:get ("todo_free") or "nil") == "recharge" then
+magic:recharged ()
+todo:done ("recharge", "free")
+end--if</send>
+  </trigger>
+    <trigger
+   enabled="y"
+   group="System_MagicRecharge"
+   lines_to_match="2"
+   match="^What energy cube are you trying to use\?\nSyntax\: RECHARGE \&lt;item\&gt; FROM \&lt;cube\&gt;$"
+   multi_line="y"
+   name="magicrecharge_missingcube"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>if (flags:get ("todo_free") or "nil") == "recharge" then
+todo:done ("recharge", "free")
+magic:recharge_abort ("Missing Cube")
+end--if</send>
+  </trigger>
+    <trigger
+   enabled="y"
+   group="System_MagicRecharge"
+   match="^You don\'t have enough gold to recharge that item\.$"
+   name="magicrecharge_missinggold"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>if (flags:get ("todo_free") or "nil") == "recharge" then
+todo:done ("recharge", free")
+magic:recharge_abort ("NOT ENOUGH GOLD")
+end--if</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Tracking"
+   match="^You rub .*?(?:prayer beads|hairpin).*? and (?:it|they) begins? to glow with a pulsating light\.$"
+   name="rubbed_focus_charm"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>system:rubbed_focus()</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Tracking"
+   match="^You may use a focus charm again\.$"
+   name="charmbalance"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>bals:gain("charm")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Tracking"
+   match="^You (?:take a drink|down the last drop) from (an? .*?(?:vial|bottle|stein|teapot).*?)\.$"
+   name="drinking_potion"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>act:drinking ("%0")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Tracking"
+   match="^You may (?:drink|use) another health\, mana\, or bromide potion(?:\, or medicine bag)?\.$"
+   name="onbal_elixir"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>bals:onbal ("elixir")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Tracking"
+   match="^You take out some healing potion and quickly rub it on your (head|chest|gut|arms|legs)\.$"
+   name="applying_health"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>EnableTrigger ("applying_health", false)
+EnableTrigger ("applying_healthfail", false)
+act:applying_health ("%1")
+system:cures_on ()</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Tracking"
+   match="^The potion has no discernable effect\.$"
+   name="nocure_apply_health_to_legs"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>nocure:check ("apply_health_to_legs")
+EnableTrigger ("nocure_apply_health_to_legs", false)</send>
+  </trigger>
+   <trigger
+   enabled="n"
+   group="System_Tracking"
+   match="^The potion has no discernable effect\.$"
+   name="nocure_apply_health_to_arms"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>nocure:check ("apply_health_to_arms")
+EnableTrigger ("nocure_apply_health_to_arms", false)</send>
+  </trigger>
+   <trigger
+   enabled="n"
+   group="System_Tracking"
+   match="^The potion has no discernable effect\.$"
+   name="nocure_apply_health_to_chest"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>nocure:check ("apply_health_to_chest")
+EnableTrigger ("nocure_apply_health_to_chest", false)</send>
+  </trigger>
+   <trigger
+   enabled="n"
+   group="System_Tracking"
+   match="^The potion has no discernable effect\.$"
+   name="nocure_apply_health_to_gut"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>nocure:check ("apply_health_to_gut")
+EnableTrigger ("nocure_apply_health_to_gut", false)</send>
+  </trigger>
+   <trigger
+   enabled="n"
+   group="System_Tracking"
+   match="^The potion has no discernable effect\.$"
+   name="nocure_apply_health_to_head"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>nocure:check ("apply_health_to_head")
+EnableTrigger ("nocure_apply_health_to_head", false)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Tracking"
+   match="^You spread the healing potion on yourself but it quickly evaporates\.$"
+   name="applying_healthfail"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>act:applying_healthfail ()
+EnableTrigger ("applying_health", false)
+EnableTrigger ("applying_healthfail", false)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Tracking"
+   match="^You may drink another purgative or curing potion\.$"
+   name="onbal_purg"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>bals:onbal("purg")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Tracking"
+   match="^You may take another dose of allheale\.$"
+   name="onbal_ah"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>bals:onbal("ah")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Tracking"
+   match="^What is it that you wish to drink\?$"
+   name="missingvial"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>display.warning ("vials are possibly empty - check you potionlist")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Focus"
+   match="^You focus your mind on your motor skills but find you are already mobile\.$"
+   name="nocurefocus_body"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>prompt:queue (function ()
+nocure:check ("focus_body")
+end, "nocurefocus_body", true)
+EnableTriggerGroup ("System_Focus", false)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Focus"
+   match="^You begin focusing your mind on your motor skills\.$"
+   name="focusbody"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>bals:offbal ("focus", "silent")
+sca:check ()
+EnableTriggerGroup ("System_Focus", false)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Focus"
+   match="^You focus your mind intently on curing your (mental|spiritual) maladies\.$"
+   name="focusmind_or_spirit"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>if "%1" == "mental" then
+system:add_cure ("focus_mind")
+else
+system:add_cure ("focus_spirit")
+end--if
+system:cures_on ()
+EnableTriggerGroup ("System_Focus", false)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Tracking"
+   match="^Your mind is able to focus once again\.$"
+   name="onbal_focus"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>bals:onbal ("focus")</send>
+  </trigger>
+    <trigger
+   enabled="y"
+   group="System_Tracking"
+   match="^You eat a (sparkleberry)\.$"
+   name="eating_sparklies"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>act:eating ("%1")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Eating"
+   match="^You eat a plug of (coltsfoot)\.$"
+   name="eating_coltsfoot"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>act:eating ("%1")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Eating"
+   match="^You eat a (yarrow) sprig\.$"
+   name="eating_yarrow"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>act:eating ("%1")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Eating"
+   match="^You eat a (wormwood) stem\.$"
+   name="eating_wormwood"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>act:eating ("%1")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Eating"
+   match="^You eat a (reishi) mushroom\.$"
+   name="eating_reishi"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>act:eating ("%1")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Eating"
+   match="^You eat a bunch of (pennyroyal)\.$"
+   name="eating_pennyroyal"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>act:eating ("%1")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Eating"
+   match="^You eat a bog (myrtle) leaf\.$"
+   name="eating_myrtle"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>act:eating ("%1")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Eating"
+   match="^You eat a sprig of (marjoram)\.$"
+   name="eating_marjoram"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>act:eating ("%1")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Eating"
+   match="^You eat (kombu) seaweed\.$"
+   name="eating_kombu"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>act:eating ("%1")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Eating"
+   match="^You eat a (kafe) bean\.$"
+   name="eating_kafe"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>act:eating ("%1")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Eating"
+   match="^You eat a (horehound) blossom\.$"
+   name="eating_horehound"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>act:eating ("%1")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Eating"
+   match="^You eat a stem of (galingale)\.$"
+   name="eating_galingale"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>act:eating ("%1")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Eating"
+   match="^You eat a stalk of (faeleaf)\.$"
+   name="eating_faeleaf"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>act:eating ("%1")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Eating"
+   match="^You eat a piece of black (earwort)\.$"
+   name="eating_earwort"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>act:eating ("%1")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Eating"
+   match="^You eat a sprig of (chervil)\.$"
+   name="eating_chervil"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>act:eating ("%1")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Eating"
+   match="^You eat a (calamus) root\.$"
+   name="eating_calamus"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>act:eating ("%1")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Eating"
+   match="^You eat a piece of (merbloom) seaweed\.$"
+   name="eating_merbloom"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>act:eating ("%1")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Eating"
+   match="^You chew an arnica bud\, then spread it on your (head|chest|arms|legs)\.$"
+   name="applying_arnica"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>system:cures_on ()
+EnableTrigger ("nocure_apply_arnica_to_%1", true)
+prompt:queue (function ()EnableTrigger ("nocure_apply_arnica_to_%1", false) end, "cond")
+system:add_cure ("apply arnica to %1")
+act:del_inv ("arnica")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Tracking"
+   match="^The arnica bud has no discernable effect\.$"
+   name="nocure_apply_arnica_to_legs"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>nocure:check ("apply_arnica_to_legs")
+EnableTrigger ("nocure_apply_arnica_to_legs", false)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Tracking"
+   match="^The arnica bud has no discernable effect\.$"
+   name="nocure_apply_arnica_to_head"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>nocure:check ("apply_arnica_to_head")
+EnableTrigger ("nocure_apply_arnica_to_head", false)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Tracking"
+   match="^The arnica bud has no discernable effect\.$"
+   name="nocure_apply_arnica_to_chest"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>nocure:check ("apply_arnica_to_chest")
+EnableTrigger ("nocure_apply_arnica_to_chest", false)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Tracking"
+   match="^The arnica bud has no discernable effect\.$"
+   name="nocure_apply_arnica_to_arms"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>nocure:check ("apply_arnica_to_arms")
+EnableTrigger ("nocure_apply_arnica_to_arms", false)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Tracking"
+   match="^You may eat or smoke another herb\.$"
+   name="onbal_herb"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>bals:onbal("herb")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Tracking"
+   match="^You may eat another herb that gives the sparkleberry effect\.$"
+   name="onbal_sparklies"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>bals:onbal("sparklies")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Tracking"
+   match="^You take out some salve and quickly rub it on your (head|chest|gut|arms|legs|skin)\.$"
+   name="applying_salve"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>EnableTrigger ("applying_salve", false)
+act:applying_salve ("%1")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Tracking"
+   match="^You take out some oil and quickly rub it on your skin\.$"
+   name="defup_perfumes"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>-------WTFWTF TO ADD HERE?!?!</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Tracking"
+   match="^You may apply another salve to yourself\.$"
+   name="onbal_salve"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>bals:onbal ("salve")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Tracking"
+   match="^I don\'t see the container here from which you wish to apply some salve\.$"
+   name="missingsalve"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>display.warning ("Missing SALVE vial - check your potionlist")</send>
+  </trigger>
+   <trigger
+   enabled="y"
+   group="System_Tracking"
+   match="^You read a Scroll of Protection\.$"
+   name="readprotection"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>EnableTrigger ("readprotection", false)
+prompt:queue (function ()
+fst:disable ("no_protection")
+fst:enable ("ondef_protection")
+magic:used ("protection")
+end, "readprotection", true)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Tracking"
+   match="^You read a Scroll of Healing\.$"
+   name="readhealing"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>EnableTrigger ("readhealing", false)
+system:cures_on()</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Tracking"
+   match="^You read a magic tome\.$"
+   name="readhtome"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>if flags:get("tome") == "healing" then
+prompt:queue (function ()
+bals:offbal ("scroll", "silent")
+fst:disable ("scroll")
+magic:used ("tome")
+end, "readhtome", true)
+end
+flags:clear("tome")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Tracking"
+   match="^You may be healed by a scroll again\.$"
+   name="onbal_scroll"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>bals:onbal("scroll")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Tracking"
+   match="^Your (?:artistic )?eye immediately notices the flaws in what is obviously an illusion\.$"
+   name="illusioned"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>prompt:unqueue ()</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Tracking"
+   match="^You exert superior mental control and your wounds clot before your eyes\.$"
+   name="clotcontinue"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>prompt:queue (function ()
+affs:bleeding (-20)
+flags:del ("clotting")
+fst:disable ("clotting")
+EnableTrigger ("clotcontinue", false)
+EnableTrigger ("clotstop", false)
+end, "clotcontinue", true)</send>
+  </trigger>
+  <trigger
+  enabled="y"
+  group="System_Tracking"  
+  match="^You belch softly under your breath\, ready to quaff another brew\.$"
+  name="onbal_brew"
+  regexp="y"
+  send_to="12"
+  sequence="100"
+  >
+  <send>bals:onbal ("brew")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_WStart"
+   match="^You begin to struggle free of your entanglement\.$"
+   name="startentangled"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>prompt:queue (function ()
+affs:impaled (0)
+affs:pinleg (0)
+act:writhing_start () end, "start_entangled", true)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_WStart"
+   match="^You begin trying to wrest your mind free of that which has transfixed it\.$"
+   name="starttransfixed"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>prompt:queue (function ()
+affs:impaled (0)
+affs:pinleg (0)
+act:writhing_start () end, "start_transfixed", true)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_WStart"
+   match="^You begin to wrench your (left|right) arm from the mutt\'s mouth\.$"
+   name="startclamped"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>prompt:queue (function ()
+affs:impaled (0)
+affs:pinleg (0)  
+act:writhing_start () end, "start_clamped", true)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_WStart"
+   match="^You begin to writhe furiously to escape (?:from the iron cross|the antlers that have impaled you|the blade that has impaled you)\.$"
+   name="startimpaled"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>prompt:queue (function ()
+affs:pinleg (0)
+act:writhing_start () end, "start_impaled", true)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_WStart"
+   match="^You begin to writhe furiously to escape the blade that has impaled your (right|left) foot\.$"
+   name="starpinleg"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>prompt:queue (function ()
+act:writhing_start () end, "start_pinleg", true)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_WStart"
+   match="^You struggle to free your limbs from the thorny vines\.$"
+   name="startlashed"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>prompt:queue (function ()
+affs:impaled (0)
+affs:pinleg (0)
+act:writhing_start () end, "start_lashed", true)</send>
+  </trigger>
+   <trigger
+   enabled="y"
+   group="System_WStart"
+   match="^You strain against the bindings that have you painfully trussed up\.$"
+   name="starttrussed"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>prompt:queue (function ()
+affs:impaled (0)
+affs:pinleg (0)  
+act:writhing_start () end, "start_trussed", true)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_WStart"
+   match="^You struggle to free yourself from being hoisted in the air\.$"
+   name="starthoisted"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>prompt:queue (function ()
+affs:impaled (0)
+affs:pinleg (0)    
+act:writhing_start () end, "start_hoisted", true)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_WStart"
+   match="^You twist and turn as you struggle to break free of the ropes that bind you\.$"
+   name="startroped"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>prompt:queue (function ()
+	affs:impaled (0)
+	affs:pinleg (0)  
+	act:writhing_start () 
+end, "start_roped", true)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_WStart"
+   match="^You twist and turn as you struggle to break free of the (?:shackles that bind you|grapple that holds you)\.$"
+   name="cshackled_grappled"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>prompt:queue (function () 
+	affs:impaled (0)
+	affs:pinleg (0)  
+	act:writhing_start () 
+end, "cshackled", true)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_WContinue"
+   match="^You continue trying to wrest your (left|right) arm free from that filthy mutt\.$"
+   name="cclamped"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>prompt:queue (function () act:writhing () end, "cclamped", true)</send>
+  </trigger>
+   <trigger
+   enabled="y"
+   group="System_WContinue"
+   match="^You twist and turn as you attempt to escape from your entanglement\.$"
+   name="centangled"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>local aff_msgs = {"trussed", "entangled", "grappled", "hoisted", "roped", "shackled", }
+for k, a in ipairs (aff_msgs) do
+	if flags:get ("writhing") or flags:get ("writhing_start") or affs:has (a) then
+		prompt:queue (function () act:writhing () end, "centangled", true)
+		break
+	end--if
+end--for</send>
+  </trigger>
+  <trigger
+   group="System_WContinue"
+   match="^You continue trying to wrest your mind free\.$"
+   name="ctransfixed"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>prompt:queue (function () act:writhing () end, "ctransfixed", true)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_WNocure"
+   match="^You begin to writhe helplessly\, throwing your body off balance\.$"
+   name="ncwrithe"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>prompt:queue (function () nocure:writhe()end, "ncwrithe", true)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_WNocure"
+   match="^There are no vines around you\! You begin to writhe helplessly\, throwing your body off balance\.$"
+   name="nclashed"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>prompt:queue (function ()
+nocure:writhe({"lashed_leftarm", "lashed_rightarm", "lashed_leftleg", "lashed_rightleg"})
+end, "ncwrithe", true)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_WNocure"
+   match="^You aren\'t transfixed\! You begin to writhe helplessly\, throwing your body off balance\.$"
+   name="nctransfixed"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>prompt:queue (function ()nocure:writhe ("transfixed")end, "nctransfixed",true)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_WNocure"
+   match="^You aren\'t entangled\! You begin to writhe helplessly\, throwing your body off balance\.$"
+   name="ncentangled"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>prompt:queue (function () nocure:writhe("entangled")end, "ncentangled", true)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_WNocure"
+   match="^You aren\'t shackled\! You begin to writhe helplessly\, throwing your body off balance\.$"
+   name="ncshackled"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>prompt:queue (function () nocure:writhe("shackled")end, "ncshackled", true)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_WNocure"
+   match="^You aren\'t bound in ropes\! You begin to writhe helplessly\, throwing your body off balance\.$"
+   name="ncroped"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>prompt:queue (function () nocure:writhe("roped")end, "ncroped", true)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_WNocure"
+   match="^You aren\'t grappled\! You begin to writhe helplessly\, throwing your body off balance\.$"
+   name="ncgrappled"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>prompt:queue (function () nocure:writhe("grappled")end, "ncgrappled", true)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_WNocure"
+   match="^You aren\'t hoisted\! You begin to writhe helplessly\, throwing your body off balance\.$"
+   name="nchoisted"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>prompt:queue (function () nocure:writhe("hoisted")end, "nchoisted", true)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_WNocure"
+   match="^There is no beast clamped onto you\! You begin to writhe helplessly\, throwing your body off balance\.$"
+   name="ncclamped"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>prompt:queue (function ()
+nocure:writhe ({"clamped_left", "clamped_right"})
+end, "ncclamped", true)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_WNocure"
+   match="^You aren\'t trussed up\! You begin to writhe helplessly\, throwing your body off balance\.$"
+   name="nctrussed"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>prompt:queue (function () nocure:writhe("trussed")end, "nctrussed", true)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Tracking"
+   match="^A tower of shadows prevents you from climbing up into the treetops\.$"
+   name="towernoclimb"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>display.warning ("BROOMTOWER - NO TREES")
+prompt:queue (function ()
+flags:del ("climbing")
+fst:disable ("climbing")
+end, "tower", true)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Tracking"
+   match="^A magic aura flares around you and completely absorbs the damage\.$"
+   name="aura_absorption"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>flags:del_check ("recklessness")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Tracking"
+   match="^You reach upwards and concentrate on finding a sturdy branch\, then lift yourself up with relative ease\.$"
+   name="climbing_tress"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>prompt:queue (function ()
+flags:add_check ("intrees")
+if flags:get ("climbing")=="up" then
+  affs:del ("pit")
+  flags:del ("climbing")
+  fst:disable ("climbing")
+  sca:check ()
+end
+end, "climbing_trees", true)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Tracking"
+   match="^You cannot climb up the side of a pit you are not in\.$"
+   name="rockclimbing_nopit"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>prompt:queue (function ()
+if flags:get ("climbing")=="up" then
+  affs:del ("pit")
+  flags:del ("climbing")
+  fst:disable ("climbing")
+  sca:check ()
+end
+end, "rockclimbing_nopit", true)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Tracking"
+   match="^You carefully watch your footing and shimmy down from the treetops\.$"
+   name="climbing_down"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>prompt:queue (function ()
+flags:del ("climbing")
+flags:del_check ("intrees")
+affs:del ("intrees")
+fst:disable ("climbing")
+display.system ("Down from trees")
+end, "climbing_down", true)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Tracking"
+   match="^You gently float to the ground\, protected from a nasty fall by your levitation\.$"
+   name="fallen_levitation"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>prompt:queue (function ()
+flags:del ("climbing")
+flags:del_check ("intrees")
+affs:del ("intrees")
+fst:disable ("climbing")
+display.system ("Down from trees")
+end, "climbing_down", true)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Tracking"
+   match="^You are not within the treetops\.$"
+   name="already_down"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>prompt:queue (function ()
+flags:del ("climbing")
+flags:del_check ("intrees")
+affs:del ("intrees")
+fst:disable ("climbing")
+display.system ("down from trees")
+end, "already_down", true)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Tracking"
+   match="^A sudden gust of wind catches you and blows you out of the tree\.$"
+   name="blown_down"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>prompt:queue (function ()
+flags:del ("climbing")
+flags:del_check ("intrees")
+affs:del ("intrees")
+fst:disable ("climbing")
+display.system ("Down from trees")
+EnableTrigger ("blown_crippledlegs", false)
+end, "blown_down", true)
+EnableTrigger ("blown_crippledlegs", true)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Tracking"
+   match="^You scream as you feel the force of the landing break both your legs\.$"
+   name="blown_crippledlegs"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>affs:add_queue ("broken_rightleg")
+affs:add_queue ("broken_leftleg")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Tracking"
+   lines_to_match="2"
+   match="^The earth suddenly splits open\, and a mighty geyser soars skywards\.\nThe geyser strikes you full\-on\, and you tumble to the ground helplessly\.$"
+   multi_line="y"
+   name="geyser_down"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>prompt:queue (function ()
+flags:del ("climbing")
+flags:del_check ("intrees")
+affs:del ("intrees")
+fst:disable ("climbing")
+display.warning ("Knocked down by geyser!")
+end, "geyser_down", true)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Tracking"
+   match="^A large gust of wind suddenly rocks your body\. As you lose control\, you plummet into the ground\.$"
+   name="gust_down"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>prompt:queue (function ()
+flags:del ("climbing")
+flags:del_check ("intrees")
+affs:del ("intrees")
+fst:disable ("climbing")
+display.warning ("Knocked down by gust!")
+end, "geyser_down", true)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Tracking"
+   match="^A violent tremor rocks the trees\.$"
+   name="tremor_down"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>prompt:queue (function ()
+flags:del ("climbing")
+flags:del_check ("intrees")
+affs:del ("intrees")
+fst:disable ("climbing")
+display.warning ("Knocked down by tremor!")
+end, "tremor_down", true)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Tracking"
+   match="^[A-Z][a-z]+ locks (?:[hH]is|[hH]er) arms about you and carries you up into the trees\.$"
+   name="seized_trees"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>prompt:queue (function ()
+flags:add_check ("intrees")
+if system:is_enabled ("notrees") then
+  affs:add ("intrees")
+end--if
+end, "seized_trees", true)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Tracking"
+   match="^You lose your footing and tumble crashing down to the forest floor\.$"
+   name="falling_down"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>prompt:queue (function ()
+flags:del ("climbing")
+flags:del_check ("intrees")
+affs:del ("intrees")
+fst:disable ("climbing")
+display.system ("down from trees")
+end, "falling_down", true)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Tracking"
+   match="^You are stuck in a pit and must CLIMB UP to get out before you can move\.$"
+   name="symp_pit"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>affs:add_queue ("pit")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Tracking"
+   match="^You begin to climb out of the pit\.$"
+   name="pit_climbing"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>if affs:has ("pit") then
+  prompt:queue (function ()
+  fst:disable ("climbing")
+  fst:enable ("pit")
+  sca:check ()
+  EnableTrigger ("pit_climbedout", true)
+  end, "pit_climbing", true)
+end--if</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Tracking"
+   match="^You're already climbing as fast as you can\!$"
+   name="pit_alreadyclimbing"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>if affs:has ("pit") then
+  prompt:queue (function ()
+  fst:disable ("climbing")
+  fst:enable ("pit")
+  sca:check ()
+  EnableTrigger ("pit_climbedout", true)
+  end, "pit_climbing", true)
+end--if</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Tracking"
+   match="^Taking advantage of natural rocks and depressions\, you begin to pull yourself up the side of the pit\.$"
+   name="pit_rockclimbing"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>if affs:has ("pit") then
+  prompt:queue (function ()
+  fst:disable ("climbing")
+  fst:enable ("pit")
+  sca:check ()
+  EnableTrigger ("pit_rockclimbedout", true)
+  end, "pit_climbing", true)
+end--if</send>
+  </trigger>
+   <trigger
+   enabled="n"
+   group="System_Tracking"
+   match="^Grasping at its edge\, you pull yourself up and out of the pit\.$"
+   name="pit_rockclimbedout"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>if affs:has ("pit") then
+	EnableTrigger ("pit_climbedout", true)
+	EnableTrigger ("pit_rockclimbedout", false)
+end--if</send>
+  </trigger>
+  <trigger
+   back_colour="8"
+   enabled="n"
+   group="System_Tracking"
+   match="^(.+)$"
+   match_back_colour="y"
+   match_bold="y"
+   match_text_colour="y"
+   name="pit_climbedout"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+   text_colour="11"
+  >
+  <send>if string.find("%1", "In a pit at ") ~= 1 then
+flags:del ("climbing")
+fst:disable ("climbing")
+fst:disable ("pit")
+affs:del ("pit")
+prompt:queue (function ()
+display.cured ("pit")
+display.free ()
+end, "pitclimbedout")
+EnableTrigger ("pit_climbedout", false)
+end</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Tracking"
+   match="^There are no trees from which to climb\.$"
+   name="climbing_notrees"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>prompt:queue (function ()
+flags:del ("climbing")
+flags:del_check ("intrees")
+affs:del ("intrees")
+fst:disable ("climbing")
+end, "climbing_notrees", true)
+</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Tracking"
+   match="^You can climb no higher\.$"
+   name="climbing_maxaltitude"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>prompt:queue (function ()
+flags:del ("climbing")
+fst:disable ("climbing")
+end, "climbing_maxaltitude", true)</send>
+  </trigger>
+  <trigger
+  enabled="y"
+  group="System_Tracking"
+  match="^([A-Z][a-z]+) throws down the gauntlet and issues a formal challenge to face (?:her|him) in single combat\. ACCEPT [A-Z]+ in order to do so\.$"
+  name="arena_challenged"
+  regexp="y"
+  send_to="12"
+  sequence="100"
+  >
+  <send>prompt:queue (function ()
+EnableAlias ("arena_accept_", true)
+fst:enable ("arena")
+display.system ("Challenged by %1")
+end, "arena_challenged", true)</send>
+  </trigger>	
+  <trigger
+   back_colour="8"
+   enabled="n"
+   group="System_Arena"
+   match="^(?:The spectator stands of the Klangratch Tournies|The staging grounds of the Klangratch Tournies|The Glade of Preparation|The Glade of Observation|Grotto of Preparation|A somber gallery overlooking the Shadowvale|Midnight\'s gate|An iron platform above the Coliseum|Before the Glomborolum|Deep below the Syrinx Tower)\.$"
+   match_back_colour="y"
+   match_bold="y"
+   match_text_colour="y"
+   name="arena_end"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+   text_colour="11"
+  >
+  <send>system:arena_done ()</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Arena"
+   lines_to_match="3"
+   match="^\*{58}\nYou have been defeated and are thrown out of the Arena\..*?\n\*{58}$"
+   multi_line="y"
+   name="arena_defeat"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>flags:add_check ("reset_defs")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Arena"
+   match="^[A-Z][a-z]+ accepts your challenge\, and you walk through the portal after (?:[hH]im|[hH]er)\, ready to do battle\."
+   name="arena_spar_accepted"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>prompt:queue (function ()
+flags:add_check ("arena")
+display.system ("Arena Mode Enabled")
+fst:disable ("arena")
+end, "arena_spar_accepted", true)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Arena"
+   match="^You accept [A-Z][a-z]+\'s challenge\, and enter the portal\, ready to do battle\."
+   name="arena_spar_accept"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>prompt:queue (function ()
+flags:add_check ("arena")
+fst:disable ("arena")
+display.system ("Arena Mode Enabled")
+EnableAlias ("arena_accept", false)
+end, "arena_spar_accept", true)</send>
+  </trigger>
+	<trigger
+   enabled="n"
+   group="System_Arena"
+   match="^The challenge you issued to [A-Z][a-z]+ has worn off\.$"
+   name="challenge_wornoff"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>EnableTriggerGroup ("System_Arena", false)
+fst:disable("arena")
+display.system ("Challenge unanswered")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Arena"
+   keep_evaluating="y"
+   match="^You have been slain by"
+   name="arena_dead"
+   regexp="y"
+   send_to="12"
+   sequence="90"
+  >
+  <send>system:cond ({"arena_dead_ffa", "arena_dead_wargames"})
+prompt:queue (function () system:cond ()end, "arena_dead")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Arena"
+   match="^You are OUT of the combat free\-for\-all\!"
+   name="arena_dead_ffa"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>flags:add_check ("reset_defs")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Arena"
+   match="^You are OUT of the Wargames\!"
+   name="arena_dead_wargames"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>flags:add_check ("reset_defs")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Tracking"
+   match="^You fall to the ground as the last drops of life\-giving blood drain out of your body\.$"
+   name="dead_bleeding"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>flags:add_check ("dead")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Tracking"
+   match="^You have been slain(?: by .+)?\.$"
+   name="dead_slain"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>flags:add_check ("dead")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Tracking"
+   match="^([A-Z][a-z]+) gives [hH](?:is|er) weapon a vicious twist and withdraws it from your (gut|left leg|right leg) in a shower of blood\.$"
+   name="bmrend"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>if "%2"=="gut" then
+prompt:queue (function ()
+affs:impaled (-1)
+affs:bleeding (200)
+end, "rend", true)
+else
+prompt:queue (function ()
+affs:pinleg (-1)
+affs:bleeding (200)
+end, "rend", true)
+end--if
+system:poisons_on ()</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Tracking"
+   match="^[A-Z][a-z]+ gathers a handful of runes in [hH](?:is|er) hands and casts them furiously upon the ground\. (?:H|Sh)e points a crooked finger at you and declares in a rasping voice a malign prophesy of sickness upon you as a sudden wave of intense nausea washes over you\.$"
+   name="aff_hex_prophesy1"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>system:poisons_on ()</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Tracking"
+   match="^You consider the following adventurers your allies\:$"
+   name="start_allies"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>EnableTrigger ("get_allies", true)
+EnableTrigger ("lust_for", true)
+affs ["lusts"] = {}
+prompt:queue (function () 
+EnableTrigger ("get_allies", true)
+EnableTrigger ("lust_for", true)
+end, "start_allies")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Tracking"
+   match="^([A-Z][a-z]+) is an ally\.$"
+   name="get_allies"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>adven:set_ally ("%1")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Tracking"
+   match="^You feel an unusually strong lust for ([A-Z][a-z]+)\.$"
+   name="lust_for"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>affs:lusted ("%1")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Tracking"
+   match="^You consider the following adventurers your enemies\:$"
+   name="start_enemies"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>EnableTrigger ("get_enemies", true)
+EnableTrigger ("highlight_enemies", false) 
+adven:reset ("enemy_list")
+prompt:queue (function () EnableTrigger ("get_enemies", false) EnableTrigger ("highlight_enemies", true)  end, "start_enemies")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Tracking"
+   match="^([A-Z][a-z]+) is an enemy\.$"
+   name="get_enemies"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>adven:set_enemy ("%1")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Tracking"
+   match="^You have no enemies\.$"
+   name="no_enemies"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>if flags:get ("unenemying") or (flags:get ("todo_free") or "") == "unenemyall" or
+	GetTriggerInfo ("start_enemies", 8) then
+	adven:reset ("enemy_list")
+end--if
+if GetTriggerInfo ("start_enemies", 8) then
+	EnableTrigger ("start_enemies", false)
+end--if
+if (flags:get ("todo_free") or "") == "unenemyall" then
+	todo:done ("unenemyall", "free")
+	adven:enemied ()
+end--if</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Tracking"
+   match="^Your heart thumps as you gaze at ([A-Z][a-z]+) with love and adoration\.$"
+   name="lusted"
+   send_to="12"
+   regexp="y"
+   sequence="100"
+  >
+  <send>affs:lusted ("%1")
+affs:add_queue ("love", true, "silent")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Tracking"
+   match="^You declare that ([A-Z][a-z]+) will no longer be one of your enemies\.$"
+   name="unenemying"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>if flags:get ("unenemying") then
+	system:del_enemy ("%1")
+	flags:del ("unenemying")
+else
+	display.warning ("Forced into Unenemying!")
+	todo:add ("free", "enemying", "enemy %1", 1, true)
+end--if</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Tracking"
+   match="^In a moment of forgiveness\, you declare that you have no enemies\.$"
+   name="unenemyingall"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>	adven:reset ("enemy_list")
+if flags:get ("unenemying") then
+	flags:del ("unenemying")
+elseif (flags:get ("todo_free") or "")=="unenemyall" then
+	todo:done ("unenemyall", "free")
+	adven:enemied ()
+else
+	display.warning ("Forced into Unenemying!")
+	adven:queue_enemy (GetVariable ("highlight_enemy_list"))
+end--if</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Tracking"
+   match="^You see (?:a single )?exits? leading (.+?)\.$"
+   name="exits"
+   regexp="y"
+   send_to="12"
+   sequence="1"
+  >
+  <send>system ["exits"] = {}
+system:get_exits ("%1")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Tracking"
+   keep_evaluating="y"
+   match="^There are no obvious exits\.$"
+   name="no_exits"
+   regexp="y"
+   send_to="12"
+   sequence="2"
+  >
+  <send>system:get_exits ()</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Tracking"
+   match="^([A-Z][a-z]+)\'s mana stands at (\d+)\/(\d+)\.$"
+   name="contemplating"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>if %2&lt;=math.floor(%3/2) then
+display.warning ("%1 is below HALF MANA")
+end</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Tracking"
+   match="^You follow .+? \w+ to .+?\.$"
+   name="contemplating"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>Send ("ql")</send>
+  </trigger>
+</triggers>

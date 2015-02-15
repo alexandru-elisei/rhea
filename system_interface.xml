@@ -1,0 +1,1457 @@
+<aliases>
+  <alias
+   name="afk_"
+   match="^afk$"
+   enabled="y"
+   group="System_Interface"
+   regexp="y"
+   send_to="12"
+   ignore_case="y"
+   sequence="100"
+  >
+  <send>if IsTimer ("afk") == 0 then
+	if GetTimerInfo ("afk", 6) == true then
+		EnableTimer ("afk", false)
+		display.system ("Afk mode OFF")
+	else
+		EnableTimer ("afk", true)
+		ResetTimer ("afk")
+		display.system ("Afk mode ON")
+	end--if
+else
+	ImportXML([[&lt;timers&gt;
+&lt;timer
+name="afk"
+minute="10"
+second="0"
+offset_second="0.00"
+send_to="12"
+group="System_Interface" &gt;
+&lt;send&gt;Send ("ql")&lt;/send&gt;
+&lt;/timer&gt;
+&lt;/timers&gt;]])
+EnableTimer ("afk", true)
+ResetTimer ("afk")
+display.system ("Afk mode ON")
+end</send>
+  </alias>
+  <alias
+   name="toggle_bashing"
+   match="^ba$"
+   enabled="y"
+   group="System_Interface"
+   regexp="y"
+   send_to="12"
+   ignore_case="y"
+   sequence="100"
+  >
+  <send>if GetTriggerInfo ("getgold", 8) then
+EnableTriggerGroup ("System_Bashing", false)
+display.system ("Bashing OFF")
+else
+EnableTriggerGroup ("System_Bashing", true)
+display.system ("Bashing ON")
+end</send>
+  </alias>
+  <alias
+   name="add_enemy"
+   match="^sys se (.+?) (\d+)( \d+)?$"
+   enabled="y"
+   group="System_Interface"
+   regexp="y"
+   send_to="12"
+   ignore_case="y"
+   sequence="100"
+  >
+  <send>if #"%3"&lt;=1 then
+	local pos = string.sub ("%3", 2)
+	adven:se ("%1", %2, tonumber (pos))
+else
+	adven:se ("%1", %2)
+end</send>
+  </alias>
+  <alias
+   name="reject_enemy"
+   match="^rej( \w+)?$"
+   enabled="y"
+   group="System_Interface"
+   regexp="y"
+   send_to="12"
+   ignore_case="y"
+   sequence="100"
+  >
+  <send>if (#"%1" &lt;=1) then
+affs:add ("lust", GetVariable ("system_target"))
+else
+	affs:add ("lust", "%1")
+end</send>
+  </alias>
+  <alias
+   name="magic_recharge_"
+   match="^mr$"
+   enabled="y"
+   group="System_Interface"
+   regexp="y"
+   send_to="12"
+   ignore_case="y"
+   sequence="100"
+  >
+  <send>magic:recharge ("all")
+if IsConnected () then Send ("") end</send>
+  </alias>
+  <alias
+   name="score_"
+   match="^(?:old)?(?:q)?sc(?:ore)?$"
+   enabled="y"
+   group="System_Interface"
+   regexp="y"
+   send_to="12"
+   ignore_case="y"
+   sequence="100"
+  >
+  <send>prompt:score ("%0")</send>
+  </alias>
+  <alias
+   name="quit_"
+   match="^(qq|quit)$"
+   enabled="y"
+   group="System_Interface"
+   regexp="y"
+   send_to="12"
+   ignore_case="y"
+   sequence="100"
+  >
+  <send>Send ("%1")
+EnableTrigger ("logout", true)</send>
+  </alias>
+  <alias
+   name="arena_accept_"
+   match="^accept(?: \w+)?$"
+   group="System_Interface"
+   regexp="y"
+   send_to="12"
+   ignore_case="y"
+   sequence="100"
+  >
+  <send>Send ("%0")
+EnableTriggerGroup ("System_Arena", true)
+fst:disable ("arena")</send>
+  </alias>
+  <alias
+   name="allies_"
+   match="^allies$"
+   enabled="y"
+   group="System_Interface"
+   regexp="y"
+   send_to="12"
+   ignore_case="y"
+   sequence="100"
+  >
+  <send>Send ("allies")
+EnableTrigger ("start_allies", true)</send>
+  </alias>
+  <alias
+   name="apply_salve"
+   match="^apply \w+( to (skin|head|chest|gut|legs|arms))?$"
+   enabled="y"
+   group="System_Interface"
+   regexp="y"
+   send_to="12"
+   ignore_case="y"
+   sequence="100"
+  >
+  <send>act:apply ("%0")
+act:exec ()</send>
+  </alias>
+  <alias
+   name="powercuring"
+   match="^(invoke green|moondance full|evoke gedulah)$"
+   enabled="y"
+   group="System_Interface"
+   regexp="y"
+   send_to="12"
+   ignore_case="y"
+   sequence="100"
+  >
+  <send>Send ("%1")
+flags:add ("powercure", "%1")
+sca:check ("powercure")</send>
+  </alias>
+  <alias
+   name="assess_"
+   match="^as(?:sess)?( \w+)?$"
+   enabled="y"
+   expand_variables="y"
+   group="System_Interface"
+   regexp="y"
+   send_to="12"
+   ignore_case="y"
+   sequence="100"
+  >
+  <send>if #"%1"==0 then
+Send ("assess @system_target")
+else
+Send ("assess%1")
+end
+EnableTrigger ("start_assess", true)</send>
+  </alias>
+  <alias
+   name="scry_"
+   match="^y(?: (\w+))?$"
+   enabled="y"
+   group="System_Interface"
+   regexp="y"
+   send_to="12"
+   ignore_case="y"
+   sequence="100"
+  >
+  <send>if #"%1">1 then
+	if skills:is_available ("window") then
+		Send ("abjure window %1")
+	else
+		magic:use ("scry", "%1", "now")
+	end--if
+else
+	if skills:is_available ("window") then
+		Send ("abjure window "..GetVariable ("system_target"))
+	else
+		magic:use ("scry", GetVariable ("system_target"), "now")
+	end--if
+end </send>
+  </alias>
+  <alias
+   name="farscout_"
+   match="^y(e|a)?$"
+   enabled="y"
+   group="System_Interface"
+   regexp="y"
+   send_to="12"
+   ignore_case="y"
+   sequence="100"
+  >
+  <send>if "%1"=="e" then
+	Send ("abjure farscout enemies")
+else
+	Send ("abjure farscout allies")
+end </send>
+  </alias>
+  <alias
+   name="bdef"
+   match="^bdef$"
+   enabled="y"
+   group="System_Interface"
+   regexp="y"
+   send_to="12"
+   ignore_case="y"
+   sequence="100"
+  >
+  <send>defs:bdef ()</send>
+  </alias>
+  <alias
+   name="credits_for_sale"
+   match="^cfs$"
+   enabled="y"
+   group="System_Interface"
+   regexp="y"
+   sequence="100"
+  >
+  <send>credits for sale</send>
+  </alias>
+  <alias
+   name="arena_challenge"
+   match="^challenge \w+$"
+   enabled="y"
+   group="System_Interface"
+   regexp="y"
+   send_to="12"
+   ignore_case="y"
+   sequence="100"
+  >
+  <send>Send ("%0")
+EnableTriggerGroup ("System_Arena", true)
+fst:enable ("arena")</send>
+  </alias>
+  <alias
+   name="diag"
+   match="^diag(?:nose)?$"
+   enabled="y"
+   group="System_Interface"
+   regexp="y"
+   send_to="12"
+   ignore_case="y"
+   sequence="100"
+  >
+  <send>act:diag ()
+act:exec ()</send>
+  </alias>
+  <alias
+   name="drink"
+   match="^drink (\w+)$"
+   enabled="y"
+   group="System_Interface"
+   regexp="y"
+   send_to="12"
+   ignore_case="y"
+   sequence="100"
+  >
+  <send>act:drink ("%0")
+act:exec ()</send>
+  </alias>
+  <alias
+   name="eat_herb"
+   match="^eat (calamus|chervil|coltsfoot|galingale|horehound|kafe|kombu|marjoram|myrtle|pennyroyal|reishi|wormwood|yarrow|sparkleberry|earwort|faeleaf|merbloom)$"
+   enabled="y"
+   group="System_Interface"
+   regexp="y"
+   send_to="12"
+   ignore_case="y"
+   sequence="100"
+  >
+  <send>act:eat ("eat %1")
+act:exec ()</send>
+  </alias>
+  <alias
+   name="enemies_"
+   match="^en(?:emies)?$"
+   enabled="y"
+   group="System_Interface"
+   regexp="y"
+   send_to="12"
+   ignore_case="y"
+   sequence="100"
+  >
+  <send>Send ("enemies")
+EnableTrigger ("start_enemies", true)</send>
+  </alias>
+  <alias
+   name="rejecting_"
+   match="^reject \w+$"
+   enabled="y"
+   group="System_Interface"
+   regexp="y"
+   send_to="12"
+   ignore_case="y"
+   sequence="100"
+  >
+  <send>Send ("%0")
+flags:add ("rejecting")</send>
+  </alias>
+  <alias
+   name="get_enemy"
+   match="^ge (mind|qw)$"
+   enabled="y"
+   group="System_Interface"
+   regexp="y"
+   send_to="12"
+   ignore_case="y"
+   sequence="100"
+  >
+  <send>if "%1"=="mind" then
+	Send ("mindsense")
+	EnableTrigger ("start_mindsense", true)
+elseif "%1"=="qw" then
+	Send ("qw")
+	EnableTrigger ("qw_getenemy", true)
+end--if</send>
+  </alias>
+  <alias
+   name="enemying_"
+   match="^en(?:emy)? (\w+)$"
+   enabled="y"
+   group="System_Interface"
+   regexp="y"
+   send_to="12"
+   ignore_case="y"
+   sequence="100"
+  >
+  <send>if  "%1" == "def" or "%1" == "default" then
+	if not next (adven.default_enemies) then
+		return display.error ("You Have No Default Enemies Stored!")
+	else
+		local to_enemy = ""
+		for n, v in pairs (adven.default_enemies) do
+			to_enemy = to_enemy.." "..n
+		end--for
+		adven:queue_enemy (to_enemy, true)
+	end--if
+else
+	Send ("enemy %1")
+	flags:add ("enemying")
+end--if</send>
+  </alias>
+  <alias
+   name="unenemying_"
+   match="^unen(?:emy)? (\w+)$"
+   enabled="y"
+   group="System_Interface"
+   regexp="y"
+   send_to="12"
+   ignore_case="y"
+   sequence="100"
+  >
+  <send>Send ("unenemy %1")
+flags:add ("unenemying")</send>
+  </alias>
+  <alias
+   name="fdef"
+   match="^fdef$"
+   enabled="y"
+   expand_variables="y"
+   group="System_Interface"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>defs:fdef ()</send>
+  </alias>
+  <alias
+   name="focus"
+   match="^focus (mind|body|spirit)$"
+   enabled="y"
+   expand_variables="y"
+   group="System_Interface"
+   regexp="y"
+   send_to="12"
+   ignore_case="y"
+   sequence="100"
+  >
+  <send>act:focus ("%0")
+act:exec ()</send>
+  </alias>
+  <alias
+   name="harvest_"
+   match="^harv (\w+)(?: (\d+))?$"
+   enabled="y"
+   group="System_Interface"
+   regexp="y"
+   send_to="12"
+   ignore_case="y"
+   sequence="100"
+  >
+  <send>herbs:pick ("%1", tonumber ("%2"))</send>
+  </alias>
+  <alias
+   name="system_toggle_love"
+   match="^l(0|1)"
+   enabled="y"
+   group="System_Interface"
+   regexp="y"
+   send_to="12"
+   ignore_case="y"
+   sequence="100"
+  >
+  <send>settings.love = tonumber ("%1")</send>
+  </alias>
+  <alias
+   name="gust_"
+   match="^u(?P<caster>p|c)?(?P<dir>n|s|e|w|u|d|i|o|ne|nw|se|sw)$"
+   enabled="y"
+   group="System_Interface"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>local dirs = {
+n = "north",
+s = "south",
+e = "east",
+w = "west",
+i = "in",
+o = "out",
+ne = "northeast",
+nw = "northwest",
+se = "southeast",
+sw = "southwest",
+u = "up",
+d = "down",}
+%&lt;ch&gt;
+if magic:is_available ("gust") then
+	if #"%&lt;caster&gt;"==1 then
+		local to_gust
+		if "%&lt;caster&gt;" == "p" then
+			to_gust = offense:get_caster ("pfifth")
+		elseif "%&lt;caster&gt;" == "c" then
+			to_gust = offense:get_caster ("choke")
+		end --if
+		magic:use ("gust", (to_gust or GetVariable ("system_target") or "nil").." "..dirs ["%&lt;dir&gt;"], "now")
+	else
+		magic:use ("gust", GetVariable ("system_target").." "..dirs ["%&lt;dir&gt;"], "now")
+	end
+else
+	display.system ("Gust Not Available")
+end</send>
+  </alias>
+  <alias
+   name="ignite_"
+   match="^f(n|s|e|w|u|d|i|o|ne|nw|se|sw|me)$"
+   enabled="y"
+   group="System_Interface"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>local dirs = {
+n = "north",
+s = "south",
+e = "east",
+w = "west",
+i = "in",
+o = "out",
+ne = "northeast",
+nw = "northwest",
+se = "southeast",
+sw = "southwest",
+u = "up",
+d = "down",}
+if magic:is_available ("ignite") then
+	if dirs ["%1"] then
+		magic:use ("ignite", "wall "..dirs ["%1"], "now")
+	else
+		magic:use ("ignite", "me", "now")
+	end 
+else
+	display.system ("Ignite Not Available")
+end</send>
+  </alias>
+  <alias
+   name="icewall_"
+   match="^ci(n|s|e|w|u|d|i|o|ne|nw|se|sw)$"
+   enabled="y"
+   group="System_Interface"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>local dirs = {
+n = "north",
+s = "south",
+e = "east",
+w = "west",
+i = "in",
+o = "out",
+ne = "northeast",
+nw = "northwest",
+se = "southeast",
+sw = "southwest",
+u = "up",
+d = "down",}
+if magic:is_available ("icewall") then
+	magic:use ("icewall", dirs ["%1"], "now")
+else
+	display.system ("Icewall Not Available")
+end</send>
+  </alias>
+  <alias
+   name="auto_pipes_light_"
+   match="^lp(1|0)$"
+   enabled="y"
+   group="System_Interface"
+   regexp="y"
+   send_to="12"
+   ignore_case="y"
+   sequence="100"
+  >
+  <send>system:set_auto ("pipes_light", "%1")</send>
+  </alias>
+  <alias
+   name="med_"
+   match="^med(?:itate)?$"
+   enabled="y"
+   group="System_Interface"
+   regexp="y"
+   send_to="12"
+   ignore_case="y"
+   sequence="100"
+  >
+  <send>Send ("med")
+flags:add ("prone", "userinput")
+</send>
+  </alias>
+  <alias
+   name="ndef"
+   match="^ndef$"
+   enabled="y"
+   group="System_Interface"
+   regexp="y"
+   send_to="12"
+   ignore_case="y"
+   sequence="100"
+  >
+  <send>defs ["free"] = {}
+defs ["ubal"] = {}
+defs ["rbal"] = {}
+fst:fire ("deffing", "now", "silent")</send>
+  </alias>
+  <alias
+   name="system_parry_"
+   match="^parry$"
+   enabled="y"
+   group="System_Interface"
+   regexp="y"
+   send_to="12"
+   ignore_case="y"
+   sequence="100"
+  >
+  <send>Send ("parry")
+flags:add ("waiting_for_parry")
+fst:enable ("parry")
+EnableTrigger ("parry_start", true)</send>
+  </alias>
+  <alias
+   name="pipelist"
+   match="^pipel(?:ist)?$"
+   enabled="y"
+   group="System_Interface"
+   regexp="y"
+   send_to="12"
+   ignore_case="y"
+   sequence="100"
+  >
+  <send>Send ("pipel")
+EnableTrigger ("start_pipel", true)
+if affs:has ("aeon") or affs:has ("sap") then
+	flags:add ("curing", "pipel")
+	sca:check ("pipel")
+end</send>
+  </alias>
+  <alias
+   name="plants_"
+   match="^plants$"
+   enabled="y"
+   group="System_Interface"
+   regexp="y"
+   send_to="12"
+   ignore_case="y"
+   sequence="100"
+  >
+  <send>Send ("plants")
+EnableTrigger ("start_herbs", true)</send>
+  </alias>
+  <alias
+   name="exiting_aetherplex_"
+   match="^portal exit$"
+   enabled="y"
+   expand_variables="y"
+   group="System_Interface"
+   regexp="y"
+   ignore_case="y"
+   sequence="100"
+  >
+  <send>portal exit aetherplex</send>
+  </alias>
+  <alias
+   name="profiling_"
+   script="show_profile"
+   match="^profile$"
+   enabled="y"
+   group="System_Interface"
+   regexp="y"
+   ignore_case="y"
+   sequence="100"
+  >
+  </alias>
+  <alias
+   name="auto_rebound_"
+   match="^r(0|1)$"
+   enabled="y"
+   expand_variables="y"
+   group="System_Interface"
+   regexp="y"
+   send_to="12"
+   ignore_case="y"
+   sequence="100"
+  >
+  <send>system:set_auto ("rebound", "%1")</send>
+  </alias>
+  <alias
+   name="restore"
+   match="^restore$"
+   enabled="y"
+   group="System_Interface"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>act:restore ()
+act:exec ()</send>
+  </alias>
+  <alias
+   name="sit3"
+   match="^sit (?:in|on)(.*)$"
+   enabled="y"
+   group="System_Interface"
+   regexp="y"
+   send_to="12"
+   ignore_case="y"
+   sequence="100"
+  >
+  <send>Send ("%0")
+flags:add ("prone", "userinput")</send>
+  </alias>
+  <alias
+   name="sit2"
+   match="^sit chair$"
+   enabled="y"
+   group="System_Interface"
+   regexp="y"
+   send_to="12"
+   ignore_case="y"
+   sequence="100"
+  >
+  <send>Send ("sit chair")
+flags:add ("prone", "userinput")</send>
+  </alias>
+  <alias
+   name="sit"
+   match="^sit$"
+   enabled="y"
+   group="System_Interface"
+   regexp="y"
+   send_to="12"
+   ignore_case="y"
+   sequence="100"
+  >
+  <send>Send ("sit")
+flags:add ("prone", "userinput")</send>
+  </alias>
+  <alias
+   name="sleep"
+   match="^sleep$"
+   enabled="y"
+   group="System_Interface"
+   regexp="y"
+   send_to="12"
+   ignore_case="y"
+   sequence="100"
+  >
+  <send>Send ("sleep")
+flags:add ("asleep", "user")</send>
+  </alias>
+  <alias
+   name="interface_smoking"
+   match="^smoke (myrtle|faeleaf|coltsfoot)$"
+   enabled="y"
+   group="System_Interface"
+   regexp="y"
+   send_to="12"
+   ignore_case="y"
+   sequence="100"
+  >
+  <send>act:smoke ("%0")
+act:exec ()</send>
+  </alias>
+  <alias
+   name="stop_"
+   match="^stop (\w+)$"
+   enabled="y"
+   group="System_Interface"
+   regexp="y"
+   send_to="12"
+   ignore_case="y"
+   sequence="100"
+  >
+  <send>if "%1" == "harvest" then
+herbs:del ("user")
+elseif "%1" == "def" then
+	defs ["free"] = {}
+	defs ["ubal"] = {}
+	defs ["rbal"] = {}
+	fst:fire ("deffing", "now", "silent")
+	display.system ("Deffing Stopped")
+end </send>
+  </alias>
+  <alias
+   name="system_auto"
+   match="^sys auto (\w+)(?:\s)?(.*)?$"
+   enabled="y"
+   group="System_Interface"
+   regexp="y"
+   send_to="12"
+   ignore_case="y"
+   sequence="100"
+  >
+  <send>system:set_auto (string.lower ("%1"), "%2")</send>
+  </alias>
+  <alias
+   name="system_debug"
+   match="^sys deb$"
+   enabled="y"
+   group="System_Interface"
+   regexp="y"
+   send_to="12"
+   ignore_case="y"
+   sequence="100"
+  >
+  <send>if settings.deb == 1 then
+&#9;settings.deb = 0
+&#9;sysprint ("white", "", "debug off")
+else
+&#9;settings.deb = 1
+&#9;sysprint ("white", "", "debug on")
+end </send>
+  </alias>
+  <alias
+   name="system_off"
+   match="^sys off$"
+   enabled="y"
+   group="System_Interface"
+   regexp="y"
+   send_to="12"
+   ignore_case="y"
+   sequence="100"
+  >
+  <send>system:off ()</send>
+  </alias>
+  <alias
+   name="system_on"
+   match="^sys on$"
+   enabled="y"
+   group="System_Interface"
+   regexp="y"
+   send_to="12"
+   ignore_case="y"
+   sequence="100"
+  >
+  <send>system:on ()</send>
+  </alias>
+  <alias
+   name="system_set_pipes"
+   match="^sys pipes (myrtle|coltsfoot|faeleaf) (\d+|\w+) (\d+) (\w+)$"
+   enabled="y"
+   group="System_Interface"
+   regexp="y"
+   send_to="12"
+   ignore_case="y"
+   sequence="100"
+  >
+  <send>pipes:assign ("%1", "%2", "%3", string.lower ("%4"))
+display.tprint (pipes)</send>
+  </alias>
+  <alias
+   name="priority_change"
+   match="^sys priority (health|mana|ego)$"
+   enabled="y"
+   group="System_Interface"
+   regexp="y"
+   send_to="12"
+   ignore_case="y"
+   sequence="100"
+  >
+  <send>system:set_settings ("priority", string.lower("%1"))</send>
+  </alias>
+  <alias
+   match="^sys reset$"
+   enabled="y"
+   group="System_Interface"
+   regexp="y"
+   send_to="12"
+   ignore_case="y"
+   sequence="100"
+  >
+  <send>DoCommand "ReloadScriptFile"</send>
+  </alias>
+  <alias
+   name="set_settings"
+   match="^sys set (.*) (.*)$"
+   enabled="y"
+   group="System_Interface"
+   regexp="y"
+   send_to="12"
+   ignore_case="y"
+   sequence="100"
+  >
+  <send>system:set_settings ("%1", "%2")
+</send>
+  </alias>
+  <alias
+   name="skills"
+   match="^sys set skills( ?P&lt;verbose&gt;verbose)?$"
+   enabled="y"
+   group="System_Interface"
+   regexp="y"
+   send_to="12"
+   ignore_case="y"
+   sequence="100"
+  >
+  <send>skills:reset (true)
+if string.len("%&lt;verbose&gt;)")&gt;1 then
+	silent =nil
+else
+	silent = true
+end
+Send ("skills")
+EnableTriggerGroup ("System_Skills", true)</send>
+  </alias>
+  <alias
+   name="target_check"
+   match="^sys targets$"
+   enabled="y"
+   expand_variables="y"
+   group="System_Interface"
+   regexp="y"
+   send_to="12"
+   ignore_case="y"
+   sequence="100"
+  >
+  <send>if (not (next (system ["targets"]))) then
+	Note ("NO TARGETS QUEUED")
+else
+	Note ("CURRENT TARGETS: ")
+	for k, v in ipairs (system ["targets"]) do
+		if (string.lower (GetVariable ("system_target")) == string.lower (v)) then
+			ColourNote ("aqua", "", " **"..tostring (k).." : "..v.."**")
+		else
+			ColourNote ("aqua", "", "   "..tostring (k).." : "..v)
+		end 
+	end --for
+end </send>
+  </alias>
+  <alias
+   name="system_show_settings"
+   match="^sys settings$"
+   enabled="y"
+   group="System_Interface"
+   regexp="y"
+   send_to="12"
+   ignore_case="y"
+   sequence="100"
+  >
+  <send>system:show_settings ()</send>
+  </alias>
+  <alias
+   name="system_show_autos"
+   match="^sys auto$"
+   enabled="y"
+   group="System_Interface"
+   regexp="y"
+   send_to="12"
+   ignore_case="y"
+   sequence="100"
+  >
+  <send>system:show_autos ()</send>
+  </alias>
+  <alias
+   match="^w(?:ound)?s$"
+   enabled="y"
+   group="System_Interface"
+   regexp="y"
+   send_to="12"
+   ignore_case="y"
+   sequence="100"
+  >
+  <send>Send ("wounds")
+EnableTrigger ("wound_status", true)</send>
+  </alias>
+  <alias
+   name="target_alias"
+   match="^x (\w+)$"
+   enabled="y"
+   expand_variables="y"
+   group="System_Interface"
+   regexp="y"
+   send_to="12"
+   ignore_case="y"
+   sequence="100"
+  >
+  <send>target = string.upper(string.sub("%1", 1, 1))..string.lower(string.sub ("%1", 2))
+SetVariable ("system_target", target)
+if
+not next (system ["targets"]) or 
+not system:getkey (system ["targets"], target)
+then
+	table.insert (system ["targets"], target)
+end 
+Note ("CURRENT TARGETS: ")
+for k, v in ipairs (system ["targets"]) do
+	if (string.lower (target) == string.lower (v)) then
+		ColourNote ("aqua", "", " **"..tostring (k).." : "..system ["targets"] [k].."**")
+	else
+		ColourNote ("aqua", "", "   "..tostring (k).." : "..system ["targets"] [k])
+	end 
+end --for
+system:update_info ()
+target = nil</send>
+  </alias>
+  <alias
+   match="^x(?:\s)?(\d+)$"
+   enabled="y"
+   expand_variables="y"
+   group="System_Interface"
+   regexp="y"
+   send_to="12"
+   ignore_case="y"
+   sequence="100"
+  >
+  <send>pos = tonumber("%1")
+if pos &gt; #system ["targets"] then
+	Note ("YOU DON'T HAVE THAT MANY CURRENT TARGETS!")
+elseif pos == 0 then
+	system ["targets"] = {}
+	Note ("TARGETS RESET")
+else
+	SetVariable ("system_target", system ["targets"] [pos]) 
+	system:update_info ()
+	for k, v in ipairs (system ["targets"]) do
+		if (string.lower (v) == string.lower (system ["targets"] [pos])) then
+			ColourNote ("aqua", "","** ".. tostring (k).." : "..system ["targets"] [k].." **")
+		else 
+			ColourNote ("aqua", "", "   "..tostring (k).." : "..system ["targets"] [k])
+		end 
+	end --for
+end</send>
+  </alias>
+  <alias
+   name="grin1"
+   match="^grin$"
+   enabled="y"
+   group="System_Interface"
+   regexp="y"
+   send_to="12"
+   ignore_case="y"
+   sequence="100"
+  >
+  <send>Send ("emote grins disturbingly, dislocating his jaw with a muffled crack and a devious rictus forms on his face as his mouth opens from ear to ear")</send>
+  </alias>
+  <alias
+   name="grin2"
+   match="^grin (\w+)$"
+   enabled="y"
+   group="System_Interface"
+   regexp="y"
+   send_to="12"
+   ignore_case="y"
+   sequence="100"
+  >
+  <send>Send ("emote turns his gaze upon ^%1, then grins disturbingly, dislocating his jaw with a muffled crack and a devious rictus forms on his face as his mouth opens from ear to ear")</send>
+  </alias>
+  <alias
+   name="smile1"
+   match="^smile$"
+   enabled="y"
+   group="System_Interface"
+   regexp="y"
+   send_to="12"
+   ignore_case="y"
+   sequence="100"
+  >
+  <send>Send ("emote contorts his features in what could be interpreted as a smile, the mouth on his sternum clenching slightly.")</send>
+  </alias>
+  <alias
+   name="smile2"
+   match="^smile (\w+)$"
+   enabled="y"
+   group="System_Interface"
+   regexp="y"
+   send_to="12"
+   ignore_case="y"
+   sequence="100"
+  >
+  <send>Send ("emote turns his gaze upon ^%1, then contorts his features in what could be interpreted as a smile, the mouth on his sternum clenching slightly.")</send>
+  </alias>
+  <alias
+   name="bow1"
+   match="^bow$"
+   enabled="y"
+   group="System_Interface"
+   regexp="y"
+   send_to="12"
+   ignore_case="y"
+   sequence="100"
+  >
+  <send>Send ("emote bows his head and veins start throbbing on his forehead as his sternal mouth loosens. His inner serpent squirms out of his chest and it hisses menacingly as it absorbs the mental energies of those around him.")</send>
+  </alias>
+  <alias
+   name="bow2"
+   match="^bow (\w+)$"
+   enabled="y"
+   group="System_Interface"
+   regexp="y"
+   send_to="12"
+   ignore_case="y"
+   sequence="100"
+  >
+  <send>Send ("emote turns his gaze upon ^%1, then bows his head and veins start throbbing on his forehead.")</send>
+  </alias>
+  <alias
+   name="say_"
+   match="^'(.*)$"
+   enabled="y"
+   group="System_Interface"
+   regexp="y"
+   send_to="12"
+   ignore_case="y"
+   sequence="100"
+  >
+  <send>Send ("say (With a sharp hiss) %1")</send>
+  </alias>
+  <alias
+   name="contemplate_"
+   match="^con(?:emplate)( \w+)?$"
+   enabled="y"
+   group="System_Interface"
+   regexp="y"
+   send_to="12"
+   ignore_case="y"
+   sequence="100"
+  >
+  <send>if #"%1"==0 then 
+	Send ("contemplate "..GetVariable ("system_target"))
+else
+	Send ("contemplate %1")
+end
+EnableTrigger ("contemplating", true)</send>
+  </alias>
+<!--
+  <alias
+   name="grin_"
+   match="^grin$"
+   enabled="y"
+   group="System_Interface"
+   regexp="y"
+   send_to="12"
+   ignore_case="y"
+   sequence="100"
+  >
+  <send>Send ("emote grins widely, revealing sharp teeth dripping a foul, black liquid.")</send>
+  </alias>
+  <alias
+   name="charge_"
+   match="^h(?P&lt;person&gt; \w+ )?(?P&lt;direction&gt;n|s|e|w|u|d|i|o|ne|nw|se|sw)$"
+   enabled="y"
+   expand_variables="y"
+   group="System_Interface"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>local dirs = {
+n = "north",
+s = "south",
+e = "east",
+w = "west",
+i = "in",
+o = "out",
+ne = "northeast",
+nw = "northwest",
+se = "southeast",
+sw = "southwest",
+u = "up",
+d = "down",}
+if string.len("%&lt;person&gt;)")&gt;1 then
+  Send ("charge".."%&lt;person&gt;"..dirs ["%&lt;direction&gt;"])
+else
+  Send ("charge @system_target "..dirs ["%&lt;direction&gt;"])
+end</send>
+  </alias>
+   <alias
+   name="tackle_"
+   match="^t(?P&lt;person&gt; \w+ )?(?P&lt;direction&gt;n|s|e|w|u|d|i|o|ne|nw|se|sw)$"
+   enabled="y"
+   expand_variables="y"
+   group="System_Interface"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>local dirs = {
+n = "north",
+s = "south",
+e = "east",
+w = "west",
+i = "in",
+o = "out",
+ne = "northeast",
+nw = "northwest",
+se = "southeast",
+sw = "southwest",
+u = "up",
+d = "down",}
+if string.len("%&lt;person&gt;)")&gt;1 then
+  Send ("tackle".."%&lt;person&gt;"..dirs ["%&lt;direction&gt;"])
+else
+  Send ("tackle @system_target "..dirs ["%&lt;direction&gt;"])
+end</send>
+  </alias>
+ <alias
+   name="barge_"
+   match="^r(?P&lt;person&gt; \w+ )?(?P&lt;direction&gt;n|s|e|w|u|d|i|o|ne|nw|se|sw)$"
+   enabled="y"
+   expand_variables="y"
+   group="System_Interface"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>local dirs = {
+n = "north",
+s = "south",
+e = "east",
+w = "west",
+i = "in",
+o = "out",
+ne = "northeast",
+nw = "northwest",
+se = "southeast",
+sw = "southwest",
+u = "up",
+d = "down",}
+if string.len("%&lt;person&gt;)")&gt;1 then
+  Send ("barge".."%&lt;person&gt;"..dirs ["%&lt;direction&gt;"])
+else
+  Send ("barge @system_target "..dirs ["%&lt;direction&gt;"])
+end</send>
+  </alias>
+  <alias
+   name="leap_"
+   match="^l(n|s|e|w|u|d|i|o|ne|nw|se|sw)$"
+   enabled="y"
+   group="System_Interface"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>local dirs = {
+n = "north",
+s = "south",
+e = "east",
+w = "west",
+i = "in",
+o = "out",
+ne = "northeast",
+nw = "northwest",
+se = "southeast",
+sw = "southwest",
+u = "up",
+d = "down",}
+Send ("leap "..dirs ["%1"])</send>
+  </alias>
+  <alias
+   name="engage_"
+   match="^en$"
+   enabled="y"
+   expand_variables="y"
+   group="System_Interface"
+   regexp="y"
+   ignore_case="y"
+   sequence="100"
+  >
+  <send>engage @system_target</send>
+  </alias>
+  <alias
+   name="block_alias"
+   match="^b(n|s|e|w|u|d|i|o|ne|nw|se|sw)(f)?$"
+   enabled="y"
+   group="System_Interface"
+   regexp="y"
+   send_to="12"
+   ignore_case="y"
+   sequence="100"
+  >
+  <send>local dirs = {
+n = "north",
+s = "south",
+e = "east",
+w = "west",
+i = "in",
+o = "out",
+ne = "northeast",
+nw = "northwest",
+se = "southeast",
+sw = "southwest",
+u = "up",
+d = "down",}
+if #"%2" == 0 or (#"%2"~= 0 and prompt ["vitals"] ["c_power"] == 0) then
+  Send ("block "..dirs ["%1"])
+else
+  Send ("block "..dirs ["%1"].." firm")
+end</send>
+  </alias>
+  <alias
+   name="burrow_alias"
+   match="^bb$"
+   enabled="y"
+   group="System_Interface"
+   regexp="y"
+   ignore_case="y"
+   sequence="100"
+  >
+  <send>burrow below</send>
+  </alias>
+<alias
+   name="beam_"
+   match="^b(?: (\w+))?$"
+   enabled="y"
+   group="System_Interface"
+   regexp="y"
+   send_to="12"
+   ignore_case="y"
+   sequence="100"
+  >
+  <send>if #"%1">1 then
+	Send ("moondance beam %1")
+else
+	Send ("moondance beam "..GetVariable ("system_target"))
+end </send>
+  </alias>
+  <alias
+   name="salute_"
+   match="^salute$"
+   enabled="y"
+   group="System_Interface"
+   regexp="y"
+   send_to="12"
+   ignore_case="y"
+   sequence="100"
+  >
+  <send>Send ("emote raises his right hand to his horns, saluting respectfully")</send>
+  </alias>
+   <alias
+   name="geyser_target_"
+   match="^cg$"
+   enabled="y"
+   expand_variables="y"
+   group="System_Interface"
+   regexp="y"
+   send_to="12"
+   ignore_case="y"
+   sequence="100"
+  >
+  <send>magic:use ("geyser", nil, "now")</send>
+  </alias>
+    <alias
+   name="seize_target_"
+   match="^seize$"
+   enabled="y"
+   expand_variables="y"
+   group="System_Interface"
+   regexp="y"
+   ignore_case="y"
+   sequence="100"
+  >
+  <send>noose @system_target</send>
+  </alias>
+  <alias
+   name="shove_target_"
+   match="^shove$"
+   enabled="y"
+   expand_variables="y"
+   group="System_Interface"
+   regexp="y"
+   ignore_case="y"
+   sequence="100"
+  >
+  <send>shove @system_target</send>
+  </alias>
+    <alias
+   name="directions_alias"
+   match="^(d|m|l)(n|s|e|w|u|d|i|o|ne|nw|se|sw)$"
+   enabled="y"
+   group="System_Interface"
+   regexp="y"
+   send_to="12"
+   ignore_case="y"
+   sequence="100"
+  >
+  <send>local action = {
+d = "eavesdrop",
+m = "stealth mislead",
+l = "handspring",
+}
+local dirs = {
+n = "north",
+s = "south",
+e = "east",
+w = "west",
+i = "in",
+o = "out",
+ne = "northeast",
+nw = "northwest",
+se = "southeast",
+sw = "southwest",
+u = "up",
+d = "down",}
+Send (action ["%1"].." "..(dirs ["%2"] or "%2"))</send>
+  </alias>
+  <alias
+   name="two_actions_alias"
+   match="^(cd|h|r|b|k)( \w+ )?(n|s|e|w|u|d|i|o|ne|nw|se|sw)(o)?$"
+   enabled="y"
+   group="System_Interface"
+   regexp="y"
+   send_to="12"
+   ignore_case="y"
+   sequence="100"
+  >
+  <send>local action = {
+h = "rush",
+r = "drag",
+b = "blowgun aim",
+k = "backflip",
+j = "jumpkick",
+cd = "ka ninukhi",
+}
+local dirs = {
+n = "north",
+s = "south",
+e = "east",
+w = "west",
+i = "in",
+o = "out",
+ne = "northeast",
+nw = "northwest",
+se = "southeast",
+sw = "southwest",
+u = "up",
+d = "down",}
+local poisons = {
+m = "mantakaya",
+s = "stupidity",
+}
+local target
+if #"%2"== 0 then
+	target = GetVariable ("system_target")
+else
+	if dirs ["%2"] then
+		target = dirs ["%2"] 
+	else
+		target = string.sub ("%2", 2)
+	end
+end
+if #"%4" >0 then
+	Send (action ["%1"].." "..target.." "..(dirs ["%3"] or poisons ["%3"] or "%3").." obscure")
+else
+	Send (action ["%1"].." "..target.." "..(dirs ["%3"] or poisons ["%3"] or "%3"))
+end</send>
+  </alias>
+  <alias
+   name="airpike_"
+   match="^ap (\w+) (\w+)$"
+   enabled="y"
+   group="System_Interface"
+   regexp="y"
+   send_to="12"
+   ignore_case="y"
+   sequence="100"
+  >
+  <send>local dirs = {
+n = "north",
+s = "south",
+e = "east",
+w = "west",
+i = "in",
+o = "out",
+ne = "northeast",
+nw = "northwest",
+se = "southeast",
+sw = "southwest",
+u = "up",
+d = "down",}
+local poisons = {
+m = "mantakaya",
+s = "stupidity",
+}
+Send ("airpike "..(dirs ["%1"] or "%1").." "..(dirs ["%2"] or "%2"))</send>
+  </alias>
+
+-->
+</aliases>

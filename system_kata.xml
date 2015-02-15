@@ -1,0 +1,96 @@
+<triggers>
+<trigger
+   enabled="y"
+   group="System_Kata"
+   keep_evaluating="y"
+   match="^\d+h\, \d+m\, \d+e\, \d+p\, \d+en\, \d+w(?:\, (\d+)mo)?(?: .*?)\-$"
+   name="prompt_momentum"
+   regexp="y"
+   send_to="12"
+   sequence="79"
+  >
+  <send>if #"%1" &gt; 0 then
+  offense:mo_set (tonumber("%1"))
+else
+  offense:mo_set (0)
+end</send>
+   </trigger>
+   <trigger
+   enabled="n"
+   group="System_Kata"
+   keep_evaluating="y"
+   match="^You attempt the Kata form of .+?\.$"
+   name="kata_form"
+   regexp="y"
+   send_to="12"
+   sequence="1"
+  >
+  <send>EnableTrigger ("mo_gain", true)
+EnableTrigger ("mo_lose", true)
+prompt:queue (function ()
+EnableTrigger ("mo_gain", false)
+EnableTrigger ("mo_lose", false)
+end, "kata_form")
+prompt:queue (function () offense:mo_set (0) end, "0mo", true)
+</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Kata"
+   match="^Your momentum increases\.$"
+   name="mo_gain"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>offense:mo_gain ()
+prompt:unqueue ("0mo")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Kata"
+   match="^You lose (\d) momentum\.$"
+   name="mo_lose"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>offense:mo_lose (%1)
+prompt:unqueue ("0mo")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Kata"
+   match="^You prepare your (left|right) hand to deflect blows\.$"
+   name="ondef_deflect"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("deflect", "%1")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Kata"
+   match="^You relax your hands\.$"
+   name="lostdef_deflect"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>defs:lostdef ("deflect")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^You are deflecting blows with your (left|right) hand\.$"
+   name="def_deflect"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef  ("deflect", "%1", nil, true)</send>
+  </trigger>
+</triggers>

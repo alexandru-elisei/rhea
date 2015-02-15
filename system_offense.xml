@@ -1,0 +1,1678 @@
+<aliases>
+  <alias
+   name="sheathe"
+   match="^sht$"
+   enabled="y"
+   group="System_Offense"
+   regexp="y"
+   send_to="12"
+   ignore_case="y"
+   sequence="100"
+  >
+  <send>if next (offense ["current"]) then
+  for k, id in ipairs (offense ["current"]) do
+    if offense ["sheathes"] [id] then
+	 Send ("sheathe "..id.." "..offense ["sheathes"] [id])
+    else
+	  return display.warning ("You must set SHEATHES for your weapons!")
+    end--if
+	offense ["current"] = {}
+	offense:save ()
+  end--for
+  else
+    display.warning ("Set your current Weapons!")
+  end--if</send>
+  </alias>
+  <alias
+   name="wielding"
+   match="^i(?:nfo)?(?:\s)?i(?:nv)?(?:nventory)? wield(?:.*)?$"
+   enabled="y"
+   group="System_Offense"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>Send ("%0")
+EnableTrigger ("wielding_start", true)
+EnableTrigger ("wielding_id", true)</send>
+  </alias>
+  <alias
+   name="healer_"
+   match="^he( \w+)?$"
+   enabled="y"
+   group="System_Offense"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>SendNoEcho ("outd healer")
+if (#"%1" &lt;=1) then
+	Send ("fling healer at me")
+else
+	Send ("fling healer at%1")
+end</send>
+  </alias>
+  <alias
+   name="emperor_"
+   match="^em( \w+)?$"
+   enabled="y"
+   group="System_Offense"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>SendNoEcho ("outd emperor")
+if (#"%1" &lt;=1) then
+	Send ("fling emperor at "..GetVariable ("system_target"))
+else
+	Send ("fling emperor at %1")
+end</send>
+  </alias>
+  <alias
+   name="magician_"
+   match="^ma( \w+)?$"
+   enabled="y"
+   group="System_Offense"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>if not sca:is_slowed () then
+Send ("outd magician")
+end
+if (#"%1" &lt;=1) then
+	Send ("fling magician at me")
+else
+	Send ("fling magician at%1")
+end</send>
+  </alias>
+  <alias
+   name="warrior_"
+   match="^wa$"
+   enabled="y"
+   group="System_Offense"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>Send ("outd warrior")
+Send ("fling warrior at ground")</send>
+  </alias>
+  <alias
+   name="hermit_"
+   match="^he(a|t|f)$"
+   enabled="y"
+   group="System_Offense"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>if ("%1" == "a") then
+	SendNoEcho ("outd hermit")
+	Send ("activate hermit")
+elseif ("%1" == "t") then
+	Send ("touch hermit")
+else
+	Send ("fling hermit at ground")
+end</send>
+  </alias>
+  <alias
+   name="starleaper_"
+   match="^st$"
+   enabled="y"
+   group="System_Offense"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>Send ("outd starleaper")
+Send ("flind starleaper at ground")</send>
+  </alias>
+  <alias
+   name="raisedead"
+   match="^rd (\w+)$"
+   enabled="y"
+   group="System_Offense"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>Send ("darkchant raisedead %1")</send>
+  </alias>
+  <alias
+   name="symbol_evoke_"
+   match="^e(d|r|a|s|w)$"
+   enabled="y"
+   group="System_Offense"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>local pactpowers = {
+["d"] = "darksilver",
+["r"] = "rigormortis",
+["a"] = "anorexia",
+["s"] = "scabies",
+["w"] = "worms",}
+offense:exec ("powah", {"symbol evoke "..pactpowers ["%1"], "target"})</send>
+  </alias>
+  <alias
+   name="darkbond_"
+   match="^d(?:ark)?b(?:ond)?$"
+   enabled="y"
+   group="System_Offense"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>Send ("darkbond")---this will see the current list of powers
+EnableTrigger ("start_powers", true)
+EnableTrigger ("get_double", true)
+</send>
+  </alias>
+  <alias
+   name="darkcall_thrall_"
+   match="^d(?:arkcall)?t(?:hrall)?$"
+   enabled="y"
+   group="System_Offense"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>Send ("darkcall thrall")
+EnableTrigger ("demon_summon", true)
+EnableTrigger ("demon_summonalready", true)
+</send>
+  </alias>
+  <alias
+   name="invest_powers_"
+   match="^inv (.+?)$"
+   enabled="y"
+   group="System_Offense"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>Send ("invest archdemon with %1")
+EnableTrigger ("invest_powers", true)</send>
+  </alias>
+  <alias
+   name="get_ent_"
+   match="^ent(?:.+)?$"
+   enabled="y"
+   group="System_Offense"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>Send ("%0")
+EnableTrigger ("demon_startid", true)</send>
+  </alias>
+  <alias
+   name="demon_settings_"
+   match="^ds (double|power|lasthit|willhit) (\d+)$"
+   enabled="y"
+   group="System_Offense"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>SetVariable ("demon_%1", "%2")</send>
+  </alias>
+  <alias
+   name="feed_settings_"
+   match="^df( \w+)?( \d+)?$"
+   enabled="y"
+   group="System_Offense"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>if (#"%1" &lt;=1) then
+	offense ["feeds"] = {}
+	offense ["feeds"] = nil
+elseif (#"%2" &gt;1) then
+	local name = string.upper (string.sub ("%1", 2,2))..string.lower (string.sub ("%1",3))
+	Note (name)
+	offense ["feeds"] = offense ["feeds"] or {}
+	offense ["feeds"] [name] = tonumber ("%2")
+elseif next (offense ["feeds"]) then
+	local name = string.upper (string.sub ("%1", 2,2))..string.lower (string.sub ("%1",3))
+	Note (name)
+	offense ["feeds"] [name] = nil
+end</send>
+  </alias>
+</aliases>
+
+<triggers>
+  <!--Detecting powers-->
+<trigger
+   enabled="n"
+   group="System_Offense"
+   match="^Double attacks left\: (\d+)$"
+   name="get_double"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>SetVariable ("demon_double", "%1")
+EnableTrigger ("get_double", false)</send>
+  </trigger>
+<trigger
+   enabled="n"
+   group="System_Offense"
+   match="^Invested powers\:$"
+   name="start_powers"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>EnableTrigger ("get_powers", true)
+prompt:queue (function ()
+	EnableTrigger ("start_powers", false)
+	EnableTrigger ("get_powers", false)
+end, "start_powers")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Offense"
+   keep_evaluating="y"
+   match="^(.*)\.$"
+   name="get_powers"
+   regexp="y"
+   repeat="y"
+   send_to="12"
+   sequence="1"
+  >
+  <send>EnableTrigger ("get_powers", false)
+if string.find ("%1", "None") then
+offense ["powers"] = {}
+return
+end
+	--something wrong here, I should be comparing both the name of the power as well as the number of the power
+local last_power = offense ["powers"] [#offense ["powers"]]
+local no_power = #offense ["powers"]
+offense ["powers"] = {}
+for p in string.gmatch (string.lower ("%1"), "%(?%a+%)?") do
+	if p ~= "and" then
+		table.insert (offense ["powers"], p)
+	end --if
+end --for
+display.system ("Current Powers:")
+for k, v in ipairs (offense ["powers"]) do
+	ColourNote ("red", "", "	"..v)
+end--for
+if GetVariable ("demon_power") == "0" then
+	SetVariable ("demon_power", "1")
+		--if I have discharged the last power, and I invest more powers than I previously had, it will discharged the next power in the NEXT power list
+elseif GetVariable ("demon_power") == "1"  
+		and #offense ["powers"] > no_power and
+		offense.powers.last_power
+			then
+	SetVariable ("demon_power", no_power + 1)	
+elseif tonumber (GetVariable ("demon_power")) > #offense ["powers"] then
+	SetVariable ("demon_power", "1")
+end--if
+Note ("")
+display.system ("Discharging:")
+ColourNote ("red", "", " "..offense ["powers"] [tonumber (GetVariable ("demon_power"))])
+if GetVariable ("demon_lasthit") == "-1" then
+	SetVariable ("demon_lasthit", "0")
+	SetVariable ("demon_willhit", "8")
+end--if</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Offense"
+   match="^Beseeching the demon lords for their power\, you reach out and channel the powers of the tainted darkness into a hideous archdemon\.$"
+   name="invest_powers"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>EnableTrigger ("invest_powers", false)
+Execute ("darkbond")</send>
+  </trigger>
+
+<!--Detecting current weapons-->
+  <trigger
+   enabled="n"
+   group="System_Offense"
+   match="^You are wielding\:$"
+   name="wielding_start"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>offense:reset ("current")
+prompt:queue (function ()
+  EnableTrigger ("wielding_start", false)
+  EnableTrigger ("wielding_id", false)
+  display.system ("No Weapons Wielded!")
+end, "wielding_start")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Offense"
+   match="^   (\w+\d+) \: (.+?) in your (?:left|right) hand\.$"
+   name="wielding_id"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>offense:set_current ("%1", "%2")
+prompt:unqueue ("wielding_start")
+prompt:queue (function ()
+  EnableTrigger ("wielding_start", false)
+  EnableTrigger ("wielding_id", false)
+  display.system ("Wielded Weapons Detected")
+end, "wielding_id")</send>
+  </trigger>
+  
+<!--Taking care of disarmed or dropped weapons-->
+  <trigger
+   enabled="y"
+   group="System_Offense"
+   match="^You cease wielding (?:.*) in your (?:right|left) hand\.$"
+   name="cease_wielding"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>if system:is_auto ("wielding") then
+prompt:queue (function ()
+for k, id in ipairs (offense ["current"]) do
+ todo:add ("bal", "wield_weapon", "wield "..id, 1, true)
+end
+end, "cease_wielding", true)
+end</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Offense"
+   match="^You are already wielding (?:a|an) (?:.*) in your (?:left|right) hand\.$"
+   name="already_wielding"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>if (flags:get ("todo_bal") or "nil") == "wield_weapon" then
+todo:done ("wield_weapon", "bal")
+end</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Offense"
+   match="^You begin to wield (?:.*) in your (?:right|left) hand\.$"
+   name="done_wielding"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>if (flags:get ("todo_bal") or "nil")=="wield_weapon" then
+todo:done ("wield_weapon", "bal")
+end</send>
+  </trigger>
+  
+<!--Shield tracking-->
+   <trigger
+   enabled="y"
+   group="System_Offense"
+   match="^([A-Z][a-z]+) mutters and traces a cobalt blue pentagram in the air that remains hovering before (?:him|her)\.$"
+   name="offense_pentagram"
+   regexp="y"
+   send_to="12"
+   sequence="99"
+  >
+  <send>offense:rebound ("%1", nil, "circle")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Offense"
+   match="^Spreading (?:his|her) arms wide\, ([A-Z][a-z]+) spins clockwise and a shimmering white orb springs up around (?:him|her)\.$"
+   name="offense_circle"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>offense:rebound ("%1", nil, "circle")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Offense"
+   match="^A spinning diamond around ([A-Z][a-z]+) weaves a glittering shield around [Hh](?:im|er)\.$"
+   name="harmonics_passiveshield"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>offense:rebound ("%1", nil, "shield")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Offense"
+   match="^([A-Z][a-z]+)\'s aura of weapons rebounding disappears\.$"
+   name="offense_rebound_down"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>offense:rebound ("%1", true)</send>
+  </trigger>
+    <trigger
+   enabled="y"
+   group="System_Offense"
+   match="^You raze ([A-Z][a-z]+)\'s aura of rebounding with .+?\.$"
+   name="raze1"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>offense:rebound ("%1", true)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   expand_variables="y"
+   group="System_Offense"
+   match="You thrust a clawed fist towards @system_target, ripping at the air before (?:[Hh]is|[Hh]er) face\.$"
+   name="raze2"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>prompt:queue (function ()
+offense ["rebounds"] [GetVariable ("system_target")] = nil
+end, "fist_norebound", true)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   expand_variables="y"
+   group="System_Offense"
+   match="^You raze @system_target(?:\'s|\') speed defen[sc]e with(?:.*)\.$"
+   omit_from_output="y"
+   name="raze3"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>offense ["rebounds"] [GetVariable ("system_target")] = nil
+display.mult ("white", "blue", "noSPEED")
+prompt:unqueue ("fist_norebound")</send>
+  </trigger>
+   <trigger
+   enabled="y"
+   group="System_Offense"
+   match="^You raze ([A-Z][a-z]+)\'s magical shield with .+?\.$"
+   name="raze4"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>offense:rebound ("%1", true)</send>
+  </trigger>
+   <trigger
+   enabled="y"
+   group="System_Offense"
+   match="^You get ready to lunge through defenses\!$"
+   name="raze5"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>offense ["rebounds"] [GetVariable ("system_target")] = nil
+prompt:unqueue ("fist_norebound")</send>
+  </trigger>
+    <trigger
+   enabled="y"
+   group="System_Offense"
+   match="^You suddenly perceive the vague outline of an aura of rebounding around ([A-Z][a-z]+)\.$"
+   name="offense_highlight_rebound"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>offense:rebound ("%1")</send>
+  </trigger>
+  
+<!--Removing all forms-->
+  <trigger
+   enabled="n"
+   group="System_Offense"
+   match="^(\d.+?)$"
+   name="deleteforms"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>Send ("kata forget %1")</send>
+  </trigger>
+  
+<!--Attacks tracking-->
+  <trigger
+   enabled="y"
+   group="System_Offense"
+   match="^You point a blighted symbol of pestilence towards .+?\, and a gout of black fire slams into (?:[Hh]is|[Hh]er|[Ii]ts) chest\.$"
+   name="bash_attack"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>if system:is_auto ("bashing") then
+todo:done ("bash", "bal")
+end</send>
+</trigger>
+   <trigger
+   enabled="y"
+   expand_variables="y"
+   group="System_Offense"
+   match="^You have slain @system_target\.$"
+   name="target_killed"
+   regexp="y"
+   send_to="12"
+   sequence="99"
+  >
+  <send>display.target_killed ()</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   expand_variables="y"
+   group="System_Offense"
+   match="^@system_target has been slain by .+?\.$"
+   name="target_killed_bysomeoneelse"
+   regexp="y"
+   send_to="12"
+   sequence="99"
+  >
+  <send>display.target_killed ()</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Offense"
+   match="^Being careful not to poison yourself, you wipe off all the poisons from .+?\.$"
+   name="wipingpoisons1"
+   omit_from_output="y"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send></send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Offense"
+   match="^There are no poisons on that item at present\.$"
+   name="wipingpoisons2"
+   omit_from_output="y"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send></send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Offense"
+   match="^You rub some \w+ on .+?\.$"
+   name="envenoming"
+   omit_from_output="y"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send></send>
+  </trigger>
+  <trigger
+   enabled="y"
+   expand_variables="y"
+   group="System_Offense"
+   match="^@system_target jumps aside\, avoiding your blow\.$"
+   name="dodged1"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>display.miss ()</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   expand_variables="y"
+   group="System_Offense"
+   match="^You strike out at @system_target, but (?:[Hh]e|[Ss]he) neatly sidesteps the blow\.$"
+   name="miss2"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>display.miss ()</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   expand_variables="y"
+   group="System_Offense"
+   match="^@system_target ducks under .+? as you take a swing at (?:[Hh]im|[Hh]er)\.$"
+   name="dodged2"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>display.miss ()</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   expand_variables="y"
+   group="System_Offense"
+   match="^.+? hits nothing but air as you swing it at @system_target\.$"
+   name="miss1"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>display.miss ()</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   expand_variables="y"
+   group="System_Offense"
+   match="^Your vision blurs as your target suddenly shifts away from you\, causing you to lose track of your target\.$"
+   name="miss4"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>display.miss ()</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Offense"
+   match="^You shuffle one tarot card with the image of the (.+?) out of your deck\.$"
+   name="outd_"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>if "%1" == "Soulless" then
+	flags:add_check ("soulless", (flags:get_check ("soulless") or 0)+1)
+	if flags:get_check ("soulless_rub") then
+		offense:soulless_rub ()
+		flags:del_check ("soulless_rub")
+	end
+end--if</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Offense"
+   match="^You put one tarot card with the image of the Soulless in your deck of cards\.$"
+   name="ind_soulless"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>	flags:add_check ("soulless", (flags:get_check ("soulless") or 1)-1)
+	if flags:get_check ("soulless")&lt;=0 then
+		flags:del_check ("soulless")
+	end--if</send>
+  </trigger>
+  <trigger
+   enabled="y"
+	expand_variables="y"
+   group="System_Offense"
+   match="^You fling the Soulless tarot card at @system_target and upon impact\, it disappears\. An ominous silence overtakes your surroundings\.$"
+   name="soulless_flung"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>display.success ("Soulless")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+	expand_variables="y"
+   group="System_Offense"
+   match="^A swirling void of darkness opens up before @system_target\, emanating a mad alien presence\. (?:He|She) whimpers as tendrils of icy smoke leap out and bore into ([hH](?:is|er)) body\. As the void slams shut\, (?:[sS]he|[hH]e) screams in abject terror\, and you cannot help but watch in fascination as \1 soul is ripped asunder from \1 body\.$"
+   name="soulless_success"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>display.success ("Void")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Offense"
+   match="^Muttering words of power\, you trace a cobalt blue hexagram before you\, which suddenly shoots up into the air\, sparks trailing after it\.$"
+   name="hexagram_"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>display.success ("Hexagram")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Offense"
+   match="^Becoming one with the cosmos\, you allow the awesome power of the cosmos to be reflected through your eyes\.$"
+   name="fear_"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>display.success ("fear")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Offense"
+   match="^You chant the ritual of Carcer and raise your arms\. Shafts of blue light rise up around the location\, like the bars of a prison\.$"
+   name="carcer_"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>display.success ("carcer")
+prompt:add_alert ("cexp", "CExp", 120, -1)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   expand_variables="y"
+   group="System_Offense"
+   match="^Tapping into the entropic fields of the cosmos\, you bring forth a ray of negative energy that attaches onto @system_target\, draining away (?:[Hh]is|[Hh]er) strength and making (?:[Hh]im|[Hh]er) wither before your eyes\.$"
+   name="enfeeble_"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>display.success ("enfeeble")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   expand_variables="y"
+   group="System_Offense"
+   match="^You tug at the cosmic fabric that binds @system_target\, in an effort to send (?:[Hh]im|[Hh]er) to sleep\.$"
+   name="sleep_"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>display.success ("sleep")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   expand_variables="y"
+   group="System_Offense"
+   match="^You grasp a handful of cosmic threads and will them into existence\, then release them onto @system_target as a mass of sticky webs\.$"
+   name="web_"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>display.success ("web")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   expand_variables="y"
+   group="System_Offense"
+   match="^You toss the Hanged Man tarot card at @system_target and as it reaches ([Hh]im|[Hh]er)\, a huge mass of rope bursts out of it to entrap and hinder \1\.$"
+   name="hangedman_"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>display.success ("roped")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   expand_variables="y"
+   group="System_Offense"
+   match="^You chant the ritual of Conjuctio at @system_target\, and feel (?:[Hh]im|[Hh]er) magnetically drawn to your side\.$"
+   name="conjunctio_"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>display.success ("conjunctio")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   expand_variables="y"
+   group="System_Offense"
+   match="^Chanting the words of Amissio\, you whisper the name of @system_target into air\, sapping the very essence out of (?:[Hh]is|[Hh]er) pores\.$"
+   name="amissio_"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>display.success ("amissio")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   expand_variables="y"
+   group="System_Offense"
+   match="^With a dark chant\, you suck out the nourishment from @system_target\'s body\.$"
+   name="feed_"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>display.success ("feed")
+offense ["feeds"] = offense ["feeds"] or {}
+offense ["feeds"] [GetVariable ("system_target")] = (offense ["feeds"] [GetVariable ("system_target")] or 0)+1</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   expand_variables="y"
+   group="System_Offense"
+   match="^You chant the words of rot at @system_target\, while cracking your knuckles loudly\.$"
+   name="shrivel_"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>display.success ("shrivel")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   expand_variables="y"
+   group="System_Offense"
+   match="^You point at @system_target and utter words of power\, leeching (?:[Hh]is|[Hh]er) mental reserves into your own\.$"
+   name="leech_"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>display.success ("leech")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   expand_variables="y"
+   group="System_Offense"
+   match="^You bow your head and chant the name of @system_target\, draining (?:[Hh]is|[Hh]er) reservoir of power into your own\.$"
+   name="drain_"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>display.success ("drain")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   expand_variables="y"
+   group="System_Offense"
+   match="^Chanting harshly\, you lay your hand upon @system_target\. Imposing your dark will through the touch\, you brand @system_target with your deathly mark\.$"
+   name="deathmark_"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>display.success ("deathmark")
+prompt:add_alert ("dm", "DM", 240, -1)</send>
+</trigger>
+<trigger
+   enabled="y"
+   expand_variables="y"
+   group="System_Offense"
+   match="^Your mark is already upon this one\.$"
+   name="deathmark_already"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>display.success ("deathmark", "already")
+prompt:add_alert ("dm", "DM", 240, -1)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   expand_variables="y"
+   group="System_Offense"
+   match="^The dark mark visible on @system_target fades away\.$"
+   name="deathmark_faded"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>display.mult ("limegreen", "", "DM Fade")
+prompt:del_alert ("dm")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   expand_variables="y"
+   group="System_Offense"
+   match="^You concentrate and curse @system_target with the visage of a rotting corpse\.$"
+   name="disfigure_"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>display.success ("disfigure")</send>
+  </trigger>
+   <trigger
+   enabled="y"
+   expand_variables="y"
+   group="System_Offense"
+   match="^Rolling your eyes into the back of your head\, you begin to chant words of power\, releasing a flow of ectoplasm with each syllable\.$"
+   name="ecto_"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>display.success ("ecto")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   expand_variables="y"
+   group="System_Offense"
+   match="^You begin to chant the words of vile darkness\, and an iron cross rises up from the ground before @system_target\. Vicious spikes slam into (?:[Hh]is|[Hh]er) flesh and nail (?:[Hh]im|[Hh]er) to the cross\. (?:He|She) screams in pain and agony as blood is splattered in all directions\.$"
+   name="crucify_"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>display.success ("crucify")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   expand_variables="y"
+   group="System_Offense"
+   match="^@system_target jerks as the iron cross pulls [Hh](?:is|er) limbs\, resulting in a sickening crunch of bones\.$"
+   name="crucify_pullinglimbs"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>for i=1,3 do
+display.enemy ("Pulling Limbs")
+end</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   expand_variables="y"
+   group="System_Offense"
+   match="^You point at @system_target and shove your \w+ towards him\. Wicked steel implements appear in his claws as he jumps on @system_target and begins carving deeply and slowly into (?:[Hh]is|[Hh]er) flesh\. (?:He|She) screams in abject agony during this obscene torture\.$"
+   name="torture_"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>display.success ("torture")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Offense"
+   match="^A hideous archdemon begins slowly turning and beckoning in all directions\.$"
+   name="beckon_all"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>display.success ("beckon")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+	expand_variables="y"
+   group="System_Offense"
+   match="^You bid your archdemon to draw @system_target in close\.$"
+   name="beckon_target"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>display.success ("beckon")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   expand_variables="y"
+   group="System_Offense"
+   match="^As you throw the Emperor tarot at @system_target\, (?:[Hh]e|[Ss]he) gazes at you with adoration and falls in line behind you\.$"
+   name="emperor_"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>display.success ("emperor")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   expand_variables="y"
+   group="System_Offense"
+   match="^You throw a Lovers tarot at @system_target and as it strikes true\, a look of utter love covers (?:[Hh]is|[Hh]er) face\.$"
+   name="lovers_"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>display.success ("Lovers")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   expand_variables="y"
+   group="System_Offense"
+   match="^As you fling the Moon tarot at @system_target\, it turns an ominous\, sickly red\, before striking (?:[Hh]im|[Hh]er) in the head\.$"
+   name="moon_"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>display.success ("moon")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   expand_variables="y"
+   group="System_Offense"
+   match="^You fling your tarot card at @system_target\, which expands into an image of Juliana\. A set of scales appears above (?:[Hh]is|[Hh]er) head and one side of the scale quickly descends\. Justice will be done\.$"
+   name="judge_"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>display.success ("judge")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   expand_variables="y"
+   group="System_Offense"
+   match="^You stand an Aeon tarot on your palm\, and blow it lightly at @system_target\.$"
+   name="tarot_aeon"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>EnableTrigger ("target_aeoned", true)
+prompt:queue (function ()
+	if flags:get_check ("target_aeoned") then
+		display.success ("aeon")
+		flags:del_check ("target_aeoned")
+		prompt:add_alert ("t_aeon", "T_aeon", 4)
+	else
+		display.success ("Quicksilv")
+	end
+end, "offense_aeon", true)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   expand_variables="y"
+   group="System_Offense"
+   match="^Suddenly @system_target\'s movements through the time stream are slowed\.$"
+   name="target_aeoned"
+   omit_from_output="y"
+   regexp="y"
+   send_to="12"
+   sequence="99"
+  >
+  <send>EnableTrigger ("target_aeoned", false)
+flags:add_check ("target_aeoned")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   expand_variables="y"
+   group="System_Offense"
+   match="^You quickly fling a Lust card at @system_target and (?:[Hh]is|[Hh]er) eyes light up\.$"
+   name="lust_"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>display.success ("lust")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   expand_variables="y"
+   group="System_Offense"
+   match="^A large\, rectangular gateway opens up near you and as you hear the laughing voice of Faymar\, @system_target is drawn through\.$"
+   name="empress1_"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>display.success ("empress")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   expand_variables="y"
+   group="System_Offense"
+   match="^A portal grows quickly\, through which @system_target is drawn\.$"
+   name="empress2_"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>display.success ("empress")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Offense"
+   match="^You release the Healer tarot\, which rises up and forms the image of Dionamus\. The image turns into a golden sun that basks (you|[A-Z][a-z]+) in its radiant healing rays\.$"
+   name="healer_"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>display.success ("healer", "%1")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Offense"
+   match="^You release the Magician tarot and as it drops slowly to the earth\, it bathes (you|[A-Z][a-z]+) in a muted blue light\.$"
+   name="magician_"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>display.success ("magician", "%1")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Offense"
+   match="^Upon impact with the ground\, the tarot card blossoms into a hazy image of ancient Celest\, with glittering seashell towers and bathed in glorious light\. Suddenly\, the image explodes and crashes down around you\, leaving behind nothing but piles of rubble\.$"
+   name="fall_"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>display.success ("fall")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   expand_variables="y"
+   group="System_Offense"
+   match="^Holding a blighted symbol of pestilence before you\, you make the Sign of Gorgulu at @system_target\, who is engulfed in oozing slime.\.$"
+   name="symbol_evoke"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>display.success ("evoke")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   expand_variables="y"
+   group="System_Offense"
+   match="^You swing .+? with all your might\, smashing it into the head of @system_target with a resounding ring\.$"
+   name="shieldstun_"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>display.success ("shieldstun")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Offense"
+   match="^The archdemon's belly distends and it begins to cough and hack\, finally vomiting forth a demon spawn\.$"
+   name="spawn_"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>display.success ("spawn")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   expand_variables="y"
+   group="System_Offense"
+   match="^You lightly stroke the flesh of @system_target\, drinking in the warmth\.$"
+   name="lichtouch_"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>display.success ("touch")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Offense"
+   match="^A hideous archdemon obeys your command\.$"
+   name="demon_attack_"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>offense:aggressive ()</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Offense"
+   match="^With seeming reluctance\, a hideous archdemon obeys your command\.$"
+   name="demon_passive"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>offense:passive ()</send>
+  </trigger>
+    <trigger
+   enabled="n"
+   expand_variables="y"
+   group="System_Tracking"
+   match="^@system_target\'s mana stands at (\d+)\/(\d+)\.$"
+   name="contemplating_wrack"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>if tonumber ("%1")&lt;=math.floor(tonumber ("%2")/2) then
+for i = 1, 3 do
+	ColourNote ("", "", "!!!!!!!!!!!!!!!!!!!!!!!!")
+	display.success ("half mana")
+end
+ColourNote ("", "", "!!!!!!!!!!!!!!!!!!!!!!!!")
+end
+EnableTrigger ("contemplating_wrack", false)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Offense"
+   match="^You backhand your archdemon and command him to shape up and start harrowing your enemies\. Your archdemon simpers and grovels at your feet\, agreeing to your demands\.$"
+   name="demon_harrow"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>display.success ("harrow")
+SetVariable ("demon_double", "1")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   expand_variables="y"
+   group="System_Offense"
+   match="^You fling the Soulless tarot card at @system_target and upon impact\, it disappears\. An ominous silence overtakes your surroundings\.$"
+   name="soulless_try"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>EnableTrigger ("soulless_try", false)
+flags:add_check ("soulless", (flags:get_check ("soulless") or 1)-1)
+if flags:get_check ("soulless")&lt;=0 then
+	flags:del_check ("soulless")
+end--if
+EnableTrigger ("soulless_failed1", true)
+EnableTrigger ("soulless_failed2", true)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Offense"
+   match="^The ominous silence lifts as your concentration is broken\.$"
+   name="soulless_failed"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>for i = 1,5 do
+display.success ("Soulless Failed")
+end
+EnableTrigger ("soulless_try", false)
+EnableTrigger ("soulless_failed1", false)
+EnableTrigger ("soulless_failed2", false)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Offense"
+   match="^The ominous silence lifts as [A-Z][a-z]+ has fled beyond the range of the Soulless\.$"
+   name="soulless_failed2"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>Execute ("sys on")
+display.warning ("Soulless Failed")
+EnableTrigger ("soulless_try", false)
+EnableTrigger ("soulless_failed1", false)
+EnableTrigger ("soulless_failed2", false)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Offense"
+   match="^You strike out at ([A-Z][a-z]+) with your deadly tail\, and sting (?:[Hh]im|[Hh]er)\.$"
+   name="stinging_"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>affs:del ("no_sting")
+fst:disable ("no_sting")
+defs:ondef ("barbedtail", true, "silent")
+bals:offbal ("tail", "silent")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Offense"
+   match="^Your tail is poised high above your head\, ready to strike\.$"
+   name="onbal_tail"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>bals:onbal ("tail", "silent")
+defs:ondef ("barbedtail", true, "silent")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Offense"
+   match="^Your tail is not in position to strike\, yet\.$"
+   name="offbal_tail"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>if flags:get ("no_sting") then
+defs:ondef ("barbedtail", true, "silent")
+bals:offbal ("tail", "silent")
+flags:del ("no_sting")
+fst:disable ("no_sting")
+end</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Offense"
+   match="^Spitting upon his face\, you glare at your archdemon slave and order him to leave your presence\. The archdemon disappears in a puff of stench\.$"
+   name="demon_dismiss"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>SetVariable ("demon_power", "0")
+SetVariable ("demon_id", "")
+SetVariable ("demon_double", "0")
+SetVariable ("demon_lasthit", "-1")
+SetVariable ("demon_willhit", "-1")
+offense ["powers"] = {}
+EnableTrigger ("demon_dismiss", false)
+display.system ("Demon Dismissed")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Offense"
+   match="^The ground rumbles and splits open as a hideous archdemon crawls out and scuttles to your side\, cringing and groveling at your feet\.$"
+   name="demon_summon"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>if GetVariable ("demon_lasthit") == "-1" then
+	if not next (offense.powers) or not (offense.powers.last_power) then
+		SetVariable ("demon_power", "0")
+		SetVariable ("demon_id", "")
+	end--if
+	SetVariable ("demon_lasthit", "0")
+	SetVariable ("demon_willhit", "8")
+	ResetTimer ("demon_four")
+end--if
+EnableTrigger ("demon_summon", false)
+Execute ("ent")
+display.system ("Demon Summoned")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Offense"
+   match="^The following beings are in your entourage\:$"
+   name="demon_startid"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>EnableTrigger ("demon_startid", false)
+EnableTrigger ("demon_getid", true)
+prompt:queue (function () EnableTrigger ("demon_getid", false) end, "demon_startid")
+prompt:queue (function () 
+	display.system ("No Demon Detected")
+	SetVariable ("demon_id", "")
+	SetVariable ("demon_power", "0")
+	SetVariable ("demon_double", "0")
+	SetVariable ("demon_lasthit", "-1")
+	SetVariable ("demon_willhit", "-1")
+	offense ["powers"] = {}
+end, "nodemonent")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Offense"
+   match="^.+?demon\#(\d+)"
+   name="demon_getid"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>SetVariable ("demon_id", "%1")
+prompt:unqueue ("nodemonent")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Offense"
+   match="^Your thrall already stands beside you\.$"
+   name="demon_summonalready"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>if GetVariable ("demon_lasthit") == "-1" then
+--SetVariable ("demon_power", "0")
+SetVariable ("demon_lasthit", "0")
+SetVariable ("demon_willhit", "8")
+ResetTimer ("demon_four")
+end--if
+EnableTrigger ("demon_summon", false)
+EnableTrigger ("demon_summonalready", false)
+display.system ("Demon Already Summoned")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   expand_variables="y"
+   group="System_Offense"
+   match="^(A hideous archdemon grabs the shoulders of @system_target and gutturally whispers something to (?:[Hh]im|[Hh]er) in a harsh and unknown language|A hideous archdemon forms a ball of darkness in his palm\, then hurls it at @system_target\, striking (?:[Hh]im|[Hh]er) full in the chest\. Shadowy tendrils burst forth and slither over (?:[Hh]is|[Hh]er) skin|Clenching his fists\, a hideous archdemon screams in rage at @system_target\, and a ball of fire erupts at (?:[Hh]is|[Hh]er) feet\, briefly enveloping (?:[Hh]im|[Hh]er)|A hideous archdemon vomits forth a stream of noxious fluid that strikes @system_target\, coating [Hh](?:im|er) with a thick green slime|With a cold smile\, a hideous archdemon digs his claws into the flesh of @system_target\, who screams in agony)\.$"
+   name="demon_attacked"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>EnableTrigger ("demon_attacked", false)
+local msgs = {
+	["vomits forth a stream of noxious fluid"] = "Gorgulu",
+	["With a cold smile"] = "Nifilhema",
+	["screams in rage"] = "Asthorath",
+	["Shadowy tendrils burst forth and slither over"] = "Luciphage",
+	["and gutturally whispers something to"] = "Baalphegar",}
+for k, v in pairs (msgs) do
+	if string.find ("%0", k) then
+		offense:demon ("%0", v)
+		break
+	end
+end</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   expand_variables="y"
+   group="System_Offense"
+   match="^You sense that your archdemon has control of @system_target\.$"
+   name="demon_dominate"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>local msgs = {
+	["vomits forth a stream of noxious fluid"] = "Gorgulu",
+	["With a cold smile"] = "Nifilhema",
+	["screams in rage"] = "Asthorath",
+	["shadowy tendrils burst forth and slither over"] = "Luciphage",
+	["and guturally whispers something to"] = "Baalphegar",}
+for k, v in pairs (msgs) do
+	if string.find ("%0", k) then
+		offense:demon ("%0", v)
+	end
+end</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Offense"
+   match="^You stretch out your leathery\, bat\-like wings to their full length and hurl yourself into the skies above\.$"
+   name="wings_fly"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>display.success ("Fly")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Offense"
+   match="^You are already soaring through the sky\, free as a bird\.$"
+   name="wings_flyalready"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>display.success ("Fly", "already")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Offense"
+   match="^Leathery wings stretched behind you like a billowing black cape\, you dive downwards and land in a crouch\.$"
+   name="wings_land"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>display.success ("Land")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Offense"
+   match="^The icewall to the (.+?) quickly melts as you ignite it\.$"
+   name="ignite_icewall"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>display.success ("Ignite", "%1")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   expand_variables="y"
+   group="System_Offense"
+   match="^With a look of agony on his face\, @system_target manages to writhe (?:[Hh]im|[Hh]er)self free of the cross\.$"
+   name="crucifix_writhe"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>for i=1,2 do
+display.enemy ("crucified no more")
+end
+prompt:add_alert ("uncrucifix", "UnCrucifix", 3)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   expand_variables="y"
+   group="System_Offense"
+   match="^You rub the image of the Soulless on @system_target\, who pales slightly\.$"
+   name="soulless_rub"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>display.success ("Rubbed")
+SendNoEcho ("sniff soulless")
+EnableTrigger ("soulless_sniff")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Offense"
+   match="^You sniff the card of the Soulless\, and sense it has been imprinted upon ([A-Z][a-z]+) (\d+) times\.$"
+   name="soulless_sniff"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>if tonumber ("%2")&lt;7 then
+display.enemy ("%1 %2 rubs")
+else
+	if "%1" == GetVariable ("system_target") then
+		ColourNote ("magenta", "","	   _____ ")
+		ColourNote ("magenta", "","	  / ____|")
+		ColourNote ("magenta", "","	 | (___  ")
+		ColourNote ("magenta", "","	  \\___ \\ ")
+		ColourNote ("magenta", "","	  ____) |")
+		ColourNote ("magenta", "","	 |_____/ ")
+		display.success ("Soulless")
+	else
+		display.success ("Soulless", "%1")
+	end
+end
+EnableTrigger ("soulless_sniff", false)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Offense"
+   match="^You bare your wrist to your .+? and grimace as (H|h)is teeth puncture your skin and greedily sucks your blood\. You sigh in relief as \1e withdraws and you feel slightly better\.$"
+   name="demon_syphon"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>display.success ("Syphon")
+system:cures_on ()</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Offense"
+   match="^You spew forth a filthy cloud of bloated green flies\.$"
+   name="contagion_"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>display.success ("Contagion")
+prompt:add_alert ("t_contagion", "T_Flies", 120)</send>
+  </trigger>
+</triggers>

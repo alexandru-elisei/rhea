@@ -1,0 +1,270 @@
+<triggers>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^The pull of the earth roots you more firmly to the ground\.$"
+   name="def_malkuth"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("malkuth", nil, nil, "fromdef")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^Your actions are cloaked in secrecy\.$"
+   name="def_shroud1"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("shroud", nil, nil, "fromdef")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^You are surrounded by the Geburah Sphere\.$"
+   name="def_geburah"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("geburah", nil, nil, "fromdef")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^You are surrounded by the Netzach Sphere\.$"
+   name="def_netzach"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("netzach", nil, nil, "fromdef")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Highmagic"
+   match="^Muttering the secret names of Malkuth\, you trace glowing geometric patterns in the air which settle around you\, grounding you to the earth\.$"
+   name="ondef_roots"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("malkuth")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Highmagic"
+   match="^You are already basking in the Netzach Sphere\.$"
+   name="has_netzach"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("netzach")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Highmagic"
+   match="^Muttering words of power\, you trace a cobalt blue pentagram in the air that remains hovering before you\, protecting against assault\.$"
+   name="ondef_shield"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("shield")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Highmagic"
+   match="^Muttering the secret names of Geburah\, you trace the glowing symbol of a sword before you\. The sword enters your chest and you feel strength course through your veins\.$"
+   name="ondef_geburah"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("geburah")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Highmagic"
+   match="^Muttering the secret names of Netzach\, you trace the glowing symbol of a rose before you\. You smile as the rose floats towards you and enters your chest\, making your personality sparkle\.$"
+   name="ondef_netzach"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("netzach")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Highmagic"
+   match="^Muttering the secret names of Yesod\, you trace a glowing circle in front of you\. You step into the circle of energy\, coming out of it cloaked in invisibility\.$"
+   name="ondef_shroud"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("shroud")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Highmagic"
+   match="^Chanting the ritual of Acquisitio to yourself\, you narrow your eyes and look around greedily for something to add to your hoard\.$"
+   name="ondef_acquisitio1"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("acquisitio")</send>
+  </trigger>
+<trigger
+   enabled="y"
+   group="System_Highmagic"
+   match="^Muttering the secret names of Chockmah\, you trace complex glowing symbols before you\. As the symbols fade away\, the area around you seems to become clearer and more defined, revealing all that is hidden\.$"
+   name="ondef_chockmah"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("chockmah")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Highmagic"
+   match="^The sphere of Malkuth already binds you to the earth\.$"
+   name="has_malkuth"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("malkuth")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Highmagic"
+   match="^You are already basking in the Geburah sphere\.$"
+   name="has_geburah"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("geburah")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Highmagic"
+   match="^You feel the Netzach Sphere leave you\.$"
+   name="lostdef_netzach"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:lostdef ("netzach")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Highmagic"
+   match="^Muttering the secret names of Yesod\, you trace a glowing circle in front of you\. You step into the circle of energy\, feeling your invisibility melt away with it\.$"
+   name="lostdef_shroud1"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:lostdef ("shroud")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Highmagic"
+   match="^Your shroud dissipates and you return to the realm of perception\.$"
+   name="lostdef_shroud2"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:lostdef ("shroud")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Highmagic"
+   match="^You allow the charm of Acquisitio to leave you and are no longer gripped by an unnatural need to accumulate things\.$"
+   name="lostdef_acquisitio1"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:lostdef ("acquisitio")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Highmagic"
+   match="^As you chant the ritual of Puer over your (chest|gut|head|left arm|left leg|right arm|right leg)\, you feel your skin tighten\, tendons knit together and bones strengthen\.$"
+   name="puer"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>local part = string.gsub("%1", " ", "")
+flags:add ("puer", part)
+wounds:cured_partially (part, -900)
+EnableTrigger("puer_healed", true)
+prompt:queue (function () EnableTrigger("puer_healed", false) end, "puer")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Highmagic"
+   match="^Your (chest|gut|head|left arm|left leg|right arm|right leg) is (?:already )?fully healed\.$"
+   name="puer_healed"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>local part = string.gsub("%1", " ", "")
+if flags:get ("puer") == part then
+	wounds:set (part, 0)
+	wounds:scan ()
+end</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Highmagic"
+   match="^Muttering the secret names of Tipheret\, you clench your fists\,? which begin to glow\. The glow spreads across your body"
+   name="evoke_tipheret"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>if (flags:get ("fastwrithe") or "nil") == "tipheret" then
+   affs:del_queue ({"trussed", "entangled", "roped", "shackled"})
+   flags:del ("fastwrithe")
+   fst:disable ("fastwrithe")
+   for k, v in ipairs ({"trussed", "entangled", "roped", "shackled"}) do
+     if (flags:get ("writhing_start") or "nil") == v or (flags:get ("writhing") or "nil") == v then
+	   flags:del ({"writhing_start", "writhing"})
+        fst:disable ("writhing")
+	   break
+	end--if
+   end--for
+end --if</send>
+  </trigger>
+</triggers>

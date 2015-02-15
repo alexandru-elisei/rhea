@@ -1,0 +1,506 @@
+<triggers>
+<!-- Poison afflictions tracked here -->
+  <trigger
+   enabled="n"
+   group="System_Poisons"
+   match="^(?:Your enhanced gift of lichdom protects you from the affliction|You shrug off the effects of the poison|You laugh in the face of \w+|Your increased immunity allows you to easily resist \w+|The poison forces you to gag slightly\, but your superior constitution shrugs off the nausea|Your blood boils as it throws off the effects of the poison rushing through your veins)\.$"
+   name="reject_shrug"
+   regexp="y"
+   send_to="12"
+   sequence="99"
+  >
+  <send>affs:reject ("shrug")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Poisons"
+   match="^A coldness seeps deep into the marrow of your bones\.$"
+   name="poison_mactans"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>if defs:has("fire") then
+defs:del_queue("fire")
+system:del_cure ()
+affs:poison ()
+else
+  if affs:has("chills") then
+    affs:poison ("frozen")
+  else
+    affs:poison ("chills")
+  end
+end</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Poisons"
+   match="^Fiery pain courses through your veins\.$"
+   name="poison_pyrotoxin"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:del_queue ("frost")
+affs:burning()
+system:del_cure ()</send>
+  </trigger>
+  <trigger
+	enabled="n"
+   group="System_Poisons"
+   match="^Your insomnia has cleared up\.$"
+   name="poison_morphite1"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="99"
+  >
+  <send>defs:del_queue ("insomnia")
+affs:poison ()</send>
+  </trigger>
+  <trigger
+   group="System_Poisons"
+   match="^You feel incredibly tired\, and fall asleep immediately\.$"
+   name="poison_morphite2"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="99"
+  >
+  <send>affs:prone ("asleep")
+affs:prone ()
+affs:poison ()
+defs:del_queue ("insomnia")</send>
+  </trigger>
+  <trigger
+   group="System_Poisons"
+   match="^You look about yourself nervously\.$"
+   name="poison_aleutian"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="99"
+  >
+  <send>affs:poison ("shyness")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Poisons"
+   match="^A prickly stinging overcomes your body\, fading away into numbness\.$"
+   name="poison_mantakaya"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>affs:poison ("paralysis")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Poisons"
+   match="^You watch\, in horror\, as your (left|right) arm shrivels up and becomes useless\.$"
+   name="poison_dendroxin"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>affs:poison ("broken_%1arm")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Poisons"
+   match="^You stumble as your (left|right) leg shrivels into a useless appendage\.$"
+   name="poison_calcise"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>affs:poison ("broken_%1leg")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Poisons"
+   match="^You feel a terrible thirst for elixirs grow within you\.$"
+   name="poison_addiction"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>affs:poison ("addiction")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Poisons"
+   match="^The idea of eating or drinking is repulsive to you\.$"
+   name="poison_anorexia"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>affs:poison ("anorexia")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Poisons"
+   match="^You feel a tightening sensation grow in your lungs\.$"
+   name="poison_chansu"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>affs:poison ("asthma")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Poisons"
+   match="^You gasp as your fine\-tuned reflexes disappear into a haze of confusion\.$"
+   name="poison_clumsiness"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>affs:poison ("clumsiness")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Poisons"
+   match="^You look about yourself\, frenzied and wild\-eyed\.$"
+   name="poison_dementia"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>affs:poison ("dementia")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Poisons"
+   match="^Your head spins as a sudden fit of dizziness overwhelms you\.$"
+   name="poison_dizziness"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>affs:poison ("dizziness")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Poisons"
+   match="^Your nerves feel suddenly jangled\.$"
+   name="poison_epilepsy"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>affs:poison ("epilepsy")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Poisons"
+   match="^You are feeling a bit peckish right now\.$"
+   name="poison_gluttony"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>affs:poison ("gluttony")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Poisons"
+   match="^An uncomfortable squirming within your chest grips you\.$"
+   name="poison_healthleech"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>affs:poison ("healthleech")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Poisons"
+   match="^You suddenly feel lightheaded\.$"
+   name="poison_hemophilia"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>affs:poison ("hemophilia")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Poisons"
+   match="^You shuffle your feet noisily\, suddenly bored\.$"
+   name="poison_impatience"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>affs:poison ("impatience")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Poisons"
+   match="^An odd sensation descends upon you\.$"
+   name="poison_masochism"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>affs:poison ("masochism")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Poisons"
+   match="^Unthinking paranoia overcomes you\.$"
+   name="poison_paranoia"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>affs:poison ("paranoia")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Poisons"
+   match="^Your will to harm anything leaves you\.$"
+   name="poison_peace"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>affs:poison ("peace")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Poisons"
+   match="^None may stand in your way\! You are invincible\!$"
+   name="poison_reckless1"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>affs:poison ("recklessness")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Poisons"
+   match="^You reali[sz]e that your heroic actions can no longer continue unnoticed\, and you take it upon yourself to rectify the situation\.$"
+   name="poison_reckless2"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>affs:poison ("recklessness")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Poisons"
+   match="^You feel light headed and dizzy\.$"
+   name="poison_relapsing"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>affs:poison ("relapsing")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Poisons"
+   match="^You feel ugliness radiating from you\.$"
+   name="poison_disloyalty"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>affs:poison ("disloyalty")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Poisons"
+   match="^A prickly\, stinging sensation spreads through your body\.$"
+   name="poison_sensitivity"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>affs:poison ("sensitivity")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Poisons"
+   match="^You look about yourself nervously\.$"
+   name="poison_aleutian"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>affs:poison ("paranoia")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Poisons"
+   match="^You notice that your sweat glands have begun to rapidly secrete a foul\, oily substance\.$"
+   name="poison_senso"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>affs:poison ("slickness")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Poisons"
+   match="^Hmmmm\. Why must everything be so difficult to figure out\?$"
+   name="poison_dulak"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>affs:poison ("stupidity")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Poisons"
+   match="^Your vision is flooded with light\, and your face suddenly reddens\.$"
+   name="poison_sunallergy1"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>affs:poison ("sunallergy")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Poisons"
+   match="^You feel your allergy to the sun going into temporary remission\.$"
+   name="poison_sunallergy2"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>affs:poison ("sunallergy")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Poisons"
+   match="^You suddenly feel lightheaded and faint\.$"
+   name="poison_vapors"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>affs:poison ("vapors")
+affs:add ("blackout")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Poisons"
+   match="^The idea of heights makes you queasy suddenly\.$"
+   name="poison_vertigo"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>affs:poison ("vertigo")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Poisons"
+   match="^A sense of extreme nausea washes over you\.$"
+   name="poison_botulinum"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>affs:poison ("vomiting")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Poisons"
+   match="^Your limbs grow heavy and you groan feebly\.$"
+   name="poison_weakness"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>affs:poison ("weakness")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Poisons"
+   match="^Your belly gurgles and rumbles\.$"
+   name="poison_worms"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>affs:poison ("worms")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Poisons"
+   match="^You feel your control over your power begin to slip away\.$"
+   name="poison_powersap"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>affs:poison ("powersap")
+local is_telepaff = flags:get_check ("telepathy") or 0
+if is_telepaff then
+  if is_telepaff == 1 then
+    flags:del_check ("telepathy")
+  elseif is_telepaff == 2 then
+    flags:add_check ("telepathy", 1)
+  end--if
+end--if</send>
+  </trigger>
+</triggers>
+
+<!--
+<timers>
+  <timer
+   name="poison_darts"
+   second="50.00"
+   offset_second="0.00"
+   send_to="12"
+   group="System_Tracking"
+  >
+  <send>EnableAlias("poisons_prompt", true)
+EnableTimer("poison_darts", false)</send>
+  </timer>
+</timers>
+-->

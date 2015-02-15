@@ -1,0 +1,398 @@
+<triggers>
+  <trigger
+   back_colour="8"
+   enabled="y"
+   group="System_Calendar"
+   match="^It is now the (\d+).+? of (\w+)\, (\d+) years after the Coming of Estarra\.$"
+   match_back_colour="y"
+   match_bold="y"
+   match_text_colour="y"
+   name="cal_midnight"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+   text_colour="11"
+  >
+  <send>calendar:date (%1, "%2", %3)
+calendar:time (true, "silent")
+display.system ("MIDNIGHT")
+display.system ("MIDNIGHT")
+display.system ("MIDNIGHT")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Calendar"
+   match="^Today is the (\d+).+? of (\w+)\, (\d+) years after the Coming of Estarra\. The phase of the moon is that of .+?\.$"
+   name="cal_date"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>calendar:date (%1, "%2", %3)</send>
+  </trigger>
+
+  <trigger
+   enabled="y"
+   group="System_Calendar"
+   match="^It is early afternoon in Lusternia\.$"
+   name="cal_day1"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>calendar:time (false)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Calendar"
+   match="^Shadows grow longer in anticipation for the return of their dark mistress as Father Sun\'s chase brings him closer to the world\'s edge\.$"
+   name="cal_day2"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>calendar:time (false)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Calendar"
+   match="^The bright sun shines down upon you\.$"
+   name="cal_day3"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>calendar:time (false)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Calendar"
+   match="^The sky lightens and stars fade as Father Sun approaches the horizon in his neverending quest to capture Mother Night\.$"
+   name="cal_day4"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>calendar:time (false)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Calendar"
+   match="^Birds fill your ears with serenades of happiness and love\.$"
+   name="cal_day5"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>calendar:time (false)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Calendar"
+   match="^Sunlight bellows across the realm\, revealing the full glory of the majestic sun\'s luminous presence as he climbs higher into the sky\.$"
+   name="cal_day6"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>calendar:time (false)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Calendar"
+   match="^It\'s mid\-morning in Lusternia\.$"
+   name="cal_day7"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>calendar:time (false)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Calendar"
+   match="^The horizon glows with burnished shades of orange and red\, heralding the imminent arrival of Father Sun upon the rim of the world\.$"
+   name="cal_day8"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>calendar:time (false)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Calendar"
+   match="^The sun has awakened from its long slumber\. It is dawn\.$"
+   name="cal_day9"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>calendar:time (false)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Calendar"
+   match="^The last vestiges of midnight shadows flee as Mother Night hides herself from the luminous arrival of her shining mate as he chases her across the bowl of the sky\.$"
+   name="cal_day10"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>calendar:time (false)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Calendar"
+   match="^The sun reaches the zenith of the firmament\, pausing in his quest to allow the land to bask in his shining golden rays\.$"
+   name="cal_day11"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>calendar:time (false)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Calendar"
+   match="^The sun sits at its apex\. It is exactly noon\.$"
+   name="cal_day12"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>calendar:time (false)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Calendar"
+   match="^It is dusk in Lusternia\.$"
+   name="cal_day13"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>calendar:time (false)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Calendar"
+   match="^Continuing the hunt for his dark mate\, Father Sun presses forward in his journey\, lowering himself in the sky yet still casting even\, full light upon the land\.$"
+   name="cal_day14"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>calendar:time (false)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Calendar"
+   match="^The shadows have lengthened\. It is late afternoon in Lusternia\.$"
+   name="cal_day15"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>calendar:time (false)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Calendar"
+   match="^You think that it is currently day\-time up above\.$"
+   name="cal_day16"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>calendar:time (false)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Calendar"
+   match="^Glorious rays of morning light burst forth from Father Sun\'s crown as it peeks over the world\'s edge\, announcing a bright and shining new dawn\.$"
+   name="cal_day17"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>calendar:time (false)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Calendar"
+   match="^The soft glow of the sun reflects in a beautiful array of colou?rs upon the water\'s surface\, an almost entrancing display of nature\'s grace\.$"
+   name="cal_day18"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>calendar:time (false)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Calendar"
+   match="^It is early morning in Lusternia\.$"
+   name="cal_day19"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>calendar:time (false)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Calendar"
+   match="^The cloud cover clears\, and sun fills the skies\.$"
+   name="cal_day20"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>calendar:time (false)</send>
+  </trigger>
+
+  <trigger
+   enabled="y"
+   group="System_Calendar"
+   match="^Dusk has overtaken the light in Lusternia\.$"
+   name="cal_night1"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>calendar:time (true)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Calendar"
+   match="^The night sky is clear\, and the stars twinkle like diamonds\.$"
+   name="cal_night2"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>calendar:time (true)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Calendar"
+   match="^As the sun passes below the horizon\'s edge\, Mother Night unveils her terrible\, shadowy beauty\, spreading darkness across the land\.$"
+   name="cal_night3"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>calendar:time (true)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Calendar"
+   match="^Across the heavens\, the stars and moon challenge night\'s dark reign\, revealing familiar constellations that tell the tales of myth and legend\.$"
+   name="cal_night4"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>calendar:time (true)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Calendar"
+   match="^It is deep night in Lusternia\, before midnight\.$"
+   name="cal_night5"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>calendar:time (true)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Calendar"
+   match="^The chirping of crickets surrounds you in a medley of night\-time music\.$"
+   name="cal_night6"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>calendar:time (true)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Calendar"
+   match="^Darkness rules the land\. It is deepest midnight\.$"
+   name="cal_night7"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>calendar:time (true)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Calendar"
+   match="^It is the middle of the night in Lusternia\.$"
+   name="cal_night8"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>calendar:time (true)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Calendar"
+   match="^It is late night\, approaching dawn\.$"
+   name="cal_night9"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>calendar:time (true)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Calendar"
+   match="^The cloud cover clears\, revealing the sparkling night sky\.$"
+   name="cal_night10"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>calendar:time (true)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Calendar"
+   match="^An owl hoots off in the distance\.$"
+   name="cal_night11"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>calendar:time (true)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Calendar"
+   match="^A faint rustling in the sand reminds you of the danger of scorpions masked by the night\'s shadows\.$"
+   name="cal_night12"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>calendar:time (true)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Calendar"
+   match="^You think that it is currently night\-time up above\.$"
+   name="cal_night13"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>calendar:time (true)</send>
+  </trigger>
+</triggers>

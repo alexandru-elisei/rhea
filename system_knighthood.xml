@@ -1,0 +1,115 @@
+<triggers>
+<!-- Knighthood defense tracking -->
+  <trigger
+   enabled="y"
+   group="System_Knighthood"
+   match="^You focus your attention on the (\w+) fighting style\.$"
+   name="ondef_combatstyle"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef  ("combatstyle", "%1")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Knighthood"
+   match="^You concentrate on gripping tightly with your hands\.$"
+   name="ondef_grip"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("grip")</send>
+  </trigger>
+
+  <trigger
+   enabled="y"
+   group="System_Knighthood"
+   match="^You already have a firm grip\.$"
+   name="has_grip"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("grip")</send>
+  </trigger>
+
+  <trigger
+   enabled="y"
+   group="System_Knighthood"
+   match="^(?:You relax your grip|Your grip is already relaxed)\.$"
+   name="lostdef_grip_relax"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:lostdef ("grip")</send>
+  </trigger>
+
+<!-- DEF -->
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^You are fighting with powerful blows\.$"
+   name="def_aggressive"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>defs:ondef ("combatstyle", "aggressive", nil, true)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^You are fighting with focused strikes\.$"
+   name="def_concentrated"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>defs:ondef ("combatstyle", "concentrated", nil, true)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^You are fighting defensively\.$"
+   name="def_defensive"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>defs:ondef ("combatstyle", "defensive", nil, true)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^You are fighting with headstrong speed\.$"
+   name="def_lightning"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>defs:ondef ("combatstyle", "lightning", nil, true)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^Your hands are gripping your wielded items tightly\.$"
+   name="def_grip"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>defs:ondef ("grip", nil, true)</send>
+  </trigger>
+</triggers>

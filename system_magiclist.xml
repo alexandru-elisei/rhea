@@ -1,0 +1,84 @@
+<aliases>
+  <alias
+   name="ml_"
+   match="^(magiclist|ml)$"
+   enabled="y"
+   group="System_Magiclist"
+   regexp="y"
+   send_to="12"
+   ignore_case="y"
+   sequence="100"
+  >
+  <send>magic:sync ()
+EnableTrigger ("magiclist_start", true)</send>
+  </alias>
+</aliases>
+
+<triggers>
+  <trigger
+   enabled="y"
+   group="System_Magiclist"
+   match="^Id\s+Name\s+Status\s+Spell\s+Charges\s+Months $"
+   name="magiclist_start"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>magic:reset ("silent")
+EnableTrigger ("magiclist_get", true)
+EnableTrigger ("magiclist_done", true)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Magiclist"
+   match="^(?P<id>\d+)\s+(?P<name>.+?)\s+(?P<status>\w+)\s+(?P<spell>\w+|healing sc)\s+(?P<charges>\d+)\s+\d+$"
+   name="magiclist_get"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>local verbs = {
+web = "point",
+ignite = "point",
+icewall = "point",
+geyser = "point",
+gust = "point",
+protection = "read",
+healing = "read",
+disruption = "read",
+tome = "read",
+}
+local encha
+if string.find ("%&lt;spell&gt;", "healing") then
+	encha = "healing"
+elseif "%&lt;spell&gt;" == "waterbreat" then
+	encha = "waterbreathe"
+else
+	encha = "%&lt;spell&gt;"
+end
+magic:assign (encha, "%&lt;id&gt;", "%&lt;charges&gt;", (verbs [encha] or "rub"))
+if flags:get_check ("recharge_done") then
+	if string.find ("%&lt;name&gt;", "Scroll") or string.find ("%&lt;name&gt;", "tome") then
+		magic ["scrolls"] [encha] ["maxcharges"] = tonumber ("%&lt;charges&gt;")
+	else
+		magic ["enchantments"] [encha] ["maxcharges"] = tonumber ("%&lt;charges&gt;")
+	end
+	prompt:queue (function () flags:del_check ("recharge_done") end, "magiclist_get")
+end</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Magiclist"
+   match="^Total Magic Items\: \d+$"
+   name="magiclist_done"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>prompt:queue (function () 
+	magic:sync_done () 
+	EnableTriggerGroup ("System_Magiclist", false)
+end, "magiclist_done")</send>
+  </trigger>
+
+</triggers>

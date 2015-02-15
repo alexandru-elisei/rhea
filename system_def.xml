@@ -1,0 +1,997 @@
+<aliases>
+  <alias
+   name="def_"
+   match="^(?:show )?def(?:enses)?$"
+   enabled="y"
+   group="System_Interface"
+   regexp="y"
+   send_to="12"
+   ignore_case="y"
+   sequence="100"
+  >
+  <send>Send ("%0")
+flags:add ("waiting_for_def")
+fst:enable ("deffing")
+EnableTrigger ("defstart", true)</send>
+  </alias>
+</aliases>
+
+<triggers>
+  <trigger
+   enabled="n"
+   group="System_Tracking"
+   match="^You have the following defen[sc]es active\:$"
+   name="defstart"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>display.system ("Active Defenses:")
+EnableTriggerGroup ("System_Def", true)
+EnableTrigger ("defstart", false)
+defs:start ()</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^You are protected by (\d+) defences\.$"
+   name="defdone"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>EnableTriggerGroup ("System_Def", false)</send>
+  </trigger>
+
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^You are experiencing a (\d+) percent experience boost\.$"
+   name="def_xpboost"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>defs:ondef ("xp_boost", "%1\%", nil, true)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^You are moving at an increased rate of speed\.$"
+   name="def_adroitness"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("adroitness", nil, nil, true)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^You are enraged at the inferior races\.$"
+   name="def_enraged"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>defs:ondef ("enraged", nil, nil, true)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^You are a lich\.$"
+   name="def_enraged"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>defs:ondef ("lich", nil, nil, true)
+skills ["available"] ["adroitness"] = {
+	["use"] = "defs_free",
+	["syntax"] = "adroitness"}</send>
+  </trigger>
+
+<!-- Beastmastery -->
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^You are riding (.+?)\.$"
+   name="def_mounted"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>defs:ondef ("mounted", "%1", nil, true)</send>
+  </trigger>
+
+<!-- Discernment -->
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^You are sensing disruptions in the aether\.$"
+   name="def_aethersight"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>defs:ondef ("aethersight", nil, nil, true)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^Your mind is sensing the death of others\.$"
+   name="def_deathsense"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>defs:ondef("deathsense", nil, nil, true)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^You are lipreading to overcome deafness\.$"
+   name="def_lipread"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>defs:ondef("lipread", nil, nil, true)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^Your vision is heightened to see in the dark\.$"
+   name="def_nightsight"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>defs:ondef ("nightsight", nil, nil, true)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^You have a powermask hiding your actions\.$"
+   name="def_powermask"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>defs:ondef ("powermask", nil, nil, true)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^You are viewing the world through the third eye\.$"
+   name="def_thirdeye"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>defs:ondef ("thirdeye", nil, nil, true)</send>
+  </trigger>
+
+<!-- Dramatics -->
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^You are carrying yourself with a lawyerly demeanor\.$"
+   name="def_lawyerly"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>defs:ondef ("attitude", "lawyerly", nil, true)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^You are in performance mode\.$"
+   name="def_performance"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>defs:ondef ("performance", nil, nil, true)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^You are carrying yourself with a saintly demeanor\.$"
+   name="def_saintly"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>defs:ondef ("attitude", "saintly", nil, true)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^You are carrying yourself with the demeanor of a zealot\.$"
+   name="def_zealot"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>defs:ondef("attitude", "zealot", nil, true)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^You are performing the role of a (bully|bureaucrat|gorgeous|sycophant|vagabond)(?: beauty)?\.$"
+   name="def_roles"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>defs:ondef("role", "%1", nil, true)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^You are acting drunker than you actually (?:is|are)\.$"
+   name="def_drunkard"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>defs:ondef("drunkard", nil, nil, true)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^You are acting more (sober|wounded) than you actually are\.$"
+   name="def_soberwounded"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>defs:ondef("%1", nil, nil, true)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^You are reviewing performances of others\.$"
+   name="def_review"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>defs:ondef("review", nil, nil, true)</send>
+  </trigger>
+
+<!-- Environment -->
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^You are attuned to being in (.+?) environment\.$"
+   name="def_attuned"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>defs:ondef("attuned", "%1", nil, true)</send>
+  </trigger>
+
+<!-- Glamours -->
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^You have taken on a glamour of ([A-Z][a-z]+)\.$"
+   name="def_glamour"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>defs:ondef ("glamour", "%1", nil, true)</send>
+  </trigger>
+
+<!-- Lorecraft -->
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^A strange surge is growing inside of you\.$"
+   name="def_prepotion"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>display.ondef ("waiting for orgpotion")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^You are prepared to make use of (moonwater|holy water|nightsweats|unholy water) coursing through your body\.$"
+   name="def_potion"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>local d = string.gsub("%1", " ", "_")
+defs:ondef ("orgpotion", "%1", nil, true)
+flags:del ("ondef_orgpotion")
+fst:disable ("ondef_orgpotion")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^Your passion is herbally heightened\.$"
+   name="def_oolongtea"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>defs:ondef("tea", "oolong", nil, true)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^Your insight is herbally heightened\.$"
+   name="def_whitetea"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>defs:ondef("tea", "white", nil, true)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^Your vivaciousness is herbally heightened\.$"
+   name="def_blacktea"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>defs:ondef("tea", "black", nil, true)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^Your movements are herbally heightened\.$"
+   name="def_greentea"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>defs:ondef("tea", "green", nil, true)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^Your pain is deadened by alcohol\.$"
+   name="def_amberbeer"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>defs:ondef("beer", "amber", nil, true)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^Your aggression is stoked by alcohol\.$"
+   name="def_darkbeer"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>defs:ondef("beer", "dark", nil, true)</send>
+  </trigger>
+
+<!-- Miscellaneous -->
+  <trigger
+   enabled="y"
+   group="System_Tracking"
+   match="^You are prepared to make use of nightsweats coursing through your body\.$"
+   name="def_nightsweats"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>defs:ondef("nightsweats", nil, nil, true)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^You are lightly coated with a layer of (\w+)\.$"
+   name="def_dragonsblood"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>defs:ondef ("%1", nil, nil, true)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^You are more ready to handle electric currents\.$"
+   name="def_galvanism"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>defs:ondef("galvanism", nil, nil, true)
+if flags:get ("no_galvanism") then
+  system:cured ("no_galvanism", "silent")
+end--if</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^You are protected by a psionic barrier\.$"
+   name="def_psishield"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>defs:ondef("psishield", nil, nil, true)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^You are surrounded by a regal aura\.$"
+   name="def_throne"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>defs:ondef("throne", nil, nil, true)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^Your ego is regenerating by virtue of the Ray of Beauty\.$"
+   name="def_beauty"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>defs:ondef("beauty", nil, nil, true)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^Your insides are warmed by a fire potion\.$"
+   name="def_fire"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>defs:ondef("fire", nil, nil, true)
+if flags:get ("no_fire") then
+  system:cured ("no_fire", "silent")
+end--if</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^You are soaring high above the ground\.$"
+   name="def_flying"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>defs:ondef("flying", nil, nil, true)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^Your (\w+) has been enhanced through fine food\.$"
+   name="def_food"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>defs:ondef ("food_%1", nil, nil, true)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^You are tempered against fire damage\.$"
+   name="def_frost"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>defs:ondef("frost", nil, nil, true)
+if flags:get ("no_frost") then
+  system:cured ("no_frost", "silent")
+end--if</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^You have ingested the kafe bean and are feeling extremely energetic\.$"
+   name="def_kafe"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>defs:ondef("kafe", nil, nil, true)
+system:cured ("no_kafe", "silent")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^Your blood is clotting by virtue of the Ray of the Kingdom\.$"
+   name="def_kingdom"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>defs:ondef("kingdom", nil, nil, true)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^Your health is regenerating by virtue of the Ray of the Merciful Hand\.$"
+   name="def_mercy"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>defs:ondef("mercy", nil, nil, true)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^You are a Moonchilde\.$"
+   name="def_moonchilde"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>defs:ondef("moonchilde", nil, nil, true)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^You are a Nightwraith\.$"
+   name="def_nightwraith"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>defs:ondef("nightwraith", nil, nil, true)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^Your mana is regenerating by virtue of the Ray of Perfection\.$"
+   name="def_perfection"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>defs:ondef("perfection", nil, nil, true)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^You are standing within a prismatic barrier\.$"
+   name="def_prismatic"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>defs:ondef("prismatic", nil, nil, true)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^You have an aura of protection around you\.$"
+   name="def_protection"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>defs:ondef ("protection", nil, nil, true)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^You are protected from hand\-held weapons with an aura of rebounding\.$"
+   name="def_rebound"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>defs:ondef("rebound", nil, nil, true)
+fst:disable ("ondef_rebound")
+affs:del ("no_rebound")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^Your sense of time is heightened\, and your reactions are speeded\.$"
+   name="def_speed"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>defs:ondef("speed", nil, nil, true)
+system:cured ("no_speed", "silent")
+fst:disable ("speed")
+fst:disable ("ondef_speed")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^You are surrounded by a nearly invisible magical shield\.$"
+   name="def_shield"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>defs:ondef("shield", nil, nil, true)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^You are wearing a magic shroud\.$"
+   name="def_shroud"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>defs:ondef("shroud", nil, nil, true)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^The world is seen through your sixth sense\.$"
+   name="def_sixthsense"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>system:cured ("no_sixthsense", "silent")
+fst:disable ("ondef_sixthsense")
+defs:ondef ("sixthsense", nil, nil, true)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^Sounds are heard through your true hearing\.$"
+   name="def_truehearing"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>system:cured ("no_truehearing", "silent")
+defs:ondef ("truehearing", nil, nil, true)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^The power of the elixir vitae flows through your veins\.$"
+   name="def_vitae"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>defs:ondef("vitae", nil, nil, true)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^You are wearing faerie wings\.$"
+   name="def_wings"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>defs:ondef("wings", nil, nil, true)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^You are filtering air from water for breathing\.$"
+   name="def_waterbreathe"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>defs:ondef("waterbreathe", nil, nil, true)
+affs:del ("no_waterbreathe")
+fst:disable ("no_waterbreathe")</send>
+  </trigger>
+
+<!-- Cosmic -->
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^You are seeing death\.$"
+   name="def_deathsight"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>defs:ondef("deathsight", nil, nil, true)</send>
+  </trigger>
+
+<!-- Elementalism -->
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^You are walking on a small cushion of air\.$"
+   name="def_levitate"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>defs:ondef("levitate", nil, nil, true)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^You can walk upon water\.$"
+   name="def_waterwalk"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>defs:ondef("waterwalk", nil, nil, true)
+affs:del ("no_waterwalk")
+fst:disable ("no_waterwalk")</send>
+  </trigger>
+  
+<!-- Discipline -->
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^You have insomnia\, and cannot easily go to sleep\.$"
+   name="def_insomnia"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>system:cured ("no_insomnia", "silent")
+fst:disable ("no_insomnia")
+defs:ondef ("insomnia", nil, nil, true)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^You are concentrating on maintaining distance from the dreamworld\.$"
+   name="def_metawake"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>defs:ondef ("metawake", nil, nil, true)
+affs:del ("no_metawake")
+fst:disable ("no_metawake")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^You are feeling quite selfish\.$"
+   name="def_selfishness"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>defs:ondef ("selfishness", nil, nil, true)
+affs:del ("no_selfishness")
+fst:disable ("no_selfishness")</send>
+  </trigger>
+
+<!-- Combat -->
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^Your fighting stance is defending your (\w+)(?: \w+)?\.$"
+   name="def_stance"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>if "%1" == "vital" then
+  stance:set ("vitals")
+else
+  stance:set ("%1")
+end</send>
+  </trigger>
+  
+<!-- Illusions -->
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^You are surrounded by one reflection of yourself\.$"
+   name="def_reflection"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>defs:ondef ("reflection", nil, nil, true)</send>
+  </trigger>
+
+<!-- Rituals -->
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^You are filled with the greed of Acquisitio\.$"
+   name="def_acquisitio"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>defs:ondef("acquisitio", nil, nil, true)</send>
+  </trigger>
+
+<!-- Domoth blessings -->
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^You are under a (Lesser|Minor|Major) Blessing of the Domotheos of (Beauty|Knowledge|Justice|Death|Nature|Chaos|War|Harmony|Life)\.$"
+   name="def_domoth"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>defs:domoth ("%2", string.lower("%1"), nil, true)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^Your (\w+) is under a Minor Blessing of the Domotheos of Chaos\.$"
+   name="def_domothchaos"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>defs:domoth ("Chaos", "minor", nil, true)</send>
+  </trigger>
+
+<!-- Influence -->
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^You are compellingly charismatic\.$"
+   name="def_charismaticaura"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>defs:ondef("charismaticaura", nil, nil, true)</send>
+  </trigger>
+
+<!-- Necromancy -->
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^Your body is prepared for lichdom when death comes knocking\.$"
+   name="def_lichseed"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>defs:ondef("lichseed", nil, true, true)
+display.system ("Lichseed")</send>
+  </trigger>
+   <trigger
+   enabled="n"
+   group="System_Def"
+   match="^You are gaining increased experience in your bloodrage\.$"
+   name="def_bloodrage"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>defs:ondef("bloodrage", nil, true, true)
+display.system ("Bloodrage")</send>
+  </trigger>
+
+<!-- Order -->
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^You are gifted with increased speed by the shield shrine\.$"
+   name="def_shrinecelerity"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>defs:ondef("celerity", nil, nil, true)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^You have an?(?: divine)? (health|mana|ego) blessing\.$"
+   name="def_divineblessing"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>defs:ondef("%1_blessing", nil, nil, true)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^You are demonstrating increased musical aptitude\.$"
+   name="defup_tempo"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>defs:ondef("tempo", nil, nil, true)</send>
+  </trigger>
+</triggers>

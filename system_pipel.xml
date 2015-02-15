@@ -1,0 +1,54 @@
+<triggers>
+  <trigger
+   group="System_Pipel"
+   lines_to_match="2"
+   match="^Id\s+Pipe\s+Herb\s+Puffs\s+Status"
+   name="start_pipel"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>EnableTriggerGroup ("System_Pipel", true)
+pipes:reset ("silent")
+affs:del ("pipes_refill")
+affs:del ("pipes_unlit")
+sca:check ()</send>
+  </trigger>
+  <trigger
+   group="System_Pipel"
+   match="^(\d+)\s+(?:.*)?pipe(?:.*)?\s+(empty)\s+0\s+(Unlit|Lit)$"
+   name="pipes_get_empty"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>pipes:assign ("%2", "%1")</send>
+  </trigger>
+  <trigger
+   group="System_Pipel"
+   match="^(\d+)\s+(?:.*)?pipe(?:.*)?\s+(myrtle|faeleaf|coltsfoot)\s+(\d+)\s+(Lit|Unlit)$"
+   name="pipes_get_assigned"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>pipes:assign ("%2", "%1", "%3", "%4")</send>
+  </trigger>
+  <trigger
+   group="System_Pipel"
+   match="^Total Pipes\: (\d+)$"
+   name="pipes_assign"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>if (tonumber("%1")&lt;3) then
+  display.warning("not enough pipes")
+else
+  pipes:assign()
+end--if
+EnableTriggerGroup("System_Pipel", false)
+  </send>
+  </trigger>
+
+</triggers>

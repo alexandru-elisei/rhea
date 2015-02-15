@@ -1,0 +1,180 @@
+<triggers>
+<!-- DEF -->
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^You are an archlich\.$"
+   name="def_archlich"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("archlich", nil, nil, "fromdef")
+skills ["available"] ["adroitness"] = {
+	["use"] = "defs_free",
+	["syntax"] = "adroitness"}</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^You are bathed in the glorious protection of decaying flesh\.$"
+   name="def_putrefaction"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("putrefaction", nil, nil, "fromdef"</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^As an insubstantial ghost\, you are immune to many attacks\.$"
+   name="def_ghost"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("ghost",nil, nil, "fromdef")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^You are surrounded by the cold of the grave\.$"
+   name="def_coldaura"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("coldaura", nil, nil, "fromdef")</send>
+  </trigger>
+
+<!-- Defenses up -->
+  <trigger
+   enabled="y"
+   group="System_Necromancy"
+   match="^You concentrate for a moment and your flesh begins to dissolve away\, becoming slimy and wet\.$"
+   name="ondef_putrefaction"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("putrefaction")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Necromancy"
+   match="^Chanting words of power\, you burn off your mortal shell in a blaze of dark fire and rise up from the ashes as a ghost\.$"
+   name="ondef_ghost"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("ghost")</send>
+  </trigger>
+
+  <trigger
+   enabled="y"
+   group="System_Necromancy"
+   match="^You have already melted your flesh\. Why do it again\?$"
+   name="has_putrefaction"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("putrefaction")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Necromancy"
+   match="^You release the cold of the grave from your undead flesh\.$"
+   name="ondef_coldaura"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("coldaura")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Necromancy"
+   match="^You are already releasing the frigid aura of the grave from your undead flesh\.$"
+   name="has_coldaura"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("coldaura")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Necromancy"
+   match="^You are not surrounded by the cold of the grave\.$"
+   name="not_coldaura"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:lostdef ("coldaura")</send>
+  </trigger>
+
+<!-- Defenses down -->
+  <trigger
+   enabled="y"
+   group="System_Necromancy"
+   match="^You(?: concentrate briefly and your flesh is once again|r flesh is already) solid\.$"
+   name="lostdef_putrefaction"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:lostdef ("putrefaction")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Necromancy"
+   match="^You call the cold of the grave back to preserve your undead flesh\.$"
+   name="lostdef_coldaura"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:lostdef ("coldaura")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Necromancy"
+   match="^You concentrate and are once again .+?\.$"
+   name="lostdef_ghost"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:lostdef ("ghost")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Necromancy"
+   match="^The bloated green flies that form a filthy cloud drop dead to the ground\.$"
+   name="contagion_lost"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>for i=1,3 do
+display.system ("NO Contagion")
+end</send>
+  </trigger>
+</triggers>

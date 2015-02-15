@@ -1,0 +1,274 @@
+<aliases>
+<alias
+   name="potionlist_"
+   match="^p(?:otion)?l(?:ist)?$"
+   enabled="y"
+   group="System_Gear"
+   regexp="y"
+   send_to="12"
+   ignore_case="y"
+   sequence="100"
+  >
+  <send>Send ("%0")
+EnableTrigger ("potionlist_start", true)
+EnableTrigger ("potionlist_none", true)</send>
+  </alias>
+  <alias
+   name="gear_update_"
+   match="^(v)(d|c) (\d+) (.+?)$"
+   enabled="y"
+   group="System_Gear"
+   regexp="y"
+   send_to="12"
+   ignore_case="y"
+   sequence="100"
+  >
+  <send>local number = tonumber ("%3")
+if not number then return display.error ("Invalid Number") end
+local name = "%4"
+local index = {
+	["v"] = "vials",
+	["d"] = "desired",
+	["c"] = "current",}
+gear:update (index ["%1"], index ["%2"], name, number)
+</send>
+  </alias>
+  <alias
+   name="fashion_vial_"
+   match="^fashion(.+?) (\w+)( inv)?$"
+   enabled="y"
+   group="System_Gear"
+   regexp="y"
+   send_to="12"
+   ignore_case="y"
+   sequence="100"
+  >
+  <send>local number = string.gsub ("%1", " ", "")
+local in_inv = #"%3" >=2
+if number == "all" then
+	gear:makevial ("%2", nil, in_inv)
+else
+	gear:makevial ("%2", tonumber (number), in_inv)
+end
+if IsConnected () then
+	Send ("")
+end--if</send>
+  </alias>
+  <alias
+   name="refill_vial_"
+   match="^refill (all|\d+ .+?)$"
+   enabled="y"
+   group="System_Gear"
+   regexp="y"
+   send_to="12"
+   ignore_case="y"
+   sequence="100"
+  >
+  <send>local option = "%1"
+local s, e = string.find (option, " ")
+if s then
+	local number = string.sub (option, 1, s-1)
+	local potion = string.sub (option, e+1)
+	gear:refill (tonumber (number), potion)
+else
+	gear:refill ()
+end
+if IsConnected then
+	Send ("")
+end--if</send>
+  </alias>
+</aliases>
+
+<triggers>
+  <trigger
+   enabled="n"
+   group="System_Gear"
+   match="^^Id       Container                      Contents                   Sips  Months $"
+   name="potionlist_start"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>gear:reset ("vials")
+EnableTrigger ("potionlist_get", true)
+EnableTrigger ("potionlist_more", true)
+EnableTrigger ("potionlist_end", true)</send>
+  </trigger>
+    <trigger
+   enabled="n"
+   group="System_Gear"
+   match="^You have no containers in your inventory\.$"
+   name="potionlist_none"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>EnableTrigger ("potionlist_start", false)
+EnableTrigger ("potionlist_none", false)
+gear:reset ("vials")
+gear:save ()
+gear:check ("vials")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Gear"
+   match="^^\d+\s+(?:.+?)  \s+(.+?)  \s+\d+\s+\d+$"
+   name="potionlist_get"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>local name = "%1"
+name = string.gsub (name, "a ", "")
+name = string.gsub (name, "an ", "")
+name = string.gsub (name, "the ", "")
+name = string.gsub (name, "potion", "")
+name = string.gsub (name, "poison", "")
+name = string.gsub (name, "of ", "")
+name = string.gsub (name, "salve", "")
+name = string.gsub (name, "purgative", "")
+if not string.find (name, "tea") and not string.find (name, "water") then
+	name = string.gsub (name, " ", "")
+end--if
+gear:update ("vials", "current", name)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Gear"
+   match="^Type MORE to continue reading\. \(\d+\% shown\)$"
+   name="potionlist_more"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>SendNoEcho ("more")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Gear"
+   match="^Total Containers\:\s+\d+$"
+   name="potionlist_end"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>EnableTrigger ("potionlist_start", false)
+EnableTrigger ("potionlist_get", false)
+EnableTrigger ("potionlist_more", false)
+EnableTrigger ("potionlist_end", false)
+gear:check ("vials")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Gear"
+   match="^You remove (\d+) (\w+), bringing the total in the rift to \d+\.$"
+   name="outr_gem"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>local number = tonumber ("%1")
+EnableTrigger ("outr_gem", false)
+EnableTrigger ("outr_nogem", false)
+todo:done ("outr_gem", "free")
+if number~= 5 then
+	Send ("inr %1 %2")
+	gear:madevial (true)
+	return
+end
+todo:add ("bal", "makevial", "fashion vial %2")
+EnableTrigger ("madevial", true)
+EnableTrigger ("nogem", true)
+EnableTrigger ("novialtype", true)
+EnableTrigger ("noskill", true)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Gear"
+   match="^You have no \w+ stored in the rift\.$"
+   name="outr_nogem"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>gear:madevial (true)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Gear"
+   match="^You need five .+? to create that vial\.$"
+   name="nogem"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>gear:madevial (true)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Gear"
+   match="^That is not a valid type of vial\.$"
+   name="novialtype"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>gear:madevial (true)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Gear"
+   match="^You fuse together several .+? and form (?:a|an) \w+ vial\.$"
+   name="madevial"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>gear:madevial ()</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Gear"
+   match="^From what keg are you trying to refill\?$"
+   name="nokeg"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>gear:refilled (true)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Gear"
+   match="^What container are you trying to refill\?$"
+   name="novial"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>gear:refilled (true)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Gear"
+   match="^You don't have enough gold to refill from that keg\.$"
+   name="nogold"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>gear:refilled (true)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Gear"
+   match="^You pay \d+ gold to refill .+? from .+? with .+?\.$"
+   name="refilling"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>gear:refilled ()</send>
+  </trigger>
+</triggers>
+

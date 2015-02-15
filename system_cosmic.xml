@@ -1,0 +1,158 @@
+<triggers>
+<!-- DEF -->
+<!-- trigger: soulwash (mana cost)-->
+<trigger
+   enabled="n"
+   group="System_Def"
+   match="^Your body and soul are cloaked\.$"
+   name="def_cloak"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("cloak", nil, nil, "fromdef")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^You are touching upon cosmic probabilities\.$"
+   name="def_timeslip"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("timeslip", nil, nil, "fromdef")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^Your mind has been quickened\.$"
+   name="def_quickened"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("quickened", nil, nil, "fromdef")</send>
+  </trigger>
+
+  <trigger
+   enabled="y"
+   group="System_Tracking"
+   match="^You bathe yourself in a scintillating shower of cleansing cosmic energy\.$"
+   name="soulwash"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>affs:del ({"stun", "unconscious"})
+  fst:disable ("stun")
+  if (flags:get ("curing") or "nil") == "soulwash" then
+	sca:check ()
+	system:cures_on ()
+  end --if</send>
+  </trigger>
+  
+<!-- Defenses up -->
+  <trigger
+   enabled="y"
+   group="System_Cosmic"
+   match="^Weaving the cosmic threads into a cloak\, you settle it upon your shoulders and feel somewhat more protected\.$"
+   name="ondef_cloak"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("cloak")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Cosmic"
+   match="^Touching upon cosmic probabilities, you weave a net of safety around yourself\.$"
+   name="ondef_timeslip"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("timeslip")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Cosmic"
+   match="^You already have cast a web of safety around yourself\.$"
+   name="has_timeslip"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("timeslip")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Cosmic"
+   match="^Focusing your entire will upon the cosmic strands that bind your own body\, you quicken every fiber of your being to lightning speed\.$"
+   name="ondef_quickened"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("quickened")
+prompt:add_alert ("quick", "Quick", 12, -1)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Cosmic"
+   match="^You are already cloaked\.$"
+   name="has_cloak"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("cloak")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Cosmic"
+   match="^You (?:are )?already(?: are)? seeing death\.$"
+   name="has_deathsight"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("deathsight")</send>
+  </trigger>
+
+<!-- Defenses down -->
+  <trigger
+   enabled="y"
+   group="System_Cosmic"
+   match="^You blur and slip through time as [A-Z][a-z]+ approaches you\.$"
+   name="lostdef_timeslip"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>defs:lostdef ("timeslip")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Cosmic"
+   match="^The quickening within your being subsides\.$"
+   name="lostdef_quickened"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:lostdef ("quickened")
+prompt:del_alert ("quick")</send>
+  </trigger>
+</triggers>

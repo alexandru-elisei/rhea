@@ -1,0 +1,202 @@
+<triggers>
+  <trigger
+   enabled="y"
+   group="System_Nihilism"
+   match="^Your demonic thrall does not stand with you\.$"
+   name="unable_demoncloak"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>defs:del ("demoncloak")
+flags:del ("deffing")
+fst:disable ("deffing")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Nihilism"
+   match="^You make a subtle gesture towards your demonic thrall\, cloaking it from prying eyes\.$"
+   name="ondef_demoncloak"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("demoncloak")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Nihilism"
+   match="^You wave at your demonic thrall\, allowing the demoncloak to fade\.$"
+   name="lostdef_demoncloak"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:lostdef ("demoncloak")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Nihilism"
+   match="^You bow your head in obeisance to the Demon Lords of Nil\, and a jolt of pain shoots down your spine as a barbed tail thrusts itself out of your flesh\, flailing with a life of its own\.$"
+   name="ondef_barbedtail"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("barbedtail")
+bals:onbal ("tail", "silent")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Nihilism"
+   match="^You already have a barbed tail\.$"
+   name="has_barbedtail"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("barbedtail")
+bals:onbal ("tail", "silent")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Nihilism"
+   match="^You press your hands together and bow your head\, concentrating (?:up)?on opening up the aetheric channels to other planar entities\.$"
+   name="ondef_channnels"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("channels")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Nihilism"
+   match="^Your channels are already open\.$"
+   name="has_channnels"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("channels")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Nihilism"
+   match="^You bow your head in obeisance to the Demon Lords of Nil and grunt in pain as wounds open up in your back\, sprouting leathery bat\-like wings\.$"
+   name="ondef_wings"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("wings")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Nihilism"
+   match="^You already have wings\.$"
+   name="has_wings"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("wings")</send>
+  </trigger>
+   <trigger
+   enabled="y"
+   group="System_Nihilism"
+   match="^You bow your head in obeisance to the Demon Lords of Nil\, and excruciating pain forces you onto the ground\, writhing in agony\. Bloody cracks appear on your skin as gleaming black plates of demonic scales burst forth\.$"
+   name="ondef_demonscales"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("demonscales")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Nihilism"
+   match="^You are already covered with demonic scales\.$"
+   name="has_demonscales"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("demonscales")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Nihilism"
+   match="^You have no tail with which to sting\.$"
+   name="no_tail"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>if flags:get ("no_sting") then
+defs:lostdef ("barbedtail", "silent")
+affs:del ("no_sting")
+fst:disable ("no_sting")
+system:set_auto ("sting", 0)
+end</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^Bat\-like wings sprout out of your back\.$"
+   name="def_wings"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("wings",nil, nil, "fromdef")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^You have opened your aetheric channels to other planar entities\.$"
+   name="def_channnels"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("channels", nil, nil, "fromdef")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^You are covered with demon scales\.$"
+   name="def_demonscales"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("demonscales", nil, nil, "fromdef")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^You have a barbed tail\.$"
+   name="def_barbedtail"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("barbedtail", nil, nil, "fromdef")
+bals:onbal ("tail", "silent")</send>
+  </trigger>
+</triggers>

@@ -1,0 +1,1685 @@
+<variables>
+  <variable name="system_miss">\, and you smoothly step away from the blow|\, and you make ready with .+?|\, and you raise .+?|\, but his thrust hits your powerful aura and rebounds back into himself|\, but her thrust hits your powerful aura and rebounds back into herself|\. His weapon \w+ through the air\, missing you completely|\. Her weapon cuts through the air\, missing you completely|\. [A-Z][a-z]+\'s .+? \w+ your .+?\, which completely absorbs the blow|\. [A-Z][a-z]+\'s .+? \w+ your .+?\, and you easily deflect the blow|\. With a flick of your \w+\, you easily deflect [A-Z][a-z]+\s \w+|\.[A-Z][a-z]+\'s .+? strikes your .+? and bounces harmlessly off</variable>
+</variables>
+
+<triggers>
+  <trigger
+   enabled="y"
+   group="System_Tracking"
+   keep_evaluating="y"
+   match="\, but your \w+ hits [hH](?:is|er) powerful aura and rebounds back into you\."
+   name="wound_rebound"
+   regexp="y"
+   send_to="12"
+   sequence="90"
+  >
+  <send>display.mult ("magenta", "skyblue", "REBOUND")
+wounds:warrior_attack ("hammer", {}, "%0")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   expand_variables="y"
+   group="System_Tracking"
+   keep_evaluating="y"
+   match="^With a deft move\, [A-Z][a-z]+ retaliates with a quick swing of (.+?) at you(?:(@!system_miss)|\, and you partially parry the blow with .+?)?\."
+   name="wound_riposte"
+   regexp="y"
+   send_to="12"
+   sequence="90"
+  >
+  <send>wounds:warrior_attack("%1", "%2", "%0")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Tracking"
+   keep_evaluating="y"
+   match="\bwho brandishes (.+?)\."
+   name="wound_coule"
+   regexp="y"
+   send_to="12"
+   sequence="90"
+  >
+  <send>flags:add_check ("coule", "%1")
+EnableTrigger("wound_coule2", true)
+prompt:queue (function () EnableTrigger("wound_coule2", false) flags:del_check ("coule") end, "wounds_coule")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   expand_variables="y"
+   group="System_Tracking"
+   keep_evaluating="y"
+   match="^[A-Z][a-z]+\'s blade runs down the shaft of your weapon(?:(@!system_miss)|\, and you partially parry the blow with .+?)?\."
+   name="wound_coule2"
+   regexp="y"
+   send_to="12"
+   sequence="90"
+  >
+  <send>wounds:warrior_attack(flags:get_check("coule"), "%1", "%0")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Tracking"
+   match="^Your wound status is\:$"
+   name="wound_status"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>EnableTriggerGroup ("System_WoundStatus", true)
+EnableTrigger ("wound_status", false)
+prompt:queue (function ()
+  EnableTriggerGroup ("System_WoundStatus", false)
+  wounds:scan ()
+end, "wound_status")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_WoundStatus"
+   keep_evaluating="y"
+   match="\@ \(\s*(\d+)\) \@"
+   name="wound_status1"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>wounds:set("head", %1)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_WoundStatus"
+   keep_evaluating="y"
+   match="\|\**\s*\| \(\s*(\d+)\) \|\**\s*\|\s+Gut"
+   name="wound_status2"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>wounds:set("chest", %1)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_WoundStatus"
+   keep_evaluating="y"
+   match="\(\s*(\d+)\)\s+\**\s+\(\s*(\d+)\)\s+Larm"
+   name="wound_status3"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>wounds:set("rightarm", %1)
+wounds:set("leftarm", %2)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_WoundStatus"
+   keep_evaluating="y"
+   match="\|   \| \(\s*(\d+)\) \|   \|\s+Rarm"
+   name="wound_status4"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>wounds:set("gut", %1)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_WoundStatus"
+   keep_evaluating="y"
+   match="\(\s*(\d+)\)(?:\| )?\|\(\s*(\d+)\)$"
+   name="wound_status5"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>wounds:set("rightleg", %1)
+wounds:set("leftleg", %2)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_WoundStatus"
+   match="^Head\s+(\d+)\s+\w+$"
+   name="wound_status13"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>wounds:set("head", %1)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_WoundStatus"
+   match="^Chest\s+(\d+)\s+\w+$"
+   name="wound_status14"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>wounds:set("chest", %1)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_WoundStatus"
+   match="^Gut\s+(\d+)\s+\w+$"
+   name="wound_status15"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>wounds:set("gut", %1)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_WoundStatus"
+   match="^Right Arm\s+(\d+)\s+\w+$"
+   name="wound_status16"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>wounds:set("rightarm", %1)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_WoundStatus"
+   match="^Left Arm\s+(\d+)\s+\w+$"
+   name="wound_status17"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>wounds:set("leftarm", %1)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_WoundStatus"
+   match="^Right Leg\s+(\d+)\s+\w+$"
+   name="wound_status18"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>wounds:set("rightleg", %1)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_WoundStatus"
+   match="^Left Leg\s+(\d+)\s+\w+$"
+   name="wound_status19"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>wounds:set("leftleg", %1)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   expand_variables="y"
+   group="System_Tracking"
+   keep_evaluating="y"
+   match="^Cleaving through your defenses\, [A-Z][a-z]+ makes a slow deadly strike at your (?:.+?) with (.+?)(?:(@!system_miss)|\, and you partially parry the blow with .+?)?\."
+   name="wound_attack1"
+   regexp="y"
+   send_to="12"
+   sequence="90"
+  >
+  <send>wounds:warrior_attack("%1", "%2", "%0")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   expand_variables="y"
+   group="System_Tracking"
+   keep_evaluating="y"
+   match="^With a focused look\, [A-Z][a-z]+ strikes at you with (.+?)(?:(@!system_miss)|\, and you partially parry the blow with .+?)?\."
+   name="wound_attack2"
+   regexp="y"
+   send_to="12"
+   sequence="90"
+  >
+  <send>wounds:warrior_attack("%1", "%2", "%0")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   expand_variables="y"
+   group="System_Tracking"
+   keep_evaluating="y"
+   match="^[A-Z][a-z]+ (?:wildly )?swings (.+?) at you(?:(@!system_miss)|\, and you partially parry the blow with .+?)?\."
+   name="wound_attack3"
+   regexp="y"
+   send_to="12"
+   sequence="90"
+  >
+  <send>wounds:warrior_attack("%1", "%2", "%0")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   expand_variables="y"
+   group="System_Tracking"
+   keep_evaluating="y"
+   match="^Sweeping (.+?) through the air overhead\, [A-Z][a-z]+ sends it whooshing straight towards your .+?(?:(@!system_miss)|\, and you partially parry the blow with .+?)?\."
+   name="wound_attack4"
+   regexp="y"
+   send_to="12"
+   sequence="90"
+  >
+  <send>wounds:warrior_attack("%1", "%2", "%0")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   expand_variables="y"
+   group="System_Tracking"
+   keep_evaluating="y"
+   match="^With a heavy overhand stroke\, [A-Z][a-z]+ slams (.+?) down upon you(?:(@!system_miss)|\, and you partially parry the blow with .+?)?\."
+   name="wound_attack5"
+   regexp="y"
+   send_to="12"
+   sequence="90"
+  >
+  <send>wounds:warrior_attack("%1", "%2", "%0")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   expand_variables="y"
+   group="System_Tracking"
+   keep_evaluating="y"
+   match="^Letting (.+?) droop\, [A-Z][a-z]+ suddenly heaves it up at you(?:(@!system_miss)|\, and you partially parry the blow with .+?)?\."
+   name="wound_attack6"
+   regexp="y"
+   send_to="12"
+   sequence="90"
+  >
+  <send>wounds:warrior_attack("%1", "%2", "%0")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   expand_variables="y"
+   group="System_Tracking"
+   keep_evaluating="y"
+   match="^Flourishing (.+?) above (?:[hH]is|[hH]er) head\, [A-Z][a-z]+ takes a swing at you(?:(@!system_miss)|\, and you partially parry the blow with .+?)?\."
+   name="wound_attack7"
+   regexp="y"
+   send_to="12"
+   sequence="90"
+  >
+  <send>wounds:warrior_attack("%1", "%2", "%0")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   expand_variables="y"
+   group="System_Tracking"
+   keep_evaluating="y"
+   match="^Swinging (.+?) in an underhand arc\, [A-Z][a-z]+ strikes at you(?:(@!system_miss)|\, and you partially parry the blow with .+?)?\."
+   name="wound_attack8"
+   regexp="y"
+   send_to="12"
+   sequence="90"
+  >
+  <send>wounds:warrior_attack("%1", "%2", "%0")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   expand_variables="y"
+   group="System_Tracking"
+   keep_evaluating="y"
+   match="^[A-Z][a-z]+ wildly jabs (.+?) at you(?:(@!system_miss)|\, and you partially parry the blow with .+?)?\."
+   name="wound_attack9"
+   regexp="y"
+   send_to="12"
+   sequence="90"
+  >
+  <send>wounds:warrior_attack("%1", "%2", "%0")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   expand_variables="y"
+   group="System_Tracking"
+   keep_evaluating="y"
+   match="^With a powerful lunge\, [A-Z][a-z]+ strikes at you with (.+?)(?:(@!system_miss)|\, and you partially parry the blow with .+?)?\."
+   name="wound_attack10"
+   regexp="y"
+   send_to="12"
+   sequence="90"
+  >
+  <send>wounds:warrior_attack("%1", "%2", "%0")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   expand_variables="y"
+   group="System_Tracking"
+   keep_evaluating="y"
+   match="^Holding (.+?) poised at an angle overhead\, [A-Z][a-z]+ unleashes a violent assault at your .+?(?:(@!system_miss)|\, and you partially parry the blow with .+?)?\."
+   name="wound_attack11"
+   regexp="y"
+   send_to="12"
+   sequence="90"
+  >
+  <send>wounds:warrior_attack("%1", "%2", "%0")</send>
+  </trigger>
+
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   keep_evaluating="y"
+   match="(?:^With a powerful lunge\,| crushed )"
+   name="wound_power1"
+   regexp="y"
+   send_to="12"
+   sequence="91"
+  >
+  <send>flags:add_check ("multiply", 1.6)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   keep_evaluating="y"
+   match="(?: sends it whooshing straight towards your | unleashes a violent assault at your )"
+   name="wound_power2"
+   regexp="y"
+   send_to="12"
+   sequence="91"
+  >
+  <send>flags:add_check("multiply", 1.4)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" You are \w+ in the cheek for a small flesh wound\.$"
+   name="wound_add1"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:add("head")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" You are \w+ in the chest for a small surface wound\.$"
+   name="wound_add2"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:add("chest")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" You are \w+ in the belly for a mere scratch\.$"
+   name="wound_add3"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:add("gut")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" The strike to your (left|right) arm barely \w+ through the skin\.$"
+   name="wound_add4"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:add("%1arm")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" The \w+ to your (left|right) leg leaves only a nick on your thigh\.$"
+   name="wound_add5"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:add("%1leg")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" You are \w+ in the forehead and blink away blood\.$"
+   name="wound_add6"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:add("head")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" You receive a bloody gash from the \w+ to your chest\.$"
+   name="wound_add7"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:add("chest")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" [A-Z][a-z]+ \w+ through your chest\, gashing apart layers of skin to reveal your bloody ribcage\.$"
+   name="wound_add8"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:add("chest")
+affs:prone ("stun") 
+affs:bleeding (175)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" A long\, bleeding rend is \w+ into your belly\.$"
+   name="wound_add9"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:add("gut")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" You are \w+ in your (left|right) arm\, lacerating flesh\.$"
+   name="wound_add10"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:add("%1arm")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" The stroke to your (left|right) leg \w+ a long wound to your calf\.$"
+   name="wound_add11"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:add("%1leg")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" You reel from the mighty \w+ to your head\, seeing stars and flashes of light\.$"
+   name="wound_add12"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:add("head")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" Your chest is \w+ open\, laying bare your ribs\.$"
+   name="wound_add13"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:add("chest")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" Your belly opens up from the deep \w+\, spraying blood everywhere\.$"
+   name="wound_add14"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:add("gut")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" The strike to your (left|right) arm \w+ down to the bone\.$"
+   name="wound_add15"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:add("%1arm")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" You are \w+ deep into your (left|right) leg\, gushing blood pooling at your feet\.$"
+   name="wound_add16"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:add("%1leg")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" You are poked in the chin for a small puncture\.$"
+   name="wound_add17"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:add("head")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" The blade bounces off your sternum\, delivering only a shallow puncture\.$"
+   name="wound_add18"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:add("chest")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" You are pricked in the gut and bleed slightly\.$"
+   name="wound_add19"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:add ("gut")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" You are merely clipped on your (left|right) arm for a small cut\.$"
+   name="wound_add20"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:add ("%1arm")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" You are feebly struck in your (left|right) leg with the blade\.$"
+   name="wound_add21"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:add ("%1leg")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" You are pierced in the side of your face\, leaving a bleeding wound\.$"
+   name="wound_add22"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:add ("head")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" You are stabbed in the side of your chest\, blood oozing from the gash\.$"
+   name="wound_add23"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:add ("chest")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" You receive a nasty belly wound from the thrust of the blade\.$"
+   name="wound_add24"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:add ("gut")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" You are stabbed in your (left|right) arm\, the blade painfully burrowing into your flesh\.$"
+   name="wound_add25"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:add ("%1arm")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" The stab to your (left|right) thigh leaves a gaping hole\.$"
+   name="wound_add26"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:add ("%1leg")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" The blade is driven into your throat\, which begins to spurt blood\.$"
+   name="wound_add27"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:add ("head")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" The blade slides between your ribs\, opening a hole that gushes blood\.$"
+   name="wound_add28"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:add ("chest")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" You bleed like a stuck pig from the blade being plunged into your gut\.$"
+   name="wound_add29"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:add ("gut")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" Your (left|right) arm is skewered by the blade\, driven completely through the other side\.$"
+   name="wound_add30"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:add ("%1arm")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" The blade is driven cleanly through the meat of your (left|right) thigh\.$"
+   name="wound_add31"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:add ("%1leg")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" You are dealt only a glancing blow to the side of your head from the \w+ swing\.$"
+   name="wound_add32"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:add ("head")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" You are \w+ in the chest and receive a small bruise\.$"
+   name="wound_add33"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:add ("chest")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" You are barely fazed from getting \w+ in the gut\.$"
+   name="wound_add34"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:add ("gut")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" Your (left|right) arm is \w+ and slightly bruised\.$"
+   name="wound_add35"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:add ("%1arm")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" You receive only a red welt from your (left|right) leg being \w+\.$"
+   name="wound_add36"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:add ("%1leg")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" You are \w+ in your head\, leaving an ugly bruise\.$"
+   name="wound_add37"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:add ("head")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" You stagger back from the force of being \w+ in the chest\.$"
+   name="wound_add38"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:add ("chest")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" You grunt as you are \w+ in the gut\, forcing all the air out of your lungs\.$"
+   name="wound_add39"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:add ("gut")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" An enormous bruise rises on your (left|right) arm from getting \w+ hard\.$"
+   name="wound_add40"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:add ("%1arm")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" You get a large bruise on your (left|right) thigh from being \w+ hard on the leg\.$"
+   name="wound_add41"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:add ("%1leg")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" Your skull is \w+ with a resounding crack\, leaving your ears ringing and causing you to stagger\.$"
+   name="wound_add42"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:add ("head")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" You are \w+ in the chest with great force and hear a disturbing crunch\.$"
+   name="wound_add43"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:add ("chest")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" You double over and can barely breathe from the force of your belly being \w+\.$"
+   name="wound_add44"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:add ("gut")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" You falter in your tracks as your (left|right) arm receives a severe \w+\.$"
+   name="wound_add45"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:add ("%1arm")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" You barely keep your balance as your (left|right) leg is brutally \w+\.$"
+   name="wound_add46"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:add ("%1leg")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" You are cuffed lightly in the side of your face\.$"
+   name="wound_add47"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:add ("head")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" You are thumped in the chest weakly\.$"
+   name="wound_add48"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:add ("chest")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" You are tapped in the stomach with little effect\.$"
+   name="wound_add49"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:add ("gut")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" You are tapped in the stomach with little effect\.$"
+   name="wound_add49"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:add ("gut")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" You are hit on the (left|right) arm and get only a small bruise\.$"
+   name="wound_add50"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:add ("%1arm")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" You are hit on the (left|right) thigh for a minor bruise\.$"
+   name="wound_add51"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:add ("%1leg")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" You are painfully pounded in the face\.$"
+   name="wound_add52"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:add ("head")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" You are smacked in the chest with a solid blow\.$"
+   name="wound_add53"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:add ("chest")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" You bare your teeth in pain as the .+? is thrust fiercely in your gut\.$"
+   name="wound_add54"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:add ("gut")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" Your (left|right) arm is hit forcefully\, leaving an enormous bruise on the forearm\.$"
+   name="wound_add55"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:add ("%1arm")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" Your (left|right) leg is smacked with a force that goes to the bone\.$"
+   name="wound_add56"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:add ("%1leg")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" Your head whips back from the force of the blow\.$"
+   name="wound_add57"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:add ("head")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" You are brutally whacked in the chest and are forced to take several steps back\.$"
+   name="wound_add58"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:add ("chest")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" Your eyes water and you can barely breathe as the blow punches hard into your belly\.$"
+   name="wound_add59"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:add ("gut")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" Your (left|right) arm is almost dislocated from its shoulder as the .+? is driven deeply into your bicep\.$"
+   name="wound_add60"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:add ("%1arm")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" You stumble and barely stay upright as the .+? is plowed deep into the meat of your (left|right) leg\.$"
+   name="wound_add61"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:add ("%1leg")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" You are \w+ in the gut\, and the wind is knocked out of you\.$"
+   name="wound_add62"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:add ("gut")</send>
+  </trigger>
+
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" [A-Z][a-z]+ \w+ your (left|right) (arm|leg)\, striking a major artery that splurts blood in all directions\.$"
+   name="wound_aff1"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:aff ("%1%2", "artery", "%1%2")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" Your (left|right) leg is completely \w+ through\, which immediately plops to the ground\, leaving only a bloody stump\.$"
+   name="wound_aff2"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:aff ("%1leg", "amputated_%1leg")
+affs:add_queue ("stun")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" You are \w+ in the (left|right) thigh\, cutting almost to the bone and causing your leg to buckle\.$"
+   name="wound_aff3"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:aff ("%1leg", "pierced_%1leg")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" Your (left|right) arm is completely \w+ through\, which flies through the air as blood splurts out in a fountain at the severed shoulder joint.$"
+   name="wound_aff4"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:aff ("%1arm", "amputated_%1arm")
+affs:add_queue ("stun")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" You are \w+ in the (left|right) elbow\, cutting deep into the bone and causing the arm to hang uselessly\.$"
+   name="wound_aff5"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:aff("%1arm", "elbow_%1arm")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" You are \w+ in your (left|right) bicep and blood freely flows down your arm\.$"
+   name="wound_aff6"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:aff("%1arm", "sliced_%1arm")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" Your (left|right) kneecap is \w+\, slicing through the bone and causing the leg to collapse\.$"
+   name="wound_aff7"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>if affs:has("kneecap_%1leg") then
+if wounds ["cwpn"] then
+  affs:prone("broken_%1leg")
+  affs:prone ()
+  flags:add_check ("multiply", 1.1)
+end
+else
+  wounds:aff ("%1leg", "kneecap_%1leg")
+end</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" [A-Z][a-z]+ \w+ your forehead\, causing blood to flow into your eyes and coat your entire face\.$"
+   name="wound_aff8"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:aff ("head", "artery", "head")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" [A-Z][a-z]+ \w+ deep into your (left|right) shoulder\, which severs a nerve and causes your entire \1 side to go numb\."
+   name="wound_aff9"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:aff("%1arm", "hemiplegy_%1")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" [A-Z][a-z]+ \w+ your (left|right) (arm|leg)\, mangling a major artery that explodes blood in all directions\."
+   name="wound_aff10"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:aff ("%1%2", "lacerated", "%1%2")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" You are \w+ in the (left|right) arm\, which becomes limp and falls to your side\."
+   name="wound_aff11"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:aff("%1arm", "fractured_%1arm")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" [A-Z][a-z]+ \w+ into the side of your head with a reverberating thunk of bone that rings in your ears\, causing you to stumble as everything becomes cloudy and the world spins\."
+   name="wound_aff12"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:aff("head", {"dizziness", "confusion",})
+affs:add_queue ("stun")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" Your (left|right) leg is elegantly \w+ and swept out from under you\, knocking you to the ground\."
+   name="wound_aff13"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:add ("%1leg", 3)
+affs:prone()</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" You are \w+ squarely in the nose\, which bleeds profusely\.$"
+   name="wound_aff14"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:add ("head")
+affs:bleeding(50)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" You are \w+ in the eye\, which turns purple and swells shut\.$"
+   name="wound_aff15"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:add ("head", 4)
+affs:blackout ()</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" You grimace in pain as your ribs are \w+ viciously\.$"
+   name="wound_aff16"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:aff("chest", "brokenchest")
+affs:add_queue ("stun")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" You cry out in pain as your jaw is \w+ and shatters\.$"
+   name="wound_aff17"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:aff("head", "brokenjaw")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" Your nose is savagely \w+ and breaks\, causing blood to splurt forth\.$"
+   name="wound_aff18"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:aff("head", "brokennose")
+affs:add_queue ("stun")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" Your (left|right) arm is \w+ and breaks with a loud crack\.$"
+   name="wound_aff19"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:aff ("%1arm", "broken_%1arm")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" Your chest is brutally \w+ and your ribs snap under the force of the blow\.$"
+   name="wound_aff20"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>if wounds ["weapons"] ["BC"] [wounds ["cwpn"]] then
+wounds:add ("chest", 4)
+elseif wounds ["weapons"] ["AL"] [wounds ["cwpn"]] then
+wounds:add ("chest", 6)
+end
+affs:add_queue ("crushedchest")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" Your gut is \w+ with great force\, and blood begins to foam at your mouth\.$"
+   name="wound_aff21"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:aff ("gut", "vomitingblood")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" Your head snaps back as your skull is \w+ hard and fractures\, causing your thoughts to spin\.$"
+   name="wound_aff22"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:aff("head", "fracturedskull")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" Your (left|right) thigh bone is \w+ and shatters under the force of the blow\.$"
+   name="wound_aff23"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:add ("%1leg")
+if not affs:has ("mangled_%1leg") then
+  affs:add_queue ("broken_%1leg")
+end</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" The bones of your (left|right) wrist breaks? as it is \w+\.$"
+   name="wound_aff24"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:aff ("%1arm", "brokenwrist_%1arm")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" Your (left|right) leg is \w+ with an awesome blow and pulverized into a bloody stump\.$"
+   name="wound_aff25"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:add ("%1leg")
+affs:add_queue ("mangled_%1leg")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" Your head is \w+ with crushing force\, and your mind becomes so addled that you can only blink blankly about yourself\.$"
+   name="wound_aff26"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:aff ("head", "concussion")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" You are mortally wounded when \w+ in the gut\. Your internal organs have ruptured and turned to jelly\. If you do not heal soon\, you shall die\.$"
+   name="wound_aff27"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:aff ("gut", "burstorgans")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" [A-Z][a-z]+ \w+ deeply into your (left|right) arm\, which hits a nerve and makes that arm twitch involuntarily\.$"
+   name="wound_aff28"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:aff ("%1arm", "pierced_%1arm")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" [A-Z][a-z]+ \w+ into your gut\, which opens up and pours blood in a pool at your feet\.$"
+   name="wound_aff29"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:aff("gut", "slicedopengut")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" [A-Z][a-z]+ \w+ off your (left|right) ear\, and blood fills your ear canal\, making you somewhat dizzy\.$"
+   name="wound_aff30"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:aff("head", "severedear_%1")
+affs:add_queue ("stun")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" [A-Z][a-z]+ \w+ deep into your chest\, and you grit your teeth as the blade twists violently\.$"
+   name="wound_aff31"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:aff("chest", "puncturedchest")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" [A-Z][a-z]+ \w+ into your chest and blood foams up from your mouth\.$"
+   name="wound_aff32"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:aff("chest", "puncturedlung")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" [A-Z][a-z]+ \w+ deep into your gut\, and a bloody intestine partially erupts with a foul stench\.$"
+   name="wound_aff33"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:aff ("gut", "dysentery")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" [A-Z][a-z]+ cleanly \w+ off your scalp\, and blinding pain and blood reverberates across your entire head\.$"
+   name="wound_aff34"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:aff ("head", "scalped")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" [A-Z][a-z]+ \w+ deep into your (left|right) foot\, pinning it down with .+?\. You involuntarily crumple to a crouch and can think of nothing but freeing your impaled foot\.$"
+   name="wound_aff35"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>if wounds ["cwpn"] then
+affs:add ("pierced_%1leg")
+wounds:add ("%1leg", 4)
+affs:pinleg()
+end</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" [A-Z][a-z]+ \w+ powerfully into your chest\, and blood sprays out of your nose and mouth\.$"
+   name="wound_aff36"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:aff ("chest", "collapsedlungs")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" [A-Z][a-z]+ \w+ your neck\, and blood fountains out in a thick spray\.$"
+   name="wound_aff37"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:aff ("head", "slitthroat")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" [A-Z][a-z]+ plunges (?:[hH]is|[hH]er) blade through your gut\, and you are impaled viciously on the blade\.$"
+   name="wound_aff38"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:add ("gut", 4)
+affs:impaled()</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" [A-Z][a-z]+ \w+ the tendon above your (left|right) heel\, and you scream in agony as it\'s completely severed\.$"
+   name="wound_aff39"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>local side = "%1"
+wounds:aff("%1leg", "tendon_"..side.."leg")
+affs:prone({"prone", "tendon_"..side.."leg"})</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" [A-Z][a-z]+ powerfully \w+ your (left|right) leg\, and blood fountains out in a thick spray\.$"
+   name="wound_aff40"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:aff ("%1leg", "pierced_%1leg")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" [A-Z][a-z]+ \w+ into your gut and heaves upwards\, rupturing your stomach which causes you to spit up a bloody bile\.$"
+   name="wound_aff41"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:aff ("gut", "rupturedstomach")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" [A-Z][a-z]+ \w+ into your back and you feel your spine shatter with a sickening crunch as all feeling in your limbs fades into horrifying numbness\.$"
+   name="wound_aff42"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:aff ("gut", "severedspine")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" [A-Z][a-z]+ \w+ fiercely into your jaw\, which shatters loudly in a bloody explosion of bone\, teeth and gore\.$"
+   name="wound_aff43"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:aff ("head", "shatteredjaw")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" [A-Z][a-z]+ \w+ across your face and through your cheek\, leaving it dangling precariously and oozing blood\.$"
+   name="wound_aff44"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:aff ("head", "gashedcheek")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" [A-Z][a-z]+ \w+ into your chest and you feel a rib snap like a twig under the force of (?:[hH]is|[hH]er) blow\.$"
+   name="wound_aff45"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:aff("chest", "snappedrib")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" [A-Z][a-z]+ \w+ across your forehead and leaves a long furrow that weeps blood onto your face\.$"
+   name="wound_aff46"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:aff("head", "furrowedbrow")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" [A-Z][a-z]+ \w+ into your midriff and slices through\, drawing (?:[hH]is|[hH]er) blade out in a spray of crimson blood as your lungs wheeze to breathe\.$"
+   name="wound_aff47"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:aff("chest", "phrenicnerve")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" [A-Z][a-z]+ \w+ your throat\, crushing your windpipe\.$"
+   name="wound_aff48"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:aff ("head", "windpipe")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" You are \w+ across the chest\, laying open a flap of skin which bleeds profusely\.$"
+   name="wound_aff50"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:aff("chest", "slicedchest")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" [A-Z][a-z]+ \w+ open your gut\, and coils of bloody intestines spill out in a grotesque mass\. You begin to feel lightheaded as the world darkens around you\.$"
+   name="wound_aff51"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:aff ("gut", "disemboweled")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" [A-Z][a-z]+ \w+ deep into your (left|right) shoulder\, which collapses a nerve and sends spasms throughout your limp arm\.$"
+   name="wound_aff52"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:aff ("%1arm", { "collapsednerve_%1arm", "hemiplegy_%1" })
+affs:add_custom ("hemiplegy_%1", "elixir", "drink allheale", 79)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Wounds"
+   match=" You are struck in the chest with spurting blood between your ribs\.$"
+   name="wound_aff53"
+   regexp="y"
+   send_to="12"
+   sequence="95"
+  >
+  <send>wounds:add ("chest")
+affs:add_queue ("vessel", 1)</send>
+  </trigger>
+</triggers>

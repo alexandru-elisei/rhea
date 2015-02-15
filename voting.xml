@@ -1,0 +1,297 @@
+<!-- 
+
+	GAGS THE VOTING MESSAGES
+	
+	INSTALLING, copy the lines below in the immediate window (CTRL+I or Game -> Immediate...):
+DeleteTriggerGroup ("Voting")
+DeleteAliasGroup ("Voting")
+ChangeDir(GetInfo(68))
+io.input ("voting.xml")
+xml = io.read ("*all")
+ImportXML(xml)
+ColourNote ("white", "", "Voting Messages INSTALLED")
+
+	USAGE:
+voting off (disables the triggers)
+voting uninstall (removes the triggers and the aliases)
+voting on (re-enables the triggers)
+
+-->
+<aliases>
+  <alias
+   name="voting_enabled"
+   match="^voting on$"
+   enabled="y"
+   group="Voting"
+   regexp="y"
+   send_to="12"
+   ignore_case="y"
+   sequence="100"
+  >
+  <send>EnableTriggerGroup ("Voting", true)
+ColourNote ("white", "", "Voting Messages ENABLED")</send>
+  </alias>  
+  <alias
+   name="voting_disabled"
+   match="^voting off$"
+   enabled="y"
+   group="Voting"
+   regexp="y"
+   send_to="12"
+   ignore_case="y"
+   sequence="100"
+  >
+  <send>EnableTriggerGroup ("Voting", false)
+ColourNote ("white", "", "Voting Messages DISABLED")</send>
+  </alias> 
+  <alias
+   name="voting_uninstall"
+   match="^voting uninstall$"
+   enabled="y"
+   group="Voting"
+   regexp="y"
+   send_to="12"
+   ignore_case="y"
+   sequence="100"
+  >
+  <send>DeleteTriggerGroup ("Voting")
+DeleteAliasGroup ("Voting")
+ColourNote ("white", "", "Voting Messages UNINSTALLED")</send>
+  </alias> 
+</aliases>
+
+
+<triggers>
+
+<!--VOTING-->
+  <trigger
+   enabled="y"
+   group="Voting"
+   match="^Think there are too many bards\, scholars\, and pilgrims running around\? Vote for Lusternia to help clear them out\.$"
+   name="vote1"
+   omit_from_output="y"
+   regexp="y"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Voting"
+   match="^A raspy voice whispers\, \&quot;If you vote for it\, they will come\.\&quot;$"
+   name="vote2"
+   omit_from_output="y"
+   regexp="y"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Voting"
+   match="^Ask not what Lusternia can do for you\, but what you can do for Lusternia\! Vote now\!$"
+   name="vote3"
+   omit_from_output="y"
+   regexp="y"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Voting"
+   match="^Do you know of an easy way to help Lusternia\? By voting\! The more players we have\, the faster we can grow\.$"
+   name="vote4"
+   omit_from_output="y"
+   regexp="y"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Voting"
+   match="^Trader Bob says\, \&quot;The credit market prices are all my fault\! Vote for Lusternia if you want cheaper credits\!\&quot;$"
+   name="vote5"
+   omit_from_output="y"
+   regexp="y"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Voting"
+   match="^If you weren\'t cool\, you\'d let this pass you by without voting\. But you\'re cool\. Aren\'t you\? Vote Lusternia\.$"
+   name="vote6"
+   omit_from_output="y"
+   regexp="y"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Voting"
+   match="^Please take a moment to cast your vote for Lusternia\. Help us show that we\'re the number one MUD\!$"
+   name="vote7"
+   omit_from_output="y"
+   regexp="y"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Voting"
+   match="^Ever wonder what happened to some of the forgotten gods\? They didn\'t vote Lusternia\, so Estarra tossed Them into the void\. Don\'t let this happen to you\- vote Lusternia now\.$"
+   name="vote8"
+   omit_from_output="y"
+   regexp="y"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Voting"
+   match="^Do you really want to know what happened at the end of the Elder Wars\? Better get to voting for Lusternia\!$"
+   name="vote9"
+   omit_from_output="y"
+   regexp="y"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Voting"
+   match="^Experiencing a shortness of company\, you suddenly black out\. You quickly vote for Lusternia\. Your ability to play greatly improves as your world fills with friends once again\.$"
+   name="vote10"
+   omit_from_output="y"
+   regexp="y"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Voting"
+   match="^Spindle\, Skein and Bobbins are being paid to dawdle\. Make them work for their wages\! Vote Lusternia\!$"
+   name="vote11"
+   omit_from_output="y"
+   regexp="y"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Voting"
+   match="^If you haven\'t already\, please consider voting for Lusternia on TopMudSites\. This will help bring in new players and thus help our world grow\!$"
+   name="vote12"
+   omit_from_output="y"
+   regexp="y"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Voting"
+   match="^Current leaders not cutting it for you\? Help bring in more potential candidates by voting for Lusternia\.$"
+   name="vote13"
+   omit_from_output="y"
+   regexp="y"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Voting"
+   match="^Friends don\'t let friends play bad MUDs\, so vote for Lusternia and show them the way\.$"
+   name="vote14"
+   omit_from_output="y"
+   regexp="y"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Voting"
+   match="^Remember how pointless your life was before Lusternia\? Vote for Lusternia\, and help us bring others out from the cesspool known as \'real life\.\'$"
+   name="vote15"
+   omit_from_output="y"
+   regexp="y"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Voting"
+   match="^Every time you vote\, Kethuru loses a little piece of himself\.$"
+   name="vote16"
+   omit_from_output="y"
+   regexp="y"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Voting"
+   match="^Win a chance at a free cookie\, Vote for the Pastries\! I mean\, um\.\.\. Vote for Lusternia\. PS\. Power to the Pastries\!$"
+   name="vote17"
+   omit_from_output="y"
+   regexp="y"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Voting"
+   match="^If you don\'t vote right now\, the Soulless win\.$"
+   name="vote18"
+   omit_from_output="y"
+   regexp="y"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Voting"
+   match="^Vote for Lusternia to make all your dreams come true\! \(Disclaimer\: Only if your dreams involve more players enjoying Lusternia\.\)$"
+   name="vote19"
+   omit_from_output="y"
+   regexp="y"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Voting"
+   match="^VOTE LUSTERNIA or the furrikin gets it\!$"
+   name="vote20"
+   omit_from_output="y"
+   regexp="y"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Voting"
+   match="^Every time we lose a rank on Topmuds\, Fain kills a kitten\. Please\, think of the kittens\. And Vote for Lusternia\!$"
+   name="vote21"
+   omit_from_output="y"
+   regexp="y"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Voting"
+   match="^Vote here\: http\:\/\/www\.ironrealms\.com(?:.*)$"
+   name="votex"
+   omit_from_output="y"
+   regexp="y"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Voting"
+   match="^Thank you for your consideration\!$"
+   name="votey"
+   omit_from_output="y"
+   regexp="y"
+   sequence="100"
+  >
+  </trigger>
+</triggers>

@@ -1,0 +1,1348 @@
+<triggers>
+
+<!--Enemy-->
+   <trigger
+   custom_colour="17"
+   enabled="y"
+   expand_variables="y"
+   group="System_Ent"
+   keep_evaluating="y"
+   make_underline="y"
+   match="@system_target"
+   name="highlight_enemy"
+   regexp="y"
+   sequence="2"
+   other_text_colour="crimson"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Ent"
+   match="^You fail to muster enough power to move ([A-Z][a-z]+)\.$"
+   name="gust_failed"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>for i=1,3 do
+ColourTell ("deeppink", "", "GUST")
+ColourNote ("lightgrey", "", " %1 FAILED!")
+end</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Ent"
+   match="^A gust of wind rises to push [A-Z][a-z]+ out to the \w+\.$"
+   name="gust_success"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>for i=1,3 do
+ColourTell ("deeppink", "", "GUST")
+ColourNote ("white", "", " %1 SUCCESS")
+end</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Ent"
+   match="^You feel a slight tug within your chest and the air around you sparkles with motes of bright light\.$"
+   name="teleporting"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>for i=1,5 do
+display.warning ("Teleport")
+end--if
+prompt:add_alert ("teleport", "Teleport", 5)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Ent"
+   match="^You stumble as you feel invisible strands of force wrap around you\, followed by a high\-pitched thrum\.$"
+   name="summon_attempt"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>for i=1,5 do
+display.warning ("Summon")
+end
+prompt:add_alert ("summon", "Summon", 5)</send>
+  </trigger>
+  <trigger
+   custom_colour="17"
+   enabled="y"
+   expand_variables="y"
+   group="System_Ent"
+   keep_evaluating="y"
+   make_underline="y"
+   match="@!system_enemies"
+   name="highlight_enemies"
+   regexp="y"
+   repeat="y"
+   other_text_colour="orange"
+  >
+  </trigger>
+  
+<!--Enemy curing-->
+  <trigger
+   enabled="y"
+   expand_variables="y"
+   group="System_Ent"
+   match="^Pressing ([Hh]is|[Hh]her) hands together before (?:[Hh]im|[Hh]her)\, @system_target bows \1 head and an emerald glow suffuses the area around \1 chest\.$"
+   name="green_"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>display.mult ("lime", "", "GREEN")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Ent"
+   match="^[A-Z][a-z]+ recharges .+? from an energy cube\.$"
+   name="enemy_recharging"
+   omit_from_output="y"
+   regexp="y"
+   sequence="100"
+  >
+  </trigger>
+   <trigger
+   enabled="y"
+   expand_variables="y"
+   group="System_Ent"
+   match="^@system_target eats (.*)\.$"
+   name="herb_curing"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>local herbs={
+  ["a sparkleberry"] = "SPARKLIES",
+  ["a yarrow sprig"] = "YARROW",
+  ["a wormwood stem"] = "WORMWOOD",
+  ["a reishi mushroom"] = "REISHI",
+  ["a bunch of pennyroyal"] = "PENNYROYAL",
+  ["a bog myrtle leaf"] = "MYRTLE",
+  ["a sprig of marjoram"] = "MARJORAM",
+  ["kombu seaweed"] = "KOMBU",
+  ["a kafe bean"] = "KAFE",
+  ["a horehound blossom"] = "HOREHOUND",
+  ["a stem of galingale"] = "GALINGALE",
+  ["a stalk of faeleaf"] = "FAELEAF",
+  ["a piece of black earwort"] = "EARWORT",
+  ["a sprig of chervil"] = "CHERVIL",
+  ["a calamus root"] = "CALAMUS",
+}
+if herbs ["%1"] then
+	display.enemy (herbs ["%1"])
+else
+	ColourNote ("silver", "", "%0")
+end--if</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   expand_variables="y"
+   group="System_Ent"
+   match="^@system_target stands up and stretches (?:his|her) arms out wide\.$"
+   name="prone_curing"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>display.mult ("brown", "pink", "STANDING")
+display.mult ("brown", "pink", "STANDING")
+prompt:del_alert ("t_asleep", "T_asleep")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   expand_variables="y"
+   group="System_Ent"
+   match="^In a swift\, fluid motion\, @system_target springs up from (?:[Hh]er|[Hh]is) hands to land crouched on (?:[Hh]er|[Hh]is) feet\.$"
+   name="springup_curing"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>display.mult ("brown", "pink", "STANDING")
+display.mult ("brown", "pink", "STANDING")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   expand_variables="y"
+   group="System_Ent"
+   match="^@system_target kneels onto one knee\, demonstrating (?:[Hh]is|[Hh]er) humility and respect\.$"
+   name="kneeling"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>display.prone ()</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   expand_variables="y"
+   group="System_Ent"
+   match="@system_target(?:.*)? is here\, sprawled on the ground\."
+   name="sprawled"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>prompt:queue (function () display.prone () end, "sprawled")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   expand_variables="y"
+   group="System_Ent"
+   match="^@system_target closes (?:[Hh]er|[Hh]is) eyes\, curls up into a ball and falls asleep\.$"
+   name="sleeping"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>display.mult ("white", "red", "ASLEEP")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   expand_variables="y"
+   group="System_Ent"
+   match="^@system_target has writhed free of (?:[Hh]er|[Hh]is) (shackles|ropes|entanglement|vines)\.$"
+   name="ungrappled"
+	omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>display.enemy ("!!!==[[ %1 ]]==!!!")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   expand_variables="y"
+   group="System_Ent"
+   match="^@system_target mutters and clenches ([hH](?:is|er)) fists which begin to glow\. The glow spreads across \1 body and burns away the bonds that tie [hH](?:im|er)\.$"
+   name="enemy_summer"
+	omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>display.enemy ("!!!==[[ Summer ]]==!!!")</send>
+  </trigger>
+
+  <trigger
+   enabled="y"
+   expand_variables="y"
+   group="System_Ent"
+   lines_to_match="2"
+   match="^@system_target rubs .+? and it begins to glow with a pulsating light\.\nWarm water showers down upon ([Hh](?:im|er))\, and (?:[hH]e|[sS]he) scrubs .+? trying to wash away .+?\.$"
+   multi_line="y"
+   name="cleanse_curing"
+   regexp="y"
+	send_to="14"
+   sequence="100"
+  >
+  <send>display.mult ("pink", "", "-CLEANSE-")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   expand_variables="y"
+   group="System_Ent"
+   keep_evaluating="y"
+   match="^@system_target chews an arnica bud\, then spreads it on (?:[Hh]er|[Hh]is) (arms|legs|chest|gut|head)\.$"
+   name="arnica_curing"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>if "%1" == "head" then
+display.mult ("black", "yellow", "ARNICA")
+else
+display.enemy ("Arnica to "..string.upper ("%1"))
+end --if</send>
+  </trigger>
+    <trigger
+   enabled="y"
+   expand_variables="y"
+   group="System_Ent"
+   match="^@system_target takes some salve from a vial and rubs it on (?:[Hh]er|[Hh]is) (legs|arms|gut|chest|head)\.$"
+   name="salve_curing"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>display.enemy (string.upper ("%1"))</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   expand_variables="y"
+   group="System_Ent"
+   match="^@system_target takes a drink from (?:.*)\.$"
+   name="elixir_curing"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>display.enemy ("DRINKING")</send>
+  </trigger>
+  
+<!--Instas-->
+   <trigger
+   custom_colour="17"
+   enabled="y"
+   group="System_Ent"
+   match="^([A-Z][a-z]+) raises .*? over [hH](?:is|er) head and begins to swing it in a wide circle\, gaining speed as (?:[sS]h|[hH])e goes\.$"
+   name="instas_decap1"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+   other_text_colour="deeppink"
+  >
+  <send>for i=1,5 do
+display.warning ("%1 will DECAPITATE - Phase One")
+end--for
+prompt:add_alert ("decap1_%1", "Decap1 %1", 4, -1)</send>
+  </trigger>
+  <trigger
+   custom_colour="17"
+   enabled="y"
+   group="System_Ent"
+   match="^([A-Z][a-z]+) begins to bear down on you\, whirling .*?\.$"
+   name="instas_decap2"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+   other_text_colour="deeppink"
+  >
+  <send>for i=1,5 do
+display.warning ("%1 will DECAPITATE - WEB %1 or MOVE!")
+end
+prompt:add_alert ("decap2_%1", "Decap2 %1", 4, -1)</send>
+  </trigger>
+  
+<!--Dreamweaving-->
+  <trigger
+   enabled="y"
+   group="System_Ent"
+   match="^A terrifying nightmare invades your sleep\, of a gruesome monster slowly devouring you with sharpened fangs\. You cannot move as you are eaten alive\.$"
+   name="nightmare"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>display.warning("Dreamweaver attack!")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Ent"
+   match="^Your eyes droop and you cannot stop yourself from yawning\.$"
+   name="slumber"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>display.warning ("Dreamweaver attack!")</send>
+  </trigger>
+  <trigger
+   custom_colour="17"
+   enabled="y"
+   group="System_Ent"
+   match="^The white mist here washes over you in a wave of ghostly tendrils\.$"
+   name="sleepmist"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+   other_text_colour="deeppink"
+  >
+  <send>display.warning("Dreamweaver attack!")</send>
+  </trigger>
+  <trigger
+   custom_colour="17"
+   enabled="y"
+   group="System_Ent"
+   match="^A sudden urge to sleep is so strong that your knees buckle\.$"
+   name="surge"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+   other_text_colour="deeppink"
+  >
+  <send>display.warning("Dreamweaver attack!")</send>
+  </trigger>
+  
+<!--Aquamancy-->
+  <trigger
+   custom_colour="17"
+   enabled="n"
+   group="System_Ent"
+   match="^The block of ice around you begins to constrict\, and you are helpless as your flesh freezes over\.$"
+   name="aqpreservedead"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+   other_text_colour="deeppink"
+  >
+  <send>display.warning ("You're going to be PRESERVED!")</send>
+  </trigger>
+  
+<!--Geomancy-->
+  <trigger
+   enabled="y"
+   expand_variables="y"
+   group="System_Ent"
+   match="@system_target digs furiously at the ground and has soon burrowed out of sight\.$"
+   name="burrow"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>display.enemy ("Burrowed!")</send>
+  </trigger>
+  <trigger
+   custom_colour="17"
+   enabled="y"
+   group="System_Ent"
+   match="^([A-Z][a-z]+) points at the tainted earth beneath your feet\, snarling with a look of madness on (?:her|his) face\. The ground begins to tremble\.$"
+   name="chasm1"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+   other_text_colour="deeppink"
+  >
+  <send>for i=1,5 do
+display.enemy ("%1 is going for CHASM!")
+end
+prompt:add_alert ("chasm1_%1", "Chasm1 %1",4, -1)</send>
+  </trigger>
+  <trigger
+   custom_colour="17"
+   enabled="y"
+   group="System_Ent"
+   match="^([A-Z][a-z]+)\'s finger trembles and (?:she|he) bares (?:her|his) teeth in a hideous grimace\. A small crack appears in the ground beneath you\!$"
+   name="chasm2"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+   other_text_colour="deeppink"
+  >
+  <send>for i=1,5 do
+display.enemy ("%1 WILL CHASM")
+end
+prompt:add_alert ("chasm2_%1", "Chasm2 %1", 4, -1)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Ent"
+   match="^([A-Z][a-z]+) stomps on the ground and (?:[hH]er|[hH]is) eyes shine with an eerie red glow\.$"
+   name="geo_meld"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>display.enemy ("%1 melded Taint!")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Ent"
+   match="^The stinking gas creeps deep down your throat\, making you vomit violently\.$"
+   name="poison"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>display.warning ("Poison!")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Ent"
+   match="^([A-Z][a-z]+) releases (?:[hH]er|[hH]is) staff\, which hovers in the air before (?:[hH]er|[hH]is)\. (?:She|He) raises up (?:[hH]er|[hH]is) arms\, causing gouts of noxious black clouds to spew up from the ground and surround a twisted staff in a seething column\.$"
+   name="pollute1"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>display.enemy ("%1 Pollute FIRST!")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Ent"
+   match="^Small fissures open up in the tainted earth\, releasing toxic fumes that blacken the ground and pollute the air\.$"
+   name="pollute2"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>display.warning ("Pollute SECOND")</send>
+  </trigger>
+  <trigger
+   custom_colour="17"
+   enabled="y"
+   group="System_Ent"
+   match="^With a great rumble\, the small fissures on the ground widen to large cracks\, sending great gouts of poisonous clouds roiling and churning into the air\, making breathing difficult and your eyes water painfully\.$"
+   name="pollute3"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+   other_text_colour="deeppink"
+  >
+  <send>display.warning ("Pollute THIRD! Move, MOVE!")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Ent"
+   match="^The ground convulses and you are no longer able to see through the pitch black clouds that contaminate the air\. The stinking pollution coats your skin\, dissolving your flesh like acid\, and you choke upon the foul fumes that eat away at your lungs\.$"
+   name="pollute4"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>display.enemy ("Caster at 0 MANA, 0 POWER!")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Ent"
+   match="^Hundreds of stones rain down from above\, blocking the exits\.$"
+   name="stonerain"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>display.warning ("Stonerain!")</send>
+  </trigger>
+  <trigger
+   custom_colour="17"
+   enabled="y"
+   group="System_Ent"
+   match="^([A-Z][a-z]+) calls down a beam of brilliant light upon you\.$"
+   name="judgement1"
+   regexp="y"
+	send_to="12"
+   sequence="100"
+   other_text_colour="deeppink"
+  >
+  <send>for i=1,5 do
+display.warning ("%1 JUDGEMENT - Phase 1")
+end
+prompt:add_alert ("judge1_%1", "Judge_1 %1", 4, -1)</send>
+  </trigger>
+  <trigger
+   custom_colour="17"
+   enabled="y"
+   group="System_Ent"
+   match="^([A-Z][a-z]+) chants and a column of topaz light appears before (?:him|her)\. (?:He|She) points at you and the column of light obediently moves to envelop you\, a voice whispering in your mind that you will be judged\.$"
+   name="judgement2"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+   other_text_colour="deeppink"
+  >
+  <send>for i=1,5 do
+display.warning ("%1 JUDGEMENT - PHASE 2")
+end
+prompt:add_alert ("judge_2", "Judge_2 %1", 4, -1)</send>
+  </trigger>
+  <trigger
+   custom_colour="17"
+   enabled="y"
+   group="System_Ent"
+   match="^The column of topaz light that surrounds you brightens and intensifies\, as you feel the presence within your mind shuffle through your memories\, pulling out and laying all your past mistakes before you\.$"
+   name="judgement3"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+   other_text_colour="deeppink"
+  >
+  <send>for i=1,5 do
+display.warning ("It is DAY of JUDGEMENT")
+end
+prompt:add_alert ("judge_3", "Judge_3 %1", 4, -1)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   expand_variables="y"
+   group="System_Ent"
+   match="^@system_target closes [hH](?:is|er) eyes and clenches [hH](?:is|er) fists\, audibly grinding [hH](?:is|er) teeth\. A sparkling sheen briefly runs over [hH](?:is|er) skin\, and [hH](?:is|er) eyelids flicker open at lightning speed\.$"
+   name="quickening"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>for i=1,3 do
+display.enemy ("QUICKENING")
+end
+prompt:add_alert ("t_quick", "T_Quick", 12, -1)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Ent"
+   match="^([A-Z][a-z]+) moves in to engage you\.$"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>display.warning ("%1 ENGAGED!")
+prompt:add_alert ("%1_engaged", "%1 Engaged", 5)</send>
+  </trigger>
+    <trigger
+   enabled="y"
+   group="System_Ent"
+   match="^A beam of moonlight comes down from the sky and bathes (you|[A-Z][a-z]+) in light\.$"
+   name="moonbeaming"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>if "%1"=="you" then
+display.warning ("Someone Is MOONBEAMING To You")
+else
+display.mult ("black", "gold", "MOONBEAMING")
+end</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   expand_variables="y"
+   group="System_Ent"
+   match="^Shadows flock to @system_target(?:\, .*)?\, in a murky swirl\, swathing ([Hh]im|[Hh]er) with darkness\. Suddenly\, the darkness seeps into the ground\, taking \1 along\.$"
+   name="flight"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>display.mult ("yellow", "", "FLIGHT")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Ent"
+   match="^[A-Z][a-z]+ spreads ([Hh]er|[Hh]is) black wings and flaps madly, creating a foul windy squall that whips around \1\.$"
+   name="squall"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>EnableTrigger ("squalled_away", true)
+prompt:queue (function () EnableTrigger ("squalled_away", false) end, "squall")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Ent"
+   match="^The foul wind picks you up and hurls you to the (\w+)\.$"
+   name="squalled_away"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>display.warning ("Squalled "..string.upper ("%1"))
+display.warning ("Squalled "..string.upper ("%1"))</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Tracking"
+   match="^A blank look of meditation crosses ([A-Z][a-z]+)\'s eyes\, and suddenly an unflinching rage builds within their roaring depths\. The intensity of [hH](?:is|er) anger threatens to consume you as (?:[sS]h|[hH])e powerfully glides into a battle stance\.$"
+   name="bullrage"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>display.warning ("BULLRAGE - %1")
+prompt:add_alert ("bull_%1", "Bull %1", 30, -1)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   expand_variables="y"
+   group="System_Tracking"
+   match="^With a look of intense concentration, (@system_target)\'s fingers pluck at non\-existent objects in the air\, then stops and smiles with satisfaction\.$"
+   name="timeslip"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>display.enemy ("Timeslip - %1")
+prompt:add_alert ("timeslip_%1", "Timeslip %1", 12)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Tracking"
+   match="^Dipping [hH](?:is|er) hand into a shadow cauldron\, ([A-Z][a-z]+) pulls out a long shadow and releases it into the air\. The room darkens with the churning darkness\.$"
+   name="night_shadows"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>display.warning ("%1 released SHADOWS!")
+display.warning ("%1 released SHADOWS!")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Tracking"
+   match="^The lyrical sound invokes a strange longing for ([A-Z][a-z]+)\.$"
+   name="music_pfifth"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>for i=1,3 do
+ColourTell ("crimson", "yellow", "PFIFTH ")
+ColourNote ("white", "", " - %1")
+end --if
+offense:set_caster ("%1", "pfifth")
+prompt:add_alert ("pf_%1", "PF %1", 5)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Ent"
+   match="^([A-Z][a-z]+) rubs a tarot card on your arm\. A cold jolt travels through your being\.$"
+   name="soulless_setup"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>soulless = soulless or {}
+soulless ["%1"] = (soulless ["%1"] or 0)+1
+if soulless ["%1"] == 7 then
+	for i=1,5 do
+		display.warning ("Soulless Coming")
+	end --for
+	prompt:add_alert ("soullesscoming_%1", "Soulless Coming", 3)
+	prompt:del_alert ("soullessrubs_%1")
+else
+	display.system ("%1 has "..tostring (soulless ["%1"]).." rubs")
+	prompt:add_alert ("soullessrubs_%1", "%1 "..tostring (soulless ["%1"]).." rubs", 3)
+end--if </send>
+  </trigger>
+  <trigger
+   custom_colour="17"
+   enabled="y"
+   group="System_Ent"
+   match="^([A-Z][a-z]+) flings a tarot card at you and upon impact\, it disappears\. An ominous silence overtakes your surroundings\.$"
+   name="soulless_flung"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+   other_text_colour="deeppink"
+  >
+  <send>for i=1, 5 do
+display.warning ("SOULLESS - Run, run, run, run!")
+end
+prompt:add_alert ("soulless_%1", "Soulless %1", 8, -1)
+soulless ["%1"] = nil</send>
+  </trigger>
+  <trigger
+   custom_colour="17"
+   enabled="y"
+   group="System_Tracking"
+   match="^\&quot;.+?\&quot; sings ([A-Z][a-z]+)\, (?:somber notes tumbling out of .+?|as .+? plays deep\, dark melodies|tragically playing .+? with a mournful thrum|while .+? lets loose with screaming melodies)\, and (?:[sS]h|[hH])e looks directly at you\.$"
+   name="deathsong1"
+   regexp="y"
+   send_to="12"
+   sequence="10"
+   other_text_colour="deeppink"
+  >
+  <send>for i=1,5 do
+display.warning ("Deathsong - Stage One - %1 - EAT EARWORT, RUB FEAR, OR GET OUT!")
+end
+prompt:add_alert ("dsong1_%1", "DSong1 %1" 4, -1)</send>
+  </trigger>
+  <trigger
+   custom_colour="17"
+   enabled="y"
+   group="System_Tracking"
+   match="^(?:Clasping [hH](?:is|er) hands to [hH](?:is|er) breast\, ([A-Z][a-z]+) sings to you\, wishing you well on your journey to the Halls of the Fates\. A white light surrounds [hH](?:im|er) as the voices of an angelic choir join [hH](?:is|er) in this somber hymn|The throat of ([A-Z][a-z]+) undulates and warbles as (?:[sS]h|[hH])e continues to maintain the moaning note of [hH](?:is|er) song\. Ominous black shadows rise out of the ground\, slowly circling around you|Sweat breaks out on ([A-Z][a-z]+)'s forehead, as (?:[sS]h|[hH])e continues to maintain the screaming note of [hH](?:is|er) song\. Ghostly spiked bands materialize around you\, which slowly begin to spin and screech like rusty iron cogs|([A-Z][a-z]+)\'s eyes roll up in [hH](?:is|er) head\, as (?:[sS]h|[hH])e sings a throbbing note\. Unseen drums begin to beat and invisible spirits begin to chant\, as mists rise up from the ground and swirl around you)\.$"
+   name="deathsong2"
+   regexp="y"
+   send_to="12"
+   sequence="10"
+   other_text_colour="deeppink"
+  >
+  <send>local name = ""
+if #"%1" &gt; 0 then
+  name = "%1"
+elseif #"%2" &gt; 0 then
+  name = "%2"
+elseif #"%3" &gt; 0 then
+  name = "%3"
+elseif #"%4" &gt; 0 then
+  name = "%4"
+end
+for i=1,5 do
+display.warning ("Deathsong - Stage Two - " .. name .. " - EAT EARWORT, RUB FEAR, OR GET OUT!")
+end
+prompt:add_alert ("dsong2_"..name, "DSong2 "..name, 4, -1)
+system:set_auto ("truehearing", 1, "silent")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Tracking"
+   match="^Eyes flashing with anger\, [A-Z][a-z]+ points a finger imperiously at you and utters a series of guttural croaks\. A strange thrumming fills your stomach\, and you watch in horror as warts break out over your skin which then turns green and slimy\. The world seems to suddenly become much larger\.\.\.or are you becoming smaller\? Hmm\, why do you have a sudden craving for flies\?$"
+   name="toadcurse"
+   regexp="y"
+   send_to="12"
+   sequence="10"
+  >
+  <send>display.warning ("Toadcurse - GET OUT NOW!")
+defs:reset()
+affs:reset()
+wounds:reset()
+if not system:is_on () then
+  flags:add_check ("toad")
+  system:off ()
+end
+prompt:add_alert ("toad", "Toad", 1000)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Tracking"
+   match="^With a sudden lurch\, the world around you becomes a blur as your body stretches and lengthens into its familiar .+? shape\. Your time as a toad has ended\, though the troublesome craving for flies lingers\.$"
+   name="untoaded"
+   regexp="y"
+   send_to="12"
+   sequence="10"
+  >
+  <send>display.system("Not a Toad!")
+display.free ()
+if flags:get_check ("toad") then
+  system:on ()
+  flags:del_check ("toad")
+end
+prompt:del_alert ("toad")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Tracking"
+   match="^Slowly turning in a circle\,? ([A-Z][a-z]+) stretches out [hH](?:is|er) hands\. As (?:[hH]|[sS]h)e completes a revolution\, you notice bright flashes of light out of the corners of your eyes\.$"
+   name="ill_reality1"
+   regexp="y"
+   send_to="12"
+   sequence="10"
+  >
+  <send>display.warning (string.upper("%1") .. " Altered Reality!")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   expand_variables="y"
+   group="System_Offense"
+   match="^Suddenly @system_target\'s movements through the time stream are slowed\.$"
+   name="target_aeoned_someoneelse"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>for i=1,2 do
+  display.enemy ("Aeon")
+end</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   expand_variables="y"
+   group="System_Offense"
+   match="^@system_target\'s eyes close suddenly as (?:[hH]e|[Ss]he) falls asleep\.$"
+   name="falling_asleep"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>for i=1,2 do
+  display.enemy ("Asleep")
+end
+prompt:add_alert ("t_asleep", "T_asleep", 4)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   expand_variables="y"
+   group="System_Ent"
+   match="^@system_target disappears in a blur of motion\.$"
+   name="target_starleaper"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>for i=1,3 do
+display.enemy ("Starleaper")
+end
+prompt:add_alert ("starleaper_"..GetVariable ("system_target"), "Starleaper", 3)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Tracking"
+   match="^(?:An icewall rises up|[A-Z][a-z]+ raises [hH](?:is|er) hands dramatically\, and summons an icewall) to the (\w+)\.$"
+   name="trapped_icewall"
+   regexp="y"
+   send_to="12"
+   sequence="10"
+  >
+  <send>display.system ("Icewalled - " .. string.upper("%1"))</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Tracking"
+   lines_to_match="2"
+   match="^[A-Z][a-z]+ faces (\w+) and sharply claps [hH](?:is|er) hands together\, the sound of which is like two bricks being slammed against each other\.\nThe earth erupts and pushes up a massive wall of stone\.$"
+   multi_line="y"
+   name="trapped_stonewall"
+   regexp="y"
+   send_to="12"
+   sequence="10"
+  >
+  <send>display.system ("Stonewalled - " .. string.upper("%1"))</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Tracking"
+   match="^Tentacles whip out from the torso of [A-Z][a-z]+\, blocking the exit to the (.+?)\.$"
+   name="trapped_torso"
+   regexp="y"
+   send_to="12"
+   sequence="10"
+  >
+  <send>display.system ("Torso - " .. string.upper("%1"))</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Tracking"
+   match="^The earth erupts and pushes up a massive wall of stone\.$"
+   name="trapped_stonewall2"
+   regexp="y"
+   send_to="12"
+   sequence="20"
+  >
+  <send>display.warning ("Stonewall!")
+display.warning ("Stonewall!")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   expand_variables="y"
+   group="System_Tracking"
+   match="^@system_target suddenly starts scratching at an itch like mad\.$"
+   name="itching_"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>ColourNote ("yellow", "", "	    _   ")
+ColourNote ("yellow", "", "	  _| |_ ")
+ColourNote ("yellow", "", "	 |_   _|")
+ColourNote ("yellow", "", "	   |_|  ")
+Note ()
+display.enemy ("itching")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   expand_variables="y"
+   group="System_Tracking"
+   match="^The (right arm|left arm|right leg|left leg) of @system_target suddenly stills and colour drains from it\.$"
+   name="rigormortis_"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>display.enemy ("broken %1")
+ColourNote ("deeppink", "", " ______  ")
+ColourNote ("deeppink", "", "| |  | \\ ")
+ColourNote ("deeppink", "", "| |--| &lt; ")
+ColourNote ("deeppink", "", "|_|__|_/") 
+Note ("")
+display.enemy ("broken %1")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   expand_variables="y"
+   group="System_Tracking"
+   match="^@system_target crackles with blue energy that wreathes itself about (?:[Hh]is|[Hh]er) limbs\.$"
+   name="restore_"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>for i=1,2 do
+display.enemy ("restoring")
+end</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   expand_variables="y"
+   group="System_Tracking"
+   match="^@system_target\'s legs collapse under (?:[Hh]im|[Hh]er) as (?:[Hh]e|[Ss]he) suddenly passes out\.$"
+   name="unconscious_"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>for i=1,2 do
+display.enemy ("Unconscious - The Void Awaits")
+end
+prompt:add_alert ("unconscious", "Unconscious", 8)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   expand_variables="y"
+   group="System_Tracking"
+   match="^@system_target regains consciousness with a start\.$"
+   name="conscious_"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>for i=1,2 do
+display.enemy ("Conscious")
+end
+prompt:del_alert ("unconscious")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   expand_variables="y"
+   group="System_Tracking"
+   match="^@system_target (?:prepares|begins) to (?:tumble|roll|somersault) to(?:wards)? the (\w+)\.$"
+   name="tumbling_"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>for i=1,2 do
+display.enemy ("Tumble %1")
+end
+prompt:add_alert ("tumble", "Tumble %1", 6)</send>
+  </trigger>
+  <trigger
+   custom_colour="17"
+   enabled="y"
+   group="System_Tracking"
+   match="^A wall blocks your way\.$"
+   name="trapped_wall"
+   regexp="y"
+   send_to="12"
+   sequence="10"
+   other_text_colour="deeppink"
+  >
+  <send>display.system ("Wall in the way!")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Tracking"
+   match="(?:An icewall|A stonewall) is here\, blocking passage to the (\w+)\."
+   name="look_wall"
+   regexp="y"
+   repeat="y"
+   send_to="12"
+   sequence="10"
+  >
+  <send>prompt:queue (function () display.system ("Wall - "..string.upper ("%1")) end,"wall_%1")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Tracking"
+   match="There are (\d+) large walls of ice here\."
+   name="look_icewalls"
+   regexp="y"
+   repeat="y"
+   send_to="12"
+   sequence="10"
+  >
+  <send>prompt:queue (function () display.system ("Icewalls - %1") end,"walls_%1")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   keep_evaluating="y"
+   group="System_Tracking"
+   match="A pile of rubble lies here\, blocking the way (\w+)\..+"
+   name="look_rubble"
+   regexp="y"
+   send_to="12"
+   sequence="1"
+  >
+  <send>prompt:queue (function ()
+	local blocked = {}
+	local to_display = ""
+	for w in string.gmatch ("%0", "blocking the way %a+") do
+		local dir = string.sub (w, 18)
+		blocked [dir]=true
+		to_display=to_display..", "..dir
+	end
+	to_display=string.sub (to_display, 3)
+	display.system ("Rubble - "..to_display)
+	local to_check = {}
+	if next (system ["exits"]) then
+		for k, e in ipairs (system ["exits"]) do
+			e=string.sub (e, 1,string.find(e, " ")-1)
+			to_check [e] = true
+			if blocked [e] or e == "down" or e =="up" then
+				to_check [e]=nil
+			end--if
+		end--for
+	end--if
+	if not next (to_check) then
+		display.warning ("EXITS BLOCKED")
+		prompt:add_alert ("exits_blocked", "ExitBlock", 5)
+	end--if
+end, "look_rubble")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Tracking"
+   match="^([A-Z][a-z]+) begins to chant and raises [hH](?:is|er) arms\. Shafts of blue light rise up around the location\, like the bars of a prison\."
+   name="enemy_carcer"
+   regexp="y"
+   send_to="12"
+   sequence="10"
+  >
+  <send>prompt:queue (function () display.system ("Carcer") end, "look_carcer")
+prompt:add_alert ("carcer", "Carcer", 10)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Tracking"
+   match="^Shafts of blue light form crisscrossing patterns here\."
+   name="look_carcer"
+   regexp="y"
+   send_to="12"
+   sequence="10"
+  >
+  <send>prompt:queue (function () display.system ("Carcer") end, "look_carcer")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Tracking"
+   match="The shadows have been gathered here\."
+   name="look_shadows"
+   regexp="y"
+   send_to="12"
+   sequence="10"
+  >
+  <send>prompt:queue (function () display.system ("Shadows Released") end,"look_shadows")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Tracking"
+   match="Looming high into the air\, tendrils of darkness form an ominous black tower of shadows\."
+   name="look_broomtower"
+   regexp="y"
+   send_to="12"
+   sequence="10"
+  >
+  <send>prompt:queue (function () display.system ("Broomtower - NO TREES") end,"look_broomtower")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Tracking"
+   match="A sickly black cloud of filth pollutes the air\, buzzing with bloated green flies\."
+   name="look_contagion"
+   regexp="y"
+   send_to="12"
+   sequence="10"
+  >
+  <send>prompt:queue (function () display.system ("Contagion") end, "look_contagion")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Tracking"
+   match="A look of complete concentration and menace glitters in ([A-Z][a-z]+)\'s eyes\."
+   name="look_contagion"
+   regexp="y"
+   send_to="12"
+   sequence="10"
+  >
+  <send>for i=1,3 do
+display.enemy ("Puissance - %1")
+end
+prompt:add_alert ("puissance_%1", "Puissance %1", 5)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Tracking"
+   match="[A-Z][a-z]+ begins to chant in a deep and baleful voice\, and an iron cross rises up from the ground before ([A-Z][a-z]+)\. Vicious spikes slam into ([hH](?:er|is)) flesh and nail \2 to the cross\. (?:Sh|H)e screams in pain and agony as blood is splattered in all directions\."
+   name="enemy_crucified1"
+   regexp="y"
+	omit_from_output="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>for i=1,2 do
+display.success ("Crucified", "%1")
+end</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Tracking"
+   match="([A-Z][a-z]+) bleeds like a stuck pig upon the iron cross\."
+   name="enemy_crucified2"
+   regexp="y"
+	omit_from_output="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>for i=1,2 do
+display.success ("Crucified", "%1")
+end</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Tracking"
+   match="With a look of agony on her face\, ([A-Z][a-z]+) manages to writhe [hH](?:er|im)self free of the cross\."
+   name="enemy_uncrucified"
+   regexp="y"
+	omit_from_output="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>for i=1,2 do
+display.success ("UnCrux", "%1")
+end</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Tracking"
+   match="([A-Z][a-z]+) moves over to block the (\w+) exit\."
+   name="track_warrior_block"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>local dirs = {
+["north"] = "N",
+["south"] = "S",
+["east"] = "E",
+["west"] = "W",
+["in"] = "IN",
+["out"] = "OUT",
+["northeast"] = "NE",
+["northwest"] = "NW",
+["southeast"] = "SE",
+["southwest"] = "SW",
+["up"] = "UP",
+["down"] = "DOWN",}
+for i=1,2 do
+display.system ("Block "..dirs ["%2"]..", by %1")end</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Tracking"
+   match="([A-Z][a-z]+) stops you from moving that way\."
+   name="track_warriorblocking"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>for i=1,2 do
+display.system ("BLOCKED , by %1")end</send>
+  </trigger>
+  
+<!-- ENEMY ADDING/REMOVING -->
+  <trigger
+   custom_colour="11"
+   enabled="y"
+   expand_variables="y"
+   group="System_Tracking"
+   keep_evaluating="y"
+   make_underline="y"
+   match="@!highlight_enemy_list"
+   name="highlight_enemy_list"
+   regexp="y"
+   repeat="y"
+   sequence="2"
+  >
+  </trigger>
+  <trigger
+   custom_colour="11"
+   enabled="y"
+   expand_variables="y"
+   group="System_Tracking"
+   keep_evaluating="y"
+   match="@!highlight_enemies"
+   name="highlight_enemies"
+   regexp="y"
+   repeat="y"
+   sequence="2"
+  >
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Tracking"
+   lines_to_match="2"
+   keep_evaluating="y"
+   match="^([A-Z][a-z]+(\, .+?)?)\.\n\(\*\) Currently\, there are \d+ Lusternians on this Plane(.+?)?\.$"
+   multi_line="y"
+   name="qw_getenemy"
+   regexp="y"
+   repeat="y"
+   send_to="12"
+   sequence="1"
+  >
+  <send>for n in string.gmatch ("%1", "%a+") do
+	if adven:is_enemy (n) then
+		table.insert (adven.to_enemy, n)
+	end--if
+end--for
+adven:enemied (nil, true)
+EnableTrigger ("qw_getenemy", false)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Tracking"
+   match="Tilting back your head and closing your eyes\, you concentrate upon the sensory web of veins on your neck and face\, and search out vibrations in the local area\. You sense the following minds\:"
+   name="start_mindsense"
+   regexp="y"
+   send_to="12"
+   sequence="10"
+  >
+  <send>EnableTrigger ("start_mindsense", false)
+EnableTrigger ("mindsense_getenemy", true)
+prompt:queue (function () 
+	EnableTrigger ("mindsense_getenemy", false) 
+	adven:enemied (nil, true)
+end, "start_mindsense")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Tracking"
+   match="^\* ([A-Z][a-z]+)\.$"
+   name="mindsense_getenemy"
+   regexp="y"
+   send_to="12"
+   sequence="10"
+  >
+  <send>if adven:is_enemy ("%1") then
+	table.insert (adven.to_enemy, "%1")
+end--if</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Tracking"
+   match="You snort and snuffle at the air\, sensing through .+? the faint traces of others in the surrounding area\."
+   name="start_scent"
+   regexp="y"
+   send_to="12"
+   sequence="10"
+  >
+  <send>EnableTrigger ("start_scent", false)
+EnableTrigger ("scent_getenemy", true)
+prompt:queue (function () 
+	EnableTrigger ("scent_getenemy", false) 
+	adven:enemied (nil, true)
+end, "start_mindsense")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Tracking"
+   match="^You make out the scent of ([A-Z][a-z]+) coming from .+?\.$"
+   name="scent_getenemy"
+   regexp="y"
+   send_to="12"
+   sequence="10"
+  >
+  <send>if adven:is_enemy ("%1") then
+	table.insert (adven.to_enemy, "%1")
+end--if</send>
+  </trigger>
+</triggers>

@@ -1,0 +1,6737 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE muclient>
+<!-- Saved on Thursday, May 20, 2010, 11:24 PM -->
+<!-- MuClient version 4.51 -->
+<!-- Written by Nick Gammon -->
+<!-- Home Page: http://www.mushclient.com/ -->
+<muclient>
+
+<!-- triggers -->
+
+<triggers
+   muclient_version="4.51"
+   world_file_version="15"
+   date_saved="2010-05-20 23:24:32"
+  >
+  <trigger
+   enabled="y"
+   lines_to_match="2"
+   match="^([A-Z][a-z]+) mutters and traces a cobalt blue pentagram in the air that remains hovering before (?:him|her)\.$"
+   regexp="y"
+   script="highlight_rebound"
+   send_to="12"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Ninjakari"
+   match="^(?:.*) wraps tightly round your gut\, crushing your stomach and bringing up its contents in a flood of blood\-flecked vomit\.$"
+   name="nin_ninombhi_vomiting"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>if (ruptures.gut &gt;= 1) then
+&#9;add_vomiting ()
+end --if</send>
+  </trigger>
+  <trigger
+   group="System_Parry_Check"
+   match="^(?:.*)(Head|Chest|Gut|Lleg|Rleg|Larm|Rarm)\:(?:\s+)(\d+)"
+   name="parrying_head"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>amnt = "%2"
+if
+amnt == "0"
+then
+amnt = nil
+end --if
+parry:set ("%1", amnt, "silent")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Telekinesis"
+   match="^(?:.*)dagger(?:.*)floats around you\, then dives at you\.$\n^It painfully stabs you\!$"
+   name="tel_dagger"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>g_cond {"Poisons"}</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Runes"
+   match="^(?:A|An) (\w+) rune and (?:an|a) (\w+) rune whiz in from the \w+ and hit you in the chest\.$"
+   name="ru_doublesling_room"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>if (runes["%1"]) then
+&#9;_G['add_'..runes["%1"]] ()
+end --if
+if (runes["%2"]) then
+&#9;_G['add_'..runes["%2"]] ()
+end --if</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Runes"
+   match="^(?:A|An) (\w+) rune whizzes in from the \w+ and hits you in the chest\.$"
+   name="ru_hitting_room"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>if (runes["%1"]) then
+&#9;_G['add_'..runes["%1"]] ()
+end --if</send>
+  </trigger>
+  <trigger
+   group="Tracking"
+   lines_to_match="2"
+   match="^([A-Z].*)\.$\n^(?:.*)(?:You see exits leading .*|You see no obvious exits|You see a single exit .*|A duststorm obscures your vision)\.$"
+   multi_line="y"
+   name="pit_roomdesc3"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>s, e = string.find ("%1", "In a pit at ")
+if (s ~= 1) then
+&#9;cured_pit ()
+end --if</send>
+  </trigger>
+  <trigger
+   group="Tracking"
+   lines_to_match="3"
+   match="^([A-Z].*)\.\n(?:.*)\n(?:You see exits leading .*|You see no obvious exits|You see a single exit .*|A duststorm obscures your vision)\.$"
+   multi_line="y"
+   name="pit_roomdesc1"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>s, e = string.find ("%1", "In a pit at ")
+if (s ~= 1) then
+&#9;cured_pit ()
+end --if</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Sacraments"
+   match="^([A-Z][a-z]+) calls down a beam of brilliant light upon you\. $"
+   name="sa_judgement1"
+   regexp="y"
+   script="judgement"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Sacraments"
+   match="^([A-Z][a-z]+) chants and a column of topaz light appears before (?:him|her)\. (?:He|She) points at you and the column of light obediently moves to envelop you\, a voice whispering in your mind that you will be judged\.$"
+   name="sa_judgement2"
+   regexp="y"
+   script="judgement"
+   send_to="12"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   match="^([A-Z][a-z]+) charges in from the \w+ and slams into you\.$"
+   name="at_charge"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>cond ({"charge_carried"})</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Cosmic"
+   lines_to_match="3"
+   match="^([A-Z][a-z]+) closes (?:his|her) eyes and clenches (?:his|her) fists\, audibly grinding (?:his|her) teeth\. A sparkling sheen briefly runs over (?:his|her) skin\, and (?:his|her) eyelids flicker open at lightning speed\.$"
+   name="c_quickening"
+   regexp="y"
+   script="quickening"
+   send_to="12"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Geomancy"
+   match="^([A-Z][a-z]+) digs furiously at the ground and has soon burrowed out of sight\.$"
+   name="geo_burrow"
+   omit_from_output="y"
+   regexp="y"
+   script="geo_burrow"
+   send_to="14"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Night"
+   match="^([A-Z][a-z]+) dips (?:his|her) hands into the surging shadows around (?:him|her), which ripple up (?:his|her) arms\.$"
+   name="ni_drink"
+   regexp="y"
+   script="ni_drink"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   match="^([A-Z][a-z]+) disappears in a blur of motion\.$"
+   name="t_starleaper"
+   omit_from_output="y"
+   regexp="y"
+   script="starleaper"
+   send_to="14"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Shofangi"
+   match="^([A-Z][a-z]+) drives towards your wrists with (?:.*)\, attempting to disarm your (?:right arm|left arm)\.$"
+   name="shof_disarm"
+   regexp="y"
+   sequence="100"
+  >
+  <send>if (c_def.grip == nil) then
+&#9;cond ({"disarm_success"})
+end --if
+g_cond ("Poisons")
+c_weapon = "shofa"</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Gag"
+   match="^([A-Z][a-z]+) eats (.*)\.$"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>if ("%1" == GetVariable ("target")) then
+&#9;ColourNote ("white", "", "%0")
+else
+&#9;ColourNote ("silver", "", "%0")
+end --if</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Kata.Mods"
+   match="^([A-Z][a-z]+) firmly holds you in place with an iron\-strong grip\.$"
+   name="kata_hold"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>add_grappled ("", "", {"%1", "leftarm"})</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Tarot"
+   match="^([A-Z][a-z]+) flings a tarot card at you and upon impact\, it disappears\.  An ominous silence overtakes your surroundings\.$"
+   name="t_soulless"
+   regexp="y"
+   script="soulless"
+   send_to="12"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Tarot"
+   match="^([A-Z][a-z]+) flings a tarot card upon the ground\, and an image of Shanth of the Quiet Mind rises up\, circling around ([A-Z][a-z]+) so fast that Shanth becomes nothing but a blur\. (?:His|Her) speed becomes so great that even the blur fades from sigh\.$"
+   name="t_starleaper_setup"
+   omit_from_output="y"
+   regexp="y"
+   script="starleaper"
+   send_to="14"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   match="^([A-Z][a-z]+) glances briefly downwards and dashes off into the distance\.$"
+   name="at_sprinted"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>syswarn ("%1 sprinted")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Shofangi"
+   match="^([A-Z][a-z]+) impales (?:.*) deep into your (gut)\, which spills forth blood\.$"
+   name="shof_tomati"
+   regexp="y"
+   script="add_grappled"
+   send_to="12"
+   sequence="100"
+  >
+  <send>wounds.gut = wounds.gut or 0
+wounds.gut = wounds.gut + tonumber (GetVariable ("mwounds"))/2
+g_cond ("Poisons")
+c_weapon = "shofa"</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Stag"
+   match="^([A-Z][a-z]+) lifts (?:[Hh]er|[Hh]is) golden antlers high\, which begin to glow\, and parades before you\. You hypnotically watch the swaying of the antlers\.$"
+   name="st_parade"
+   regexp="y"
+   script="lust"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Kata.Mods"
+   match="^([A-Z][a-z]+) locks your (head|right leg|left leg|right arm|left arm|gut|chest) in a solid grapple\.$"
+   name="kata_lock"
+   regexp="y"
+   script="add_grappled"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   match="^([A-Z][a-z]+) moves in to engage you\.$"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>sysinfo ("%1")
+syswarn ("engaged")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   match="^([A-Z][a-z]+) moves over to block the (up|down|in|out|east|west|north|south|northeast|nortwest|southeast|southwest) exit\.$"
+   name="at_block"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>syswarn ("%1 blocked the exit %2 !!!")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   expand_variables="y"
+   group="Music"
+   lines_to_match="2"
+   match="^([A-Z][a-z]+) plays (?:.*) and directs the exquisite notes towards you\.$\n^The lyrical sound invokes a strange longing for %1\.$"
+   multi_line="y"
+   name="mu_perfectfifth"
+   regexp="y"
+   script="add_attraction"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Geomancy"
+   match="^([A-Z][a-z]+) points at the tainted earth beneath your feet\, snarling with a look of madness on (?:her|his) face\. The ground begins to tremble\.$"
+   name="geo_chasm1"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>ColourNote ("red", "", "%1 %1 %1 %1 %1 %1 %1 %1 %1")
+ColourNote ("aqua", "", "CHASM CHASM CHASM CHASM CHASM CHASM CHASM CHASM CHASM CHASM CHASM")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Tarot"
+   match="^([A-Z][a-z]+) quickly flings a tarot card at you\, and you feel unreasonable lust for him\.$"
+   name="t_lust"
+   regexp="y"
+   script="lust"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Moon"
+   match="^([A-Z][a-z]+) raises (?:his|her) arms and dances around you\, spinning faster and faster\. With each pass around you\, s?he shines with a silver light and your thoughts become cloudier and cloudier\.$"
+   name="mo_moon_lashed"
+   omit_from_output="y"
+   regexp="y"
+   script="moon_lashed"
+   send_to="14"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Cosmic"
+   match="^([A-Z][a-z]+) raises (?:his|her) hands and a scintillating shower of cosmic energy fountains up around you\, purifying your spirit\.$"
+   name="c_soulwash"
+   omit_from_output="y"
+   regexp="y"
+   script="soulwash"
+   send_to="14"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Tarot"
+   match="^([A-Z][a-z]+) releases a tarot card and as it drops slowly to the earth\, it bathes you in a muted blue light\.$"
+   name="t_magician"
+   omit_from_output="y"
+   regexp="y"
+   script="t_magician"
+   send_to="14"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Tarot"
+   match="^([A-Z][a-z]+) releases the Healer tarot\, which rises up and forms the image of Dionamus\. The image turns into a golden sun that basks you in its radiant healing rays\.$"
+   name="t_healer"
+   omit_from_output="y"
+   regexp="y"
+   script="t_healer"
+   send_to="14"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Tarot"
+   match="^([A-Z][a-z]+) rubs a tarot card on your arm. A cold jolt travels through your being\.$"
+   name="t_soulless_setup"
+   regexp="y"
+   script="soulless"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Rituals"
+   match="^([A-Z][a-z]+) shakes (?:his|her) head and glares about hatefully\.$"
+   name="ri_rubeus"
+   regexp="y"
+   script="rubeus"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Rituals"
+   match="^([A-Z][a-z]+) softly chants into your ear\, and you are magnetically pulled towards (?:him|her)\.$"
+   name="ri_conjunctio"
+   regexp="y"
+   script="conjuctio"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Night"
+   match="^([A-Z][a-z]+) spins about in a circle\, and a thick shadowy blanket descends (?:his|her) feet\.$"
+   name="ni_choke"
+   regexp="y"
+   script="choke"
+   send_to="12"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Aquamancy"
+   match="^([A-Z][a-z]+) spins slowly around in a circle and water bubbles up from the ground\, flooding the area\.$"
+   name="aq_flood"
+   regexp="y"
+   script="aq_flood"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   match="^([A-Z][a-z]+) steps in your way while lashing out at you\.$"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>g_cond ("Poisons")
+sysinfo ("%1")
+syswarn ("engage - stopped !")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Geomancy"
+   match="^([A-Z][a-z]+) stomps on the ground and (?:[hH]er|[hH]is) eyes shine with an eerie red glow\.$"
+   name="geo_meld"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>syswarn ("taint meld! taint taint taint meld meld meld meld")
+ColourNote ("red", "aqua", "%1 %1 %1 %1 %1 %1 %1 %1 %1")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Sacraments"
+   match="^([A-Z][a-z]+) stretches (?:his|her) arms out to either side and drops (?:his|her) head back with (?:his|her) eyes closed\. A blinding white light strikes (?:him|her) on the forehead and travels to (?:his|her) feet\, lifting (?:him|her) off the ground\. As (?:he|she) slowly turns\, all (?:his|her) wounds heal\.$"
+   name="sa_trueheal"
+   regexp="y"
+   script="trueheal"
+   send_to="12"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Kata.Mods"
+   match="^([A-Z][a-z]+) swiftly grabs you and hurls you forcefully to the ground\.$"
+   name="kata_throw"
+   regexp="y"
+   script="cured_grappled"
+   send_to="12"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Athletics"
+   lines_to_match="2"
+   match="^([A-Z][a-z]+) tackles your legs and attempts to carry you off to the (up|down|in|out|east|west|north|south|northeast|nortwest|southeast|southwest)\.\n^(?:He|She) succeeds and carries you\, knocking you to the ground\.$"
+   multi_line="y"
+   name="at_tackled"
+   regexp="y"
+   script="at_tackled"
+   send_to="12"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Gag"
+   match="^([A-Z][a-z]+) takes a drink from (?:.*)\.$"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>if ("%1" == GetVariable ("target")) then
+&#9;ColourNote ("white", "", "%0")
+else
+&#9;ColourNote ("silver", "", "%0")
+end --if</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Shofangi"
+   match="^([A-Z][a-z]+) twists (?:.*) painfully deeper into you\, ripping them apart with an elegant whirl\.$"
+   name="shof_kumato"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>g_cond ("Poisons")
+c_weapon = "shofa"
+attacker = "%1"
+cond ({"kumato_throw"})</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Shofangi"
+   match="^([A-Z][a-z]+) twists your (right arm|left arm) with (?:.*) pinning it tightly\.$"
+   name="shof_logami"
+   regexp="y"
+   script="add_grappled"
+   send_to="12"
+   sequence="100"
+  >
+  <send>aux = "%2"
+if (string.find (aux, " ")) then
+&#9;s, e, v1, v2 = string.find (aux, "(%a+) (%a+)")
+&#9;aux = v1..v2
+end --if
+wounds [aux] = wounds [aux] or 0
+wounds [aux] = wounds [aux] + tonumber (GetVariable ("mwounds"))/2
+g_cond ("Poisons")
+c_weapon = "shofa"</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Shofangi"
+   match="^([A-Z][a-z]+) twists your (right leg|left leg) with (?:.*) locking it up\.$"
+   name="shof_bogami"
+   regexp="y"
+   script="add_grappled"
+   send_to="12"
+   sequence="100"
+  >
+  <send>aux = "%2"
+if (string.find (aux, " ")) then
+&#9;s, e, v1, v2 = string.find (aux, "(%a+) (%a+)")
+&#9;aux = v1..v2
+end --if
+wounds [aux] = wounds [aux] or 0
+wounds [aux] = wounds [aux] + tonumber (GetVariable ("mwounds"))/2
+g_cond ("Poisons")
+c_weapon = "shofa"</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Shofangi"
+   match="^([A-Z][a-z]+) viciously twists (?:.*) out of your (right leg|left leg)\, shredding the flesh into bloody strips\.$"
+   name="shof_shred"
+   regexp="y"
+   script="cured_grappled"
+   send_to="12"
+   sequence="100"
+  >
+  <send>aux = "%2"
+if (string.find (aux, " ")) then
+&#9;s, e, v1, v2 = string.find (aux, "(%a+) (%a+)")
+&#9;aux = v1..v2
+end --if
+wounds [aux] = wounds [aux] or 0
+wounds [aux] = wounds [aux] + 0.7 * tonumber (GetVariable ("mwounds"))/2
+g_cond ("Poisons")
+c_weapon = "shofa"</send>
+  </trigger>
+  <trigger
+   group="Ninjakari"
+   match="^([A-Z][a-z]+) wraps (?:.*) about (?:his|her) wrists and wrenches it violently from you\, tearing skin and mincing flesh\.$"
+   name="nin_ninshi_cured"
+   regexp="y"
+   script="cured_grappled"
+   send_to="12"
+   sequence="100"
+  >
+  <send>if (next (ninshi)) then
+&#9;for k, v in pairs (ninshi) do
+&#9;&#9;mwound (k, 2)
+&#9;&#9;break
+&#9;end --for
+end --if
+ninshi = {}
+EnableTrigger ("nin_ninshi_cured", false)
+EnableTrigger ("nin_ninshi_fail", false)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   match="^([A-Z][a-z]+)\'s aura of weapons rebounding disappears\.$"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>rebounds [string.lower ("%1")] = nil</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   match="^([A-Z][a-z]+)\'s aura of weapons rebounding disappears\.$"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>rebounds [string.lower ("1")] = nil</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Geomancy"
+   match="^([A-Z][a-z]+)\'s finger trembles and (?:she|he) bares (?:her|his) teeth in a hideous grimace\. A small crack appears in the ground beneath you\!$"
+   name="geo_chasm2"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>ColourNote ("red", "", "%1 %1 %1 %1 %1 %1 %1 %1 %1")
+ColourNote ("aqua", "", "RUN CHASM RUN CHASM RUN CHASM RUN RUN RUN RUN RUN RUN RUN RUUUN CHASM!!!")</send>
+  </trigger>
+  <trigger
+   group="System_Pipelist"
+   match="^(\d+)\s+(?:.*)?pipe(?:.*)?\s+(empty)\s+0\s+(Lit|Unlit)$"
+   name="pipes_get_empty"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>pipes:assign ("%2", "%1")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   expand_variables="y"
+   group="Gag"
+   keep_evaluating="y"
+   match="^@target chews an arnica bud\, then spreads it on (?:her|his) head\.$"
+   name="gag_arnica"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>ColourNote ("green", "yellow", "ARNICA ARNICA ARNICA ARNICA ARNICA ARNICA ARNICA ARNICA ARNICA ARNICA ARNICA")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   expand_variables="y"
+   group="Highlight"
+   lines_to_match="2"
+   match="^@target rubs (?:.*) and it begins to glow with a pulsating light\.$\n^Warm water showers down upon (?:her|him), and (?:she|he) scrubs under (?:her|him) armpits trying to wash away that horrible stench\.$"
+   multi_line="y"
+   name="rubbing_cleanse"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>ColourNote ("brown", "", "CLEANSE CLEANSE CLEANSE CLEANSE CLEANSE CLEANSE CLEANSE CLEANSE CLEANSE CLEANSE")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   expand_variables="y"
+   group="Gag"
+   match="^@target stands up and stretches (?:his|her) arms out wide\.$"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>ColourNote ("red", "pink", "STANDING STANDING STANDING STANDING STANDING STANDING STANDING STANDING STANDING")
+ColourNote ("red", "pink", "STANDING STANDING STANDING STANDING STANDING STANDING STANDING STANDING STANDING")
+</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   expand_variables="y"
+   group="Gag"
+   match="^@target takes some salve from a vial and rubs it on (?:her|his) (legs|arms|gut|chest|head)\.$"
+   name="gag_salve_curing"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>ColourTell ("crimson", "", "[[")
+ColourTell ("white", "", " @target salve to ")
+ColourTell ("yellow", "", string.upper ("%1  !!!!!  %1  !!!!!  %1  !!!!!  %1  !!!!!"))
+ColourNote ("crimson", "", " ]]")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Wicca"
+   match="^A banshee(?: bound in shadows)? stares at you\, then suddenly emits a high\-pitched screech at you\. The soundwaves pierce into your very being\, weakening you in both body and mind\.$"
+   name="w_banshee"
+   omit_from_output="y"
+   regexp="y"
+   script="banshee"
+   send_to="14"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Wicca.SDs"
+   lines_to_match="2"
+   match="^A barghest lifts his massive head and lets forth a blood curdling howl that pierces through the air\.$"
+   name="w_barghest"
+   omit_from_output="y"
+   regexp="y"
+   script="add_paralysis"
+   send_to="14"
+   sequence="100"
+  >
+  <send>ColourNote ("silver", "", "barghest")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   match="^A beam of moonlight comes down from the sky and bathes you in light\.$"
+   name="mo_moonbeam"
+   omit_from_output="y"
+   regexp="y"
+   script="moonbeam"
+   send_to="14"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Aquamancy"
+   match="^A biting cold seeps deep into your skin\.$"
+   name="aq_icefloe_lostdef"
+   regexp="y"
+   script="lostdef_fire"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Telepathy"
+   match="^A blinding pain explodes behind your eyes\, which begin to tear up with blood\.$"
+   regexp="y"
+   sequence="100"
+  >
+  <send>scan.recklessness = 1</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Hunting"
+   match="^A blob suddenly swallows you whole\, chews a bit\, and then spits you back out\, sending you tumbling in a puddle of thick saliva\.$"
+   name="hu_blob_entangled"
+   regexp="y"
+   script="add_entangled"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   match="^A blush begins to creep up your neck and into your face as you come to the realization that there are other people here\!$"
+   regexp="y"
+   script="add_shyness"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Wicca"
+   match="^A brownie(?: bound in shadows)? runs up and tickles your sides\.$"
+   name="w_brownie"
+   omit_from_output="y"
+   regexp="y"
+   script="brownie"
+   send_to="14"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Sacraments"
+   match="^A cloudy vision forms in your mind\'s eye of a towering\, angelic woman with a cobalt blue shield who shouts\, \&quot;Heretic\, get thee from the Light\!\&quot; She points at you and a bolt of blue lightning slams into you\.$"
+   name="sa_aff_heretic"
+   regexp="y"
+   script="add_heretic"
+   send_to="12"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Sacraments"
+   match="^A column of holy fire erupts before you\. The image of a gigantic\, angelic man wielding a flaming sword steps out and bellows\, \&quot;Infidel\! Repent or forever be consigned to the Pits of Nil\!\&quot; Invisible\, demonic claws grab at you\, rending your flesh\, as hellfire blisters your skin\.$"
+   name="sa_infidel_hiddenaffs"
+   regexp="y"
+   script="infidel"
+   send_to="12"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Scan"
+   match="^A copious amount of blood suddenly splutters from your gut onto the ground\, and you slip in the deep red puddle\.$"
+   name="scan_slicedgut"
+   regexp="y"
+   script="add_slicedopengut"
+   send_to="12"
+   sequence="100"
+  >
+  <send>add_prone ()</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Crow"
+   match="^A dark spirit rises up from [A-Z][a-z]+ and hisses at you\, spitting a glob of black slime in your face\.$"
+   name="cr_darkrebirth"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>sysinfo ("Randomly chosen afflictions")
+add_blacklung ()</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Stealth"
+   match="^A dart flies in from the \w+ and strikes you\.$"
+   name="stea_blowdarts_adjent"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>cond ({"Poisons"})</send>
+  </trigger>
+  <trigger
+   group="Glamours"
+   match="^A dazzling orange afterimage burns into your sight\.$"
+   name="fascination_afterimage"
+   omit_from_output="y"
+   regexp="y"
+   script="add_afterimage"
+   send_to="14"
+   sequence="100"
+  >
+  <send>scan.fascination = nil</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Phantasms"
+   match="^A dim foreboding tickles your mind as a foreign presence settles behind your eyes\.$"
+   name="pha_sightstealer"
+   regexp="y"
+   script="add_sightstealer"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Hunting"
+   match="^A female aslaran bites down on your arm\, her massive jaws splintering bone with a sickening cracking noise\.$"
+   name="hu_aslaran_brokenarm"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>addunk ("mendingarms")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Bashing"
+   match="^A green eyelash viper bites deeply into your arm\. You feel the bones liquify and skin blacken\.$"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>affs:custom ("viper", "salve", "apply mending to arms")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Hunting"
+   match="^A grotesque crystalline freak\'s eyes glow a malicious red as he lets out a high\, piercing screech\. You gasp in pain as you feel your eardrums burst from the sound\.$"
+   name="hu_freak_paralysis"
+   regexp="y"
+   script="add_paralysis"
+   send_to="12"
+   sequence="100"
+  >
+  <send>add_deafness ()</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Hunting"
+   match="^A large yellow spider rears up on its hind legs and squirts sticky webbing all over you\.$"
+   name="hu_spider_entangled"
+   regexp="y"
+   script="add_entangled"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   lines_to_match="2"
+   match="^A large\, rectangular gateway opens up near you\, and you feel yourself irresistibly drawn inside\.$"
+   name="t_empress"
+   regexp="y"
+   script="empress"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   custom_colour="11"
+   enabled="y"
+   group="Wicca"
+   match="^A leprechaun(?: bound in shadows)? bumps into you and quickly apologizes\.$"
+   name="w_leprechaun"
+   regexp="y"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Athletics"
+   match="^A look of complete concentration and menace glitters in ([A-Z][a-z]+)\'s eyes\.$"
+   name="at_puissance"
+   regexp="y"
+   script="at_puissance"
+   send_to="12"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Hunting"
+   match="^A lucidian astrologer materializes a small ball of crackling blue energy and flings it at you\. As the energy engulfs your body you feel your surroundings turn icy cold\.$"
+   name="hu_lucidian_frost"
+   regexp="y"
+   script="el_freeze"
+   send_to="12"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Blacktalon"
+   match="^A murder of crows descends from the sky with black wings spread and eyes glowing a malevolent red\, diving at you in a filthy flurry of malevolent talons and beaks\.$"
+   name="bt_murder"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>scan.murder = 1</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Wicca"
+   match="^A pigwidgeon(?: bound in shadows)? begins to follow you\.$"
+   name="w_pigwidgeon"
+   omit_from_output="y"
+   regexp="y"
+   script="pigwidgeon"
+   send_to="14"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Kata.Mods"
+   match="^A prickly stinging overcomes your body\, fading away into numbness\.$"
+   name="kata_pinchnerve"
+   regexp="y"
+   script="add_paralysis"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Wicca.SDs"
+   lines_to_match="2"
+   match="^A redcap slashes you with a thin razor\, causing blood to spurt from the wound\, which he soaks up with his little cap\.$"
+   name="w_redcap"
+   omit_from_output="y"
+   regexp="y"
+   script="redcap"
+   send_to="14"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Hunting"
+   match="^A scuttling crab solidly grabs onto your leg with a large claw and clamps down with a sickening crack\.$"
+   name="hu_crab_brokenleg"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>addunk ("mendinglegs")</send>
+  </trigger>
+  <trigger
+   group="Moon"
+   match="^A shaft of moonlight flashes down in a burst of silvery light\.$"
+   name="mo_shafts"
+   regexp="y"
+   script="mo_shafts"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Telekinesis"
+   match="^A sharp pain erupts in your chest\, and (?:.*)\.$"
+   name="tel_vessels"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>affs:add_queue (function () affs:add (vessels, (tonumber (affs:has ("vessels")) or 0) +3) end)
+affs:bleeding ("200")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Blacktalon"
+   match="^A sharp pain starts in your stomach and slowly crawls up your throat\.$"
+   name="bt_scarab"
+   regexp="y"
+   script="add_scarab"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   group="Scan"
+   match="^A sheet of blood rolls down your forehead and into your eyes\.$"
+   name="scan_blindness_furrowed"
+   regexp="y"
+   script="add_furrowedbrow"
+   sequence="100"
+  >
+  <send>add_blindness ()</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Druidry"
+   match="^A shrieking wind rushes through the trees\, sending forest debris and small rocks up into the air\. Animals howl around you and the sky darkens overhead\.$"
+   name="dr_fury2"
+   regexp="y"
+   script="dr_fury"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Wicca.SDs"
+   lines_to_match="2"
+   match="^A slaugh strokes a cold\, beautiful finger across your cheek\, and a cold sweat breaks out upon your brow\.$"
+   name="w_slaugh"
+   regexp="y"
+   script="slaugh"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Hunting"
+   match="^A slimy\, amphibious adorath hisses and plunges one of his barbed tentacles deep into your chest as the pain drains swiftly away\.$"
+   name="hu_adorath_paralysis"
+   regexp="y"
+   script="add_paralysis"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Hunting"
+   match="^A spotted coeurl\'s jade eyes reflect a cunning intensity as a bolt of sizzling lightning forms between his flowing whiskers\. It crackles into your chest\, wracking you with pain as your muscles lock up\.$"
+   name="hu_coeurl_paralysis"
+   regexp="y"
+   script="add_paralysis"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   group="Scan"
+   match="^A strange vibration prevents you from healing auric ailments\.$"
+   name="scan_octave"
+   omit_from_output="y"
+   regexp="y"
+   script="fst_herb"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   lines_to_match="2"
+   match="^A sudden gust of wind catches you and blows you out of the tree\.$\n^You scream as you feel the force of the landing break both your legs\.$"
+   multi_line="y"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>add_broken ("", "", {"left", "leg"})
+add_broken ("", "", {"right", "leg"})</send>
+  </trigger>
+  <trigger
+   custom_colour="17"
+   enabled="y"
+   group="Telepathy"
+   make_underline="y"
+   match="^A sudden headache makes you rub your temples for relief\.$"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+   other_text_colour="white"
+  >
+  <send>if (vitals.c_mana &lt; vitals.maxmana) or (vitals.c_health &lt; vitals.maxhealth) or (vitals.c_ego &lt; vitals.maxego) or (vitals.c_power &lt; 10) then
+&#9;scan.recklessness = "telepathy"
+end --if
+addunk ("focusmind")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Scan"
+   match="^A sudden itch drives you half\-mad\, and you scratch it furiously\.$"
+   name="scan_scabies"
+   regexp="y"
+   script="add_scabies"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Telepathy"
+   match="^A terrible lethargy suddenly overwhelms you\, making you feel mentally exhausted\.$"
+   name="psivamp"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>scan.recklessness = "psivamp"
+change_settings ("change_priority", "", {"ego"})</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Telekinesis"
+   match="^A tingling sensation ripples over your skin and you begin to sweat profusely\.$"
+   name="tel_slickness"
+   omit_from_output="y"
+   regexp="y"
+   script="add_slickness"
+   send_to="14"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Demesne"
+   match="^A vein on [A-Z][a-z]+\'s forehead begins to throb and blood pours down (?:[hH]is|[Hh]er) nose\. (?:He|She) grits (?:[hH]is|[Hh]er) teeth and shakes (?:[hH]is|[Hh]er) head\, wiping the blood away with a grin\.$"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>ColourNote ("white", "", "MINDBURST FAILED! FAILED FAILED FAILED FAILED FAILED FAILED FAILED FAILED!")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Scan.Daydreaming"
+   match="^A vision of yourself leaving the Basin and finding life beyond its borders briefly crosses your mind\, but you discard it as utterly ridiculous\.$"
+   regexp="y"
+   script="add_daydreaming"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Glamours"
+   lines_to_match="2"
+   match="^Abstract green blotches spin around you\, causing you to stumble\.$\n^Blood drips from your nose as the rainbow lights swirl around you in a maddening frenzy\.$"
+   multi_line="y"
+   name="rainbowpattern_clumsiness"
+   regexp="y"
+   script="add_clumsiness"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   custom_colour="9"
+   enabled="y"
+   match="^An icewall rises up to the (?:.*)\.$"
+   regexp="y"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Hunting"
+   match="^An illithoid marauder closes his reddened eyes in concentration as a flash of disorienting energy fills your mind\'s eye\.$"
+   name="hu_marauder"
+   regexp="y"
+   script="add_stupidity"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Druidry"
+   match="^Animated branches from the trees above suddenly reach down and clutch you around the waist\, pulling you into their foliage\.$"
+   name="dr_treelife"
+   omit_from_output="y"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>affs:add_queue ("intrees")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Tarot"
+   lines_to_match="2"
+   match="^As ([A-Z][a-z]+) throws the Emperor tarot at you\, you are filled with adoration for (?:him|her) and begin to follow (?:him|her)\.$"
+   name="t_emperor"
+   regexp="y"
+   script="emperor"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Scan"
+   match="^As both your arms are dysfunctional\, you cannot do that\.$"
+   name="scan_hemiplegy_pipes"
+   regexp="y"
+   script="add_hemiplegyupper"
+   send_to="12"
+   sequence="100"
+  >
+  <send>sysinfo ("Trying to refill pipes while hemiplegy upper (?)")
+</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   match="^As both your arms are dysfunctional\, you cannot do that\.$"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>if (flag.lighting_pipes) then
+&#9;add_hemiplegy ("", "", {"left"})
+&#9;add_hemiplegy ("", "", {"right"})
+end --if</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Glamours"
+   match="^As the illusory manse fades away\, you are buffeted by screaming streaks of colour which leave you disoriented and feeling sick\.$"
+   name="gla_maze_exit"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>addunk ("focusmind")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Wicca"
+   match="^As you attempt to move\, a pigwidgeon(?: bound in shadows)? maniacally runs in circles between your legs\, causing you to trip\.$"
+   name="w_pigwidgeon_trip"
+   regexp="y"
+   script="pigwidgeon"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Druidry"
+   match="^As you stumble through the briars\, you become entangled in the morass of vines and nettles\.$"
+   name="dr_briar"
+   omit_from_output="y"
+   regexp="y"
+   script="add_entangled"
+   send_to="14"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Phantasms"
+   match="^As you try to go that way\, you find yourself entangled in a purple web of phantasms\, screaming and clawing at you\, entangling you in their grasp\.$"
+   name="pha_phantomwall"
+   regexp="y"
+   script="add_entangled"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Gag"
+   match="^Being careful not to poison yourself\, you wipe off all the poisons from (?:.*)\.$"
+   name="gag_wiping"
+   omit_from_output="y"
+   regexp="y"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Celestialism"
+   lines_to_match="2"
+   match="^Bellowing a thunderous war cry\, a celestial archangel smites you with a ball of holy flame\.$"
+   name="ce_angel_methrenton"
+   regexp="y"
+   script="methrenton"
+   send_to="12"
+   sequence="100"
+  >
+  <send>cond ({"po_sensitivity"})</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Glamours"
+   lines_to_match="2"
+   match="^Blinding violet lights flash maddeningly in front of your eyes, which twitch uncontrollably\.$\n^Blood drips from your nose as the rainbow lights swirl around you in a maddening frenzy\.$"
+   multi_line="y"
+   name="rainbowpattern_epilepsy"
+   regexp="y"
+   script="add_epilepsy"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Scan"
+   match="^Blood begins to slowly drip from your nose\.$"
+   name="scan_crotamine2"
+   regexp="y"
+   script="add_crotamine"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Scan"
+   match="^Blood flows into your (left|right) side inner ear\, inhibiting your sense of balance\.$"
+   name="scan_severedear"
+   regexp="y"
+   script="add_severedear"
+   send_to="12"
+   sequence="100"
+  >
+  <send>add_dizziness ()</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Scan"
+   match="^Both your arms must be free and functioning to do that\.$"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Druidry"
+   lines_to_match="2"
+   match="^Bowing (?:[hH]er|[hH]is) head\, [A-Z][a-z]+ crosses (?:[hH]er|[hH]is) arms and shakes (?:[hH]er|[hH]is) head vigorously\, then spreads (?:[hH]er|[hH]is) arms out wide\.$\n^A shadow passes through the trees\, whispering names\.$"
+   multi_line="y"
+   name="dr_aff_treebane2"
+   regexp="y"
+   script="add_treebane"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Night"
+   match="^Chanting dark words [A-Z][a-z]+ points towards you\, sending a shiver up your spine\.$"
+   name="ni_aff_succumb"
+   regexp="y"
+   script="add_succumb"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   group="WoundCheck"
+   match="^Chest\s+(\d+)\s+\w+\s+(\d+)"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>if ("%1" == "0") then
+&#9;wounds.chest = nil
+else
+&#9;wounds.chest = tonumber ("%1")
+end --if
+if ("%2" == "0") then
+&#9;ruptures.chest = nil
+else
+&#9;ruptures.chest = tonumber ("%2")
+end --if</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Warrior"
+   keep_evaluating="y"
+   match="^Cleaving through your defenses\, [A-Z][a-z]+ makes a slow deadly strike at your (.*)\.$"
+   regexp="y"
+   script="warrior_attack"
+   send_to="12"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Ninjakari"
+   match="^Coiling around your throat in ever tighter twists\, (?:.*) crushes your windpipe\.$"
+   name="nin_ninombhi_windpipe"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>affs:add ("windpipe")</send>
+  </trigger>
+  <trigger
+   group="Poisons"
+   match="^Colors fade and everything becomes dark and black\.$"
+   name="po_niricol"
+   omit_from_output="y"
+   regexp="y"
+   script="add_blindness"
+   send_to="14"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   expand_variables="y"
+   group="Scan"
+   match="^Copious amounts of blood suddenly splutter from your (chest|gut) onto the ground\.$"
+   name="scan_slicedvitals"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>if ("%1" == "gut") then&#9;
+&#9;add_slicedopengut ()
+else
+&#9;if ("%1" == "chest") then
+&#9;&#9;add_slicedchest ()
+&#9;end --if
+end --if</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Druidry"
+   match="^Deep within the ground\, an ominous rumbling shakes the earth and the trees begin to sway\.$"
+   name="dr_fury1"
+   regexp="y"
+   script="dr_fury"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Night"
+   match="^Dipping (?:his|her) hand into a shadow cauldron\, [A-Z][a-z]+ pulls out a long shadow and releases it into the air\. The room darkens with the churning darkness\.$"
+   name="ni_cauldron"
+   regexp="y"
+   script="cauldron_release"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Kata"
+   match="^Drawing back (?:her|his) (?:left|right) fist\, [A-Z][a-z]+ punches you in the (left leg|right leg|left arm|right arm|chest|gut|head)\.$"
+   name="kata_punch"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>aux = "%1"
+if (string.find (aux, " ")) then
+&#9;s, e, v1, v2 = string.find (aux, "(%a+) (%a+)")
+&#9;aux = v1..v2
+end --if
+wounds [aux] = wounds [aux] or 0
+wounds [aux] = wounds [aux] + 0.7 * tonumber (GetVariable ("mwounds"))/5
+aux = nil
+c_weapon = "unarmed"</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Wicca"
+   lines_to_match="2"
+   match="^Drawing back on his tiny bow\, a pixie(?: bound in shadows)? shoots an arrow straight at you\.$"
+   name="w_pixie"
+   regexp="y"
+   script="pixie"
+   send_to="12"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Geomancy"
+   match="^Dust suddenly and painfully gusts into your eyes\.$"
+   name="geo_duststorm"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>ColourNote ("orange", "", "DUSTSTORM DUSTSTORM DUSTSTORM DUSTSTORM DUSTSTORM DUSTSTROM")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Stag"
+   match="^Dylara calls upon the spirits of her ancestors\, and you sense their ghostly anger throb up from the ground\.$"
+   name="st_curse"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>sysinfo ("Stag | Curse")
+scan_recklessness = "stag"</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Runes"
+   match="^Dylara slings (?:a|an) (\w+) rune and (?:a|an) (\w+) rune at you\, hitting you in the chest\.$"
+   name="ru_d"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>if (runes["%1"]) then
+&#9;_G['add_'..runes["%1"]] ()
+end --if
+if (runes["%2"]) then
+&#9;_G['add_'..runes["%2"]] ()
+end --if</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Test"
+   match="^Energy wreathes itself about your body to heal your limbs\.$"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>flags:del ("restore")
+nocure:init ("restore", "%0")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Hunting"
+   match="^Enticing you within striking distance with its lure of flesh\, a hard\-shelled\, many\-legged cave\-fisher quickly lunges forward and clamps down on you with his massive mandibles\, crushing your bones beneath his titan grip\.$"
+   name="hu_fisher_breaklimb"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>add_broken ("", "", {"left", "arm"})</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Testing"
+   match="^Eurytus\, Master of the Hunt bows to you \- the lesson in Combat is over\.$"
+   regexp="y"
+   sequence="100"
+  >
+  <send>learn 15 combat from eurytus</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Scan"
+   match="^Experiencing a shortness of breath\, you suddenly black out\.$"
+   name="scan_collapsedlungs"
+   regexp="y"
+   script="add_collapsedlungs"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   custom_colour="17"
+   enabled="y"
+   group="Wicca"
+   match="^Eyes flashing with anger\, [A-Z][a-z]+ points a finger imperiously at you and utters a series of guttural croaks\. A strange thrumming fills your stomach\, and your skin momentarily turns green\. Thankfully\, you shake off the sudden desire to eat flies\.$"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+   other_text_colour="yellow"
+   other_back_colour="red"
+  >
+  <send>cond ({"w_toad2"})</send>
+  </trigger>
+  <trigger
+   group="Scan"
+   match="^Flames lick around you \- you are on fire\!$"
+   name="scan_ablaze"
+   regexp="y"
+   script="add_ablaze"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Warrior"
+   keep_evaluating="y"
+   match="^Flourishing (.*) above (?:[hH]er|[hH]is) head\, [A-Z][a-z]+ takes a swing at you(?:.*)?\."
+   regexp="y"
+   script="warrior_attack"
+   send_to="12"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Warrior"
+   keep_evaluating="y"
+   match="^Flourishing (.*) above (?:[hH]is|[hH]er) head\, [A-Z][a-z]+ takes a swing at you(?:.*)?\."
+   regexp="y"
+   script="warrior_attack"
+   send_to="12"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Hartstone"
+   match="^Flying insects suddenly swarm you\, covering you with tiny\, painful stings\.$"
+   name="ht_swarm"
+   omit_from_output="y"
+   regexp="y"
+   script="add_paralysis"
+   send_to="14"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Scan"
+   match="^Gasping for air\, you faint from sudden exhaustion\.$"
+   name="scan_puncturedchest"
+   regexp="y"
+   script="add_puncturedchest"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Gag"
+   match="^Gathering a handful of salt\, [A-Z][a-z]+ sprinkles it around the ground in a ritual zodiac circle\, carefully marking each of the constellations of legend and lore\.$"
+   name="gag_pentagram"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>syswarn ("PENTAGRAM PENTAGRAM PENTAGRAM PENTAGRAM PENTAGRAM PENTAGRAM PENTAGRAM PENTAGRAM PENTAGRAM PENTAGRAM")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   match="^Glowing glyphs drift in from the \w+ and explode in your face\.$"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>g_cond ("Hexes")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   match="^Glowing glyphs in the air flare and explode in your face\.$"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>g_cond ("Hexes")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Glamours"
+   lines_to_match="2"
+   match="^Glowing yellow bursts of light flash across your vision\, filling you with unsated desire\.$\n^Blood drips from your nose as the rainbow lights swirl around you in a maddening frenzy\.$"
+   multi_line="y"
+   name="rainbowpattern_addictied"
+   omit_from_output="y"
+   regexp="y"
+   script="add_addicted"
+   send_to="12"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   group="WoundCheck"
+   match="^Gut\s+(\d+)\s+\w+\s+(\d+)"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>if ("%1" == "0") then
+&#9;wounds.gut = nil
+else
+&#9;wounds.gut = tonumber ("%1")
+end --if
+if ("%2" == "0") then
+&#9;ruptures.gut = nil
+else
+&#9;ruptures.gut = tonumber ("%2")
+end --if</send>
+  </trigger>
+  <trigger
+   group="WoundCheck"
+   match="^Head\s+(\d+)\s+\w+\s+(\d+)"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>if ("%1" == "0") then
+&#9;wounds.head = nil
+else
+&#9;wounds.head = tonumber ("%1")
+end --if
+if ("%2" == "0") then
+&#9;ruptures.head = nil
+else
+&#9;ruptures.head = tonumber ("%2")
+end --if</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Scan"
+   match="^Heart thumping\, you cannot bear the company of others and depart in terror\.$"
+   name="scan_shyness"
+   regexp="y"
+   script="add_shyness"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Warrior"
+   match="^Hefting both weapons above (?:his|her) head\, [A-Z][a-z]+ begins swinging them in circles and bellows out incomprehensibly\.$"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>sysinfo ("Pulp")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Hunting"
+   match="^His beady eyes wavering before you\, a large\, hairy solifugid suddenly rears up and sprays you with a mass of sticky black webbing\.$"
+   name="hu_solifugid_entangled"
+   regexp="y"
+   script="add_entangled"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   group="Veritas.Harvesting"
+   match="^Hmm\, that wasn't the herb you thought after all\. It was some rare spices\!$"
+   name="harvest_gag2"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>ColourNote ("white", "", "Spices!")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Warrior"
+   keep_evaluating="y"
+   match="^Holding (.*) poised at an angle overhead\, [A-Z][a-z]+ unleashes a violent assault at your (?:.*)\."
+   regexp="y"
+   script="warrior_attack"
+   send_to="12"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Celestialism"
+   lines_to_match="2"
+   match="^Holding a gleaming symbol of hope before (?:him|her)\, ([A-Z][a-z]+) makes the Sign of Shakiniel at you\, and you are engulfed in cobalt blue sparks\.$"
+   name="ce_symbol_shakiniel"
+   regexp="y"
+   script="shakiniel"
+   send_to="12"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Celestialism"
+   lines_to_match="2"
+   match="^Holding a holy symbol of the light before (?:him|her)\, [A-Z][a-z]+ makes the Sign of Elohora at you\, and you are engulfed in holy light\.$"
+   name="ce_symbol_elohora"
+   regexp="y"
+   script="elohora"
+   send_to="12"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Celestialism"
+   lines_to_match="2"
+   match="^Holding a luminous symbol of justice before (?:him|her)\, [A-Z][a-z]+ makes the Sign of Japhiel at you\, and you are engulfed in golden luminescence\.$"
+   name="ce_symbol_japhiel"
+   regexp="y"
+   script="japhiel"
+   send_to="12"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Celestialism"
+   lines_to_match="2"
+   match="^Holding a radiant symbol of love before (?:him|her)\, [A-Z][a-z]+ makes the Sign of Raziela at you\, and you are engulfed in pink light\.$"
+   name="ce_symbol_raziela"
+   regexp="y"
+   script="raziela"
+   send_to="12"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Blacktalon"
+   match="^Hundreds of bloated spiders crawl up your legs\, their painful stings raising red welts on your skin\.$"
+   name="bt_spiders"
+   regexp="y"
+   script="bt_spiders"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Geomancy"
+   match="^Hundreds of stones rain down from above\, blocking the exits\.$"
+   name="geo_stonerain"
+   omit_from_output="y"
+   regexp="y"
+   script="rubble"
+   send_to="14"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   match="^In the distance, you hear your name being chanted over and over\.$"
+   regexp="y"
+   script="via"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Scan"
+   match="^Justice is dealt out and your attack rebounds onto you\.$"
+   name="scan_justice"
+   regexp="y"
+   script="add_justice"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Glamours"
+   match="^Kaervas weaves the light into a shifting net of bewitching lights that dance around you in hypnotic patterns\.$"
+   name="gla_hypnoticpattern"
+   regexp="y"
+   script="add_hypnoticpattern"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Crow"
+   match="^Lacking any way to fly and any support\, you plummet to the earth below you\!$"
+   name="cr_scavanger"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>cond ({"cr_aff_concussion"})</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Stealth"
+   match="^Leaping out from the shadows\, [A-Z][a-z]+ suddenly waylays you\, throwing you to the ground and then standing menacingly over you\.$"
+   name="stea_waylay"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>add_stun ()
+add_prone ()</send>
+  </trigger>
+  <trigger
+   group="WoundCheck"
+   match="^Left Arm\s+(\d+)\s+\w+\s+(\d+)"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>if ("%1" == "0") then
+&#9;wounds.leftarm = nil
+else
+&#9;wounds.leftarm = tonumber ("%1")
+end --if
+if ("%2" == "0") then
+&#9;ruptures.leftarm = nil
+else
+&#9;ruptures.leftarm = tonumber ("%2")
+end --if</send>
+  </trigger>
+  <trigger
+   group="WoundCheck"
+   match="^Left Leg\s+(\d+)\s+\w+\s+(\d+)"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>if ("%1" == "0") then
+&#9;wounds.leftleg = nil
+else
+&#9;wounds.leftleg = tonumber ("%1")
+end --if
+if ("%2" == "0") then
+&#9;ruptures.leftleg = nil
+else
+&#9;ruptures.leftleg = tonumber ("%2")
+end --if</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Warrior"
+   keep_evaluating="y"
+   match="^Letting (.*) [A-Z][a-z]+ suddenly heaves it up at you(?:.*)?\."
+   regexp="y"
+   script="warrior_attack"
+   send_to="12"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Druidry"
+   match="^Like the hand of an angry god\, nature turns against you as trees come alive and pound you with heavy branches\. Rocks and debris fly through the air\, slicing into your skin\, while the fury of the wind mixes with the angry howl of beasts\.$"
+   name="dr_fury3"
+   regexp="y"
+   script="dr_fury"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Glamours"
+   lines_to_match="2"
+   match="^Melting orange clocks seep across the ground as contorted animals march past\.$\n^Blood drips from your nose as the rainbow lights swirl around you in a maddening frenzy\.$"
+   multi_line="y"
+   name="rainbowpattern_hallucinations"
+   regexp="y"
+   script="add_hallucinations"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   match="^Mmmm\! You are seized with a sudden desire to find a mate\!$"
+   name="add_love"
+   omit_from_output="y"
+   regexp="y"
+   script="add_love"
+   send_to="14"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Celestialism"
+   match="^Muttering prayers\, [A-Z][a-z]+ reaches out and presses a glowing hand against your chest\. (?:His|Her) fingers clutch against your skin\, but (?:he|she) quickly withdraws (?:his|her) hand with a look of frustration\.$"
+   name="ce_absolve_try"
+   regexp="y"
+   script="absolve_try"
+   send_to="12"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   group="System_Parry_Check"
+   match="^Note\: Percentages are approximations only\.$"
+   name="parry_end"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>EnableTriggerGroup ("System_Parry_Check", false)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Scan"
+   lines_to_match="2"
+   match="^Ooh look\! A lovely lake\. Perhaps you'll dive in\!\nYou leap up and attempt a graceful swan dive\.\.\.right into the solid ground\.$"
+   multi_line="y"
+   name="check_hallucinations_prone"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>flags:add_check ("hallucinations_prone")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Phantasms"
+   match="^Reality twists and turns in on itself\, causing the sky to melt into a blur of riotous colours and the ground to undulate and bubble\.$"
+   name="pha_reality"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>addunk ("mind")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Scan"
+   match="^Red rivulets of blood flow down your (left|right) (leg|arm)\.$"
+   name="scan_sliced"
+   regexp="y"
+   script="add_sliced"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   group="WoundCheck"
+   match="^Right Arm\s+(\d+)\s+\w+\s+(\d+)"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>if ("%1" == "0") then
+&#9;wounds.rightarm = nil
+else
+&#9;wounds.rightarm = tonumber ("%1")
+end --if
+if ("%2" == "0") then
+&#9;ruptures.rightarm = nil
+else
+&#9;ruptures.rightarm = tonumber ("%2")
+end --if</send>
+  </trigger>
+  <trigger
+   group="WoundCheck"
+   match="^Right Leg\s+(\d+)\s+\w+\s+(\d+)"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>if ("%1" == "0") then
+&#9;wounds.rightleg = nil
+else
+&#9;wounds.rightleg = tonumber ("%1")
+end --if
+if ("%2" == "0") then
+&#9;ruptures.rightleg = nil
+else
+&#9;ruptures.rightleg = tonumber ("%2")
+end --if</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Scan.Phantoms"
+   lines_to_match="2"
+   match="^Shadow tendrils wrap around your limbs\.\n^Blood trickles out of the corners of your eyes\.$"
+   multi_line="y"
+   regexp="y"
+   script="add_entangled"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Scan.Phantoms"
+   lines_to_match="2"
+   match="^Shadows creep up all around you and close in\.$\n^Blood trickles out of the corners of your eyes\.$"
+   multi_line="y"
+   regexp="y"
+   script="add_claustrophobia"
+   send_to="12"
+   sequence="100"
+  >
+  <send>sysinfo ("Phantoms")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Scan.Phantoms"
+   lines_to_match="2"
+   match="^Shadows flicker before you\, forming strange and weird shapes\.\n^Blood trickles out of the corners of your eyes\.$"
+   multi_line="y"
+   regexp="y"
+   script="add_confusion"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Night"
+   match="^Shadows flock to ([A-Z][a-z]+)\, riding a wiccan broom\,  in a murky swirl\, swathing (?:him|her) with darkness\. Suddenly\, the darkness seeps into the ground\, taking him along\.$"
+   name="ni_flight"
+   omit_from_output="y"
+   regexp="y"
+   script="flight"
+   send_to="14"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Scan.Phantoms"
+   lines_to_match="2"
+   match="^Shadows seep into your clothing\, crawling like dark maggots\.\n^Blood trickles out of the corners of your eyes\.$"
+   multi_line="y"
+   regexp="y"
+   script="add_vestiphobia"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Scan.Phantoms"
+   lines_to_match="2"
+   match="^Shadowy shapes rise up around you and form into familiar shapes\.\n^Blood trickles out of the corners of your eyes\.$"
+   multi_line="y"
+   regexp="y"
+   script="add_hallucinations"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Scan.Phantoms"
+   lines_to_match="2"
+   match="^Shadowy voices whisper dark warnings in your ear\.\n^Blood trickles out of the corners of your eyes\.$"
+   multi_line="y"
+   regexp="y"
+   script="add_paranoia"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Geomancy"
+   match="^Small fissures open up in the tainted earth\, releasing toxic fumes that blacken the ground and pollute the air\.$"
+   name="geo_pollute2"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>syswarn ("pollute 2 2 2 2 2 2 2 2 2 2 2 2 2 2")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Druidry"
+   match="^Small motes of yellow pollen rise up from the wildflowers around you and drift into your mouth\. Your throat begins to scratch\, forcing you to cough\.$"
+   name="dr_polen"
+   omit_from_output="y"
+   regexp="y"
+   script="add_asthma"
+   send_to="14"
+   sequence="100"
+  >
+  <send>ColourNote ("silver", "", "POLEN")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Glamours"
+   lines_to_match="2"
+   match="^Snaking vines of dark indigo creep across your skin\, holding you tight\.$\n^Blood drips from your nose as the rainbow lights swirl around you in a maddening frenzy\.$"
+   multi_line="y"
+   name="rainbowpattern_paralysis"
+   regexp="y"
+   script="add_paralysis"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   custom_colour="17"
+   enabled="y"
+   group="Demesne"
+   match="^Sparkling water splashes up over your body\, healing your wounds\.$"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+   other_text_colour="white"
+  >
+  <send>EnableTimer ("fst_demesne")
+ResetTimer ("fst_demesne")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Ninjakari"
+   match="^Springing up\, [A-Z][a-z]+ whirls (?:[hH]is|[hH]er) leg around\, pounding your (head|chest|gut|left arm|right arm|left leg|right leg) with (?:[hH]is|[hH]er) heel\.$"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>aux = "%2"
+if (string.find (aux, " ")) then
+&#9;s, e, v1, v2 = string.find (aux, "(%a+) (%a+)")
+&#9;aux = v1..v2
+end --if
+wounds [aux] = wounds [aux] or 0
+wounds [aux] = wounds [aux] + tonumber (GetVariable ("mwounds"))
+g_cond ("Poisons")
+c_weapon = "chain"</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Ninjakari"
+   match="^Springing up\, [A-Z][a-z]+ whirls (?:[hH]is|[hH]er) leg around\, pounding your head with such force that your eyeballs burst excruciatingly\, dribbling wet ooze down your cheeks\.$"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>if (c_def.sixthsense == nil) then
+&#9;add_blindness ()
+end --if
+wounds.head = wounds.head or 0 + 50</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Ninjakari"
+   match="^Springing up\, [A-Z][a-z]+ whirls (?:[hH]is|[hH]er) leg around\, pounding your head\, and you reel backwards as your vision blurs\.$"
+   regexp="y"
+   script="add_stun"
+   send_to="12"
+   sequence="100"
+  >
+  <send>wounds.head = wounds.head or 0 + 50</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Hartstone"
+   match="^Squirrels chitter madly but remain unseen in the trees\. You are pelted by acorns that leave welts and bruises\.$"
+   name="ht_squirrels"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>sysinfo ("Hartstone | Squirrels")
+add_dizziness ()
+add_amnesia ()</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Highlight"
+   match="^Standing in the centre of a ritual zodiac circle drawn in salt\, [A-Z][a-z]+ casts (?:her|his) hands up towards the stars and whispers the names of the planets\. (?:She|He) points an imperious finger towards you and the spheres of the zodiac glow brightly as the terrible blackness between the stars grows\, an ominous shadow falling across the ground\.$"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>ColourNote ("red", "", "RUN RUN RUN RUUUUUUUN RUUUUUUUN RUUUUUUUUN RUUUUUUUN RUUUUUUUN")</send>
+  </trigger>
+  <trigger
+   group="Cond"
+   match="^Suddenly your movements through the time stream are slowed\.$"
+   name="aeon"
+   regexp="y"
+   script="add_aeon"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Scan"
+   match="^Sunlight shines down upon you mercilessly\, rippling across your skin like fire\.$"
+   name="scan_sunallergy2"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>flags:add_check ("sunallergy")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Hunting"
+   match="^Surtami\, an aslaran warrior\-woman screams a vicious warcry as she runs up to you\, locks your arms in an uncomfortable position and pulls until you hear a solid (.*?)CRACK(.*?)\.$"
+   name="hu_surtami_botharms"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>add_broken ("", "", {"left", "arm"})
+add_broken ("", "", {"right", "arm"})</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Warrior"
+   keep_evaluating="y"
+   match="^Sweeping (.*) through the air overhead\, [A-Z][a-z]+ sends it whooshing straight towards your (?:.*)?\."
+   regexp="y"
+   script="warrior_attack"
+   send_to="12"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Warrior"
+   keep_evaluating="y"
+   match="^Swinging (.*) in an underhand arc\, [A-Z][a-z]+ strikes at you(?:.*)?\."
+   regexp="y"
+   script="warrior_attack"
+   send_to="12"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Ninjakari"
+   match="^Taking (?:.*) in two hands\, ([A-Z][a-z]+) throws it out to its full length\, then whips it down upon you\, tearing your flesh and coiling it tightly about your (left arm|right arm|left leg|right leg|gut|chest|head)\.$"
+   name="nin_ninshi"
+   regexp="y"
+   script="add_grappled"
+   send_to="12"
+   sequence="100"
+  >
+  <send>body_part = "%2"
+if (string.find (body_part, " ")) then
+&#9;s, e, v1, v2 = string.find (body_part, "(%a+) (%a+)")
+&#9;ninshied = v1..v2
+else
+&#9;ninshied = body_part
+end --if
+ninshi [ninshied] = 1
+mwound (body_part)
+EnableTrigger ("nin_ninshi_fail", true)
+EnableTrigger ("nin_ninshi_cure", true)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Stealth"
+   match="^Taking a rope\, [A-Z][a-z]+ quickly trusses you up\, tightening the bindings until you can barely move\.$"
+   name="ste_trussed"
+   regexp="y"
+   script="add_trussed"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   group="Hexes"
+   match="^Terror descends upon you and your head swims \- you must find shelter\!$"
+   name="he_agoraphobia"
+   omit_from_output="y"
+   regexp="y"
+   script="add_agoraphobia"
+   send_to="14"
+   sequence="100"
+  >
+  <send>EnableTriggerGroup ("Hexes", false)
+if (glyph_throw == 1) then
+&#9;glyph_hit = 1
+&#9;glyph_throw = nil
+end --if</send>
+  </trigger>
+  <trigger
+   group="System_Pipes_Smoking"
+   match="^That pipe isn\'t lit\.$"
+   name="smoking_unlit"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>pipes:err ("unlit")</send>
+  </trigger>
+  <trigger
+   group="Cond"
+   match="^The block of ice around you begins to constrict\, and you are helpless as your flesh freezes over\.$"
+   name="aq_preserve_dead"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>sysprint ("aqua", "", "preserve is getting you !")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Telekinesis"
+   match="^The bones of your (right|left) (arm|leg) suddenly snap\.$"
+   name="tel_breaklimb"
+   omit_from_output="y"
+   regexp="y"
+   script="add_broken"
+   send_to="14"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Druidry"
+   match="^The bough you\'re standing on suddenly tilts and branches forcibly hurl you out of the tree\, sending you tumbling to the forest floor\.$"
+   name="dr_broken"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>sysinfo ("Randomly chosen aff")
+add_broken ("", "", {"left", "arm"})
+add_broken ("", "", {"left", "leg"})</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Ninjakari"
+   match="^The chain catches around your flailing (right|left) (leg|arm)\, snapping tight with the screech of metal and twisting it in a hideous contortion of mangled flesh\.$"
+   name="nin_ninthugi_twisted"
+   regexp="y"
+   script="add_twisted"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Ninjakari"
+   match="^The chain coiled around your (left arm|right arm|left leg|right leg|chest|gut|head) turns the healing salve brown and useless\.$"
+   name="nin_ninshi_fail"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>body_part = "%1"
+if (string.find (body_part, " ")) then
+&#9;s, e, v1, v2 = string.find (body_part, "(%a+) (%a+)")
+&#9;ninshied = v1..v2
+else
+&#9;ninshied = body_part
+end --if
+ninshi [ninshied] = 1
+if (string.find (body_part, "leg")) then
+&#9;body_part = "legs"
+end --if
+if (string.find (body_part, "arm")) then
+&#9;body_part = "arms"
+end --if
+EnableTimer ("fst_elixir", false)
+SetVariable ("elixir", "1")
+flag.applying_salve = nil
+delcure ("health"..body_part)
+if (affs.unknown == "health"..body_part) then
+&#9;flag.unknown = nil
+end --if</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   lines_to_match="2"
+   match="^The chanting of your name increases in volume\, and the road beneath your feet begins to vibrate\.$"
+   regexp="y"
+   script="via"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Wicca.MDs"
+   lines_to_match="2"
+   match="^The crone crosses her shriveled arms and turns her dark\, penetrating gaze upon you\.$"
+   name="w_crone"
+   omit_from_output="y"
+   regexp="y"
+   script="crone"
+   send_to="14"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Wildarrane"
+   match="^The dreamy notes of the song fill you with a rich warmth\.$"
+   name="hartdream"
+   omit_from_output="y"
+   regexp="y"
+   script="add_hypersomnia"
+   send_to="14"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Demesne"
+   match="^The elemental waters mostly drain away\, leaving the locale flooded but no longer deeply submerged\.$"
+   name="delluge_down"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>ColourNote ("yellow", "royalblue", "DELUGE DOWN DELUGE DOWN DELUGE DOWN DELUGE DOWN DELUGE DELUGE DELUGE DELUGE")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Aquamancy"
+   match="^The enormous bubble pops and drops you onto the ground\.$"
+   name="aq_bubble_free"
+   omit_from_output="y"
+   regexp="y"
+   script="aq_bubble"
+   send_to="14"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   match="^The flesh on your (left|right) (leg|arm) shrivels to the bone\.$"
+   name="shriveled_limb"
+   omit_from_output="y"
+   regexp="y"
+   script="add_broken"
+   send_to="14"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   match="^The force of the blow against .* sends massive vibrations through your .*\.$"
+   name="al_heftyaxe"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>sysinfo ("&lt; HeftyAxe. Shit &gt;")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   match="^The force of the blow throws your parrying arm off balance\.$"
+   name="pb_heftysword"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>sysinfo ("&lt; HeftySword. Shit &gt;")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Stag"
+   match="^The form of a ghostly stag settles upon [A-Z][a-z]+\. (?:She|He) raises one golden hoof up high and stomps down upon you\, knocking the wind out of your lungs\.$"
+   name="st_stagstomp"
+   regexp="y"
+   script="add_disrupted"
+   send_to="12"
+   sequence="100"
+  >
+  <send>cond ({"st_broken"})</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Runes"
+   match="^The ghostly outline of (?:a|an) (\w+) rune briefly appears in front of you before slamming into your forehead\.$"
+   name="ru_fuse"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>if (runes["%1"]) then
+&#9;_G['add_'..runes["%1"]] ()
+end --if</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Geomancy"
+   match="^The ground convulses and you are no longer able to see through the pitch black clouds that contaminate the air\. The stinking pollution coats your skin\, dissolving your flesh like acid\, and you choke upon the foul fumes that eat away at your lungs\.$"
+   name="geo_pollute4"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>sysprint ("orange", "royalblue", "pollute cast. mage at 0 mana 0 power attack attack attack attack")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Scan"
+   match="^The ground seems to tilt and you fall with a thump\.$"
+   name="scan_dizziness"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>scan.dizziness = 1</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Stag"
+   match="^The hazy image of a white stag runs in front of you\, bumping you back and preventing you from leaving\.$"
+   name="st_ringwalk"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>sysinfo ("--&lt;&lt; RINGWALK &gt;&gt;--")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Scan"
+   match="^The hole in your throat prevents you from swallowing\.$"
+   name="scan_slitthroat2"
+   regexp="y"
+   script="add_slitthroat"
+   send_to="12"
+   sequence="100"
+  >
+  <send>if (next(wounds)) then
+&#9;if (GetVariable("elixir") == "0.5") then
+&#9;&#9;fst_elixir ()
+&#9;end --if
+&#9;if (GetVariable ("herb") == "0.5") then
+&#9;&#9;fst_herb ()
+&#9;end --if
+&#9;if (GetVariable ("purg") == "0.5") then
+&#9;&#9;fst_purg ()
+&#9;end --if
+end --if</send>
+  </trigger>
+  <trigger
+   group="Scan"
+   match="^The idea of putting something in your stomach sickens you\.$"
+   name="scan_anorexia"
+   regexp="y"
+   script="add_anorexia"
+   send_to="12"
+   sequence="100"
+  >
+  <send>fst_herb ()
+fst_elixir ()</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Scan"
+   match="^The idea of putting something in your stomach sickens you\.$"
+   omit_from_output="y"
+   regexp="y"
+   script="add_anorexia"
+   send_to="14"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Starhymn"
+   match="^The light of Holy Celestia surrounds you as blessed (Elohora|Raziela|Methrenton|Japhiel|Shakiniel) judges the unworthy\.$"
+   name="justchorale"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>afflictions = {
+Elohora = "paralysis",
+Raziela = "pacified",
+Methrenton = "sensitivity",
+Japhiel = "hallucinations",
+Shakiniel = "hypochondria",
+}
+for msg, aff in pairs (afflictions) do
+&#9;if ("%1" == msg) then
+&#9;&#9;_G ['add_'..aff] ()
+&#9;&#9;break
+&#9;end --if
+end --for
+afflictions = {}
+afflictions = nil</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Glamours"
+   match="^The maelstrom of rainbow colours whips violently around\, slamming (incandescent blue striations|deep indigo whorls|bright yellow flashes|emerald green iridescence|vibrant orange hues|lustrous violet swirls|scarlet red light) into you\.$"
+   name="gla_colourmaelstrom"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>afflictions = {
+["incandescent blue striations"] = "recklessness",
+["bright yellow flashes"] = "dementia",
+["emerald green iridescence"] = "epilepsy",
+["vibrant orange hues"] = "stupidity",
+["lustrous violet swirls"] = "dizziness",
+["scarlet red light"] = "paralysis",
+}
+for msg, aff in pairs (afflictions) do
+&#9;if ("%1" == msg) then
+&#9;&#9;_G ['add_'..aff] ()
+&#9;end --if
+&#9;if ("%2" == msg) then
+&#9;&#9;_G ['add_'..aff] ()
+&#9;end --if
+&#9;if ("%3" == msg) then
+&#9;&#9;_G ['add_'..aff] ()
+&#9;end --if
+end --for
+afflictions = {}
+afflictions = nil</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Kata.Mods"
+   match="^The massive trauma to your head has damaged your skull and brain considerably\. $"
+   name="kata_concussion"
+   regexp="y"
+   script="add_concussion"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Scan"
+   match="^The mud covering you slows your movement\.$"
+   name="scan_mud"
+   regexp="y"
+   script="add_mud"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   lines_to_match="2"
+   match="^The overwhelming power of a celestial archangel forces you to humbly kneel down\.$"
+   name="elohora_kneel"
+   regexp="y"
+   script="add_stun"
+   send_to="12"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   lines_to_match="2"
+   match="^The road suddenly flares with a blinding yellow light and the sound of stamping feet is deafening\.$"
+   regexp="y"
+   script="via"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   group="Scan"
+   match="^The salve slides off your oily skin\.$"
+   name="scan_slickness"
+   omit_from_output="y"
+   regexp="y"
+   script="add_slickness"
+   send_to="14"
+   sequence="100"
+  >
+  <send>fst_salve ()</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Scan"
+   match="^The shadows weigh on your thoughts\, draining your mental energies\.$"
+   name="scan_succumb"
+   regexp="y"
+   script="add_succumb"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Wildarrane"
+   lines_to_match="2"
+   match="^The singing of an ancient voice crackles through the air\, and a sudden flurry of bitterly cold snow falls down in white clumps\.$\n^The cold of the snow seeps into your bones\.$"
+   multi_line="y"
+   name="albionaria"
+   regexp="y"
+   script="add_frozen"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Starhymn"
+   lines_to_match="2"
+   match="^The song of an angelic choir fills the air with a blazing white light\.$\n^You find you must cover your eyes and drop to your knees\.$"
+   multi_line="y"
+   name="lightcantata"
+   regexp="y"
+   script="add_blindness"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Druidry"
+   match="^The sticky sap coating your body causes you to move unbearably slowly\.$"
+   name="sap_check"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>if
+&#9;next (affs ["current"]) and
+&#9;next (flags ["current"])
+&#9;&#9;then
+&#9;affs:sap_check ("slowed")
+end --if</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Geomancy"
+   match="^The stinking gas creeps deep down your throat\, making you vomit violently\.$"
+   name="geo_poison"
+   regexp="y"
+   script="geo_poison"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Aquamancy"
+   match="^The strong currents of the water spin and churn\, pulling you back as you try to swim away\.$"
+   name="aq_whirlpool_move"
+   regexp="y"
+   script="aq_whirlpool"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Aquamancy"
+   lines_to_match="2"
+   match="^The strong currents of the whirling waters pull at you\.\n^The currents pull you out to the (east|west|north|south|northwest|southwest|northeast|southeast|in|out|down|up)\.$"
+   multi_line="y"
+   name="aq_whirlpool_drag"
+   regexp="y"
+   script="aq_whirlpool"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Tarot"
+   match="^The tarot card hits your magical shield\, which immediately explodes upon impact\.$"
+   name="t_world"
+   regexp="y"
+   script="t_world"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Cond"
+   match="^The thorny vines wrapped around you viciously whipsaw back and forth\, flaying the skin from your flesh in bloody strips\.$"
+   name="cured_lashed_rend"
+   omit_from_output="y"
+   regexp="y"
+   script="cured_lashed"
+   send_to="14"
+   sequence="100"
+  >
+  <send>sysinfo ("--Rend--")
+EnableTrigger ("cured_lashed_rend", false)
+clotting ("clotstart", "", {"200"})</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Druidry"
+   match="^The tiny red mushrooms on the ground release a cloud of yellow spores\, which travel up your nose and make your eyes water\.$"
+   name="dr_spores"
+   omit_from_output="y"
+   regexp="y"
+   script="dr_spores"
+   send_to="14"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Scan"
+   match="^The walls close in to suffocate you \- you must escape\!$"
+   name="scan_claustrophobia"
+   regexp="y"
+   script="add_claustrophobia"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   group="Hexes"
+   match="^The walls close in to suffocate you \- you must escape\!$"
+   name="he_claustrophobia"
+   omit_from_output="y"
+   regexp="y"
+   script="add_claustrophobia"
+   send_to="14"
+   sequence="100"
+  >
+  <send>EnableTriggerGroup ("Hexes", false)
+if (glyph_throw == 1) then
+&#9;glyph_hit = 1
+&#9;glyph_throw = nil
+end --if</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Gag"
+   match="^There are no poisons on that item at present\.$"
+   omit_from_output="y"
+   regexp="y"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_WNocure"
+   match="^There are no vines around you\! You begin to writhe helplessly\, throwing your body off balance\.$"
+   name="nclashed"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>prompt:queue (function ()
+nocure:writhe({"lashed_leftarm", "lashed_rightarm", "lashed_leftleg", "lashed_rightleg"})
+end, "ncwrithe", true)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_WNocure"
+   match="^There is no beast clamped onto you\! You begin to writhe helplessly\, throwing your body off balance\.$"
+   name="ncclamped"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>prompt:queue (function ()
+nocure:writhe ({"clamped_left", "clamped_right"})
+end, "ncclamped", true)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Geomancy"
+   match="^Thick\, oily smoke pours out of the mouth of [A-Z][a-z]+ and creates an ankle\-deep carpet of seething black fog\. As the smoke is soaked into the ground\, the area turns putrid and foul\. This location is now tainted\.$"
+   name="geo_taint"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>sysinfo ("Location is now TAINTED")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Checks"
+   match="^Tight bindings cling to you\, making that impossible\.$"
+   name="check_entangled1"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>affs:add ("entangled")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Hartstone"
+   match="^Vines from the looming trees drape about your form\, clinging to you as you stumble along the twisted path\.$"
+   name="ht_pathtwist"
+   regexp="y"
+   script="add_entangled"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Aquamancy"
+   match="^Violent rain slams into your skin so hard that they hit you like hot needles\.$"
+   name="aq_needlerain"
+   omit_from_output="y"
+   regexp="y"
+   script="aq_needlerain"
+   send_to="14"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Glamours"
+   lines_to_match="2"
+   match="^Vivid blue spirals spin wildly around you\, and suddenly you are seeing double\.$\n^Blood drips from your nose as the rainbow lights swirl around you in a maddening frenzy\.$"
+   multi_line="y"
+   name="rainbowpattern_dizziness"
+   regexp="y"
+   script="add_dizziness"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System"
+   match="^What is it that you wish to drink\?$"
+   name="no_vial"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>display.warning ("vials are possibly empty - check you potionlist")</send>
+  </trigger>
+  <trigger
+   group="Lusted"
+   match="^Whom do you wish to reject\?$"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>affs.lust = {}
+EnableTimer ("fst_lust", false)
+EnableTriggerGroup ("Lusted", false)</send>
+  </trigger>
+  <trigger
+   group="Lusted"
+   match="^Why would you reject that person\?$"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>affs.lust [#affs.lust] = nil
+EnableTimer ("fst_lusted", false)
+if (next(affs.lust)) then
+&#9;lust (affs.lust [#affs.lust])
+else
+&#9;sysinfo ("Lust cured")
+&#9;affs.lust = {}
+&#9;affs.lust = nil
+end --if
+EnableTriggerGroup ("Lusted", false)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Glamours"
+   match="^Wild\, abstract shapes of (incandescent blue striations|deep indigo whorls|bright yellow flashes|emerald green iridescence|vibrant orange hues|lustrous violet swirls|scarlet red light) and (incandescent blue striations|deep indigo whorls|bright yellow flashes|emerald green iridescence|vibrant orange hues|lustrous violet swirls|scarlet red light) splatter across your vision\, sending you reeling\.$"
+   name="colourspray_aff"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>afflictions = {
+["incandescent blue striations"] = "recklessness",
+["bright yellow flashes"] = "dementia",
+["emerald green iridescence"] = "epilepsy",
+["vibrant orange hues"] = "stupidity",
+["lustrous violet swirls"] = "dizziness",
+["scarlet red light"] = "paralysis",
+}
+for msg, aff in pairs (afflictions) do
+&#9;if ("%1" == msg) then
+&#9;&#9;_G ['add_'..aff] ()
+&#9;end --if
+&#9;if ("%2" == msg) then
+&#9;&#9;_G ['add_'..aff] ()
+&#9;end --if
+&#9;if ("%3" == msg) then
+&#9;&#9;_G ['add_'..aff] ()
+&#9;end --if
+end --for
+afflictions = {}
+afflictions = nil</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Warrior"
+   keep_evaluating="y"
+   match="^With a deft move\, [A-Z][a-z]+ retaliates with a quick \w+ of (.*)\.$"
+   regexp="y"
+   script="warrior_attack"
+   send_to="12"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Ninjakari"
+   match="^With a deft pirouette\, [A-Z][a-z]+ whirls (?:.*) about (?:him|her)self\, bringing it crashing into the side of your (head|gut|chest|left leg|right leg|left arm|right arm)\.$"
+   name="nin_attack3"
+   regexp="y"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Warrior"
+   keep_evaluating="y"
+   match="^With a focused look\, [A-Z][a-z]+ strikes at you with (.*?)(?:\, and you partially parry the blow with (?:.*)\.|\.)"
+   regexp="y"
+   script="warrior_attack"
+   send_to="12"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Geomancy"
+   match="^With a great rumble\, the small fissures on the ground widen to large cracks\, sending great gouts of poisonous clouds roiling and churning into the air\, making breathing difficult and your eyes water painfully\.$"
+   name="geo_pollute3"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>syswarn ("pollute 3 3 3 3 3 3 3 3 3 3 3 3 3 3 ruuuuunnn !!!")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Druidry"
+   match="^With a grim smile\, [A-Z][a-z]+ touches the trees and sap courses out in a thick syrup that lunges at you\, coating you in the viscid liquid\.$"
+   name="dr_aff_sap"
+   regexp="y"
+   script="add_sap"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Neromancy"
+   match="^With a guttural chant\, [A-Z][a-z]+ places a hand on your chest and sucks the nourishment out of your body\.$"
+   name="necro_feed"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>syswarn ("feed !!! Watch hunger")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Warrior"
+   lines_to_match="2"
+   keep_evaluating="y"
+   match="^With a heavy overhand stroke\, [A-Z][a-z]+ slams (.*) down upon you(?:.*)?\."
+   regexp="y"
+   script="warrior_attack"
+   send_to="12"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Warrior"
+   keep_evaluating="y"
+   match="^With a powerful lunge\, [A-Z][a-z]+ strikes at you with (.*)(?: and you partially block(?:.*))?\."
+   regexp="y"
+   script="warrior_attack"
+   send_to="12"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Kata"
+   match="^With a quick spin\, [A-Z][a-z]+ kicks you in the (left leg|right leg|left arm|right arm|chest|gut|head) with (?:her|his) (?:left|right) foot\.$"
+   name="kata_kick"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>aux = "%1"
+if (string.find (aux, " ")) then
+&#9;s, e, v1, v2 = string.find (aux, "(%a+) (%a+)")
+&#9;aux = v1..v2
+end --if
+wounds [aux] = wounds [aux] or 0
+wounds [aux] = wounds [aux] + 0.7 * tonumber (GetVariable ("mwounds"))/5
+aux = nil
+c_weapon = "unarmed"</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Moon"
+   match="^With a slow\, jerking dance\, [A-Z][a-z]+ points at you and lowers (?:her|his) arms\, and you feel the world about you slow\.$"
+   name="mo_wane"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>if (c_def.speed) then
+&#9;lostdef_speed ()
+else
+&#9;add_aeon ()
+end --if</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Ninjakari"
+   match="^With a swift two\-handed strike\, [A-Z][a-z]+ whirls around and whips (.*) into your (right arm|left arm|right leg|left leg|head|chest|gut)\, burrowing deeply into your flesh\.$"
+   name="nin_unk"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>mwound ("%2")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Shofangi"
+   match="^With a whirl of (?:her|his) shofa\, ([A-Z][a-z]+) charges recklessly from the aura of rebounding into you\, spearing the twin blades into your ribs and brutally hooking them\, knocking you to the ground\.$"
+   name="bullcharge_rebound"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>lostdef_rebound ()
+add_grappled ("", "", {"%1", "chest")
+wounds.chest = wounds.chest or 0
+wounds.chest = wounds.chest + tonumber (GetVariable ("mwounds"))/3
+g_cond {"Poisons"}
+c_weapon = "shofa"</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Shofangi"
+   match="^With a whirl of (?:her|his) shofa\, ([A-Z][a-z]+) charges recklessly from the ether into you\, spearing the twin blades into your ribs and brutally hooking them\, knocking you to the ground\.$"
+   name="bullcharge"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>add_grappled ("", "", {"%1", "chest")
+wounds.chest = wounds.chest or 0
+wounds.chest = wounds.chest + tonumber (GetVariable ("mwounds"))/3
+g_cond {"Poisons"}
+c_weapon = "shofa"</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Shofangi"
+   match="^With a whirl of (?:her|his) shofa\, ([A-Z][a-z]+) charges recklessly from the speed defence into you\, spearing the twin blades into your ribs and brutally hooking them\, knocking you to the ground\.$"
+   name="bullcharge_speed"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>lostdef_speed ()
+add_grappled ("", "", {"%1", "chest")
+wounds.chest = wounds.chest or 0
+wounds.chest = wounds.chest + tonumber (GetVariable ("mwounds"))/3
+g_cond {"Poisons"}
+c_weapon = "shofa"</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Crow"
+   match="^With blinding speed\, [A-Z][a-z]+ darts forward and pecks out your eye\, and you scream in agony as blood flows down your face\. The eyeball plops messily to the ground\.$"
+   name="cr_peckeye"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>add_peckedeye ("", "", {"left"})
+cond ({"cr_aff_blindness"})</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Scan"
+   match="^With the heel of your palm\, you smack yourself upside the head\.$"
+   name="scan_masochism1"
+   regexp="y"
+   script="add_masochism"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Shadowbeat"
+   match="^Wounds open up all over your body and you start to bleed\.$"
+   name="bloodycaps"
+   regexp="y"
+   script="add_hemophilia"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Awaken"
+   match="^You already are awake\.$"
+   name="cureasleep2"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>if flags:get ("asleep")
+then
+prompt:queue (function () system:cured_asleep ()end, "cured_asleep", true)
+end--if</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Awaken"
+   match="^You already are awake\.$"
+   name="already_awake"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>system:cured_asleep ()</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="No_disrupted"
+   match="^You are already concentrating on regaining equilibrium\.$"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>if
+flags:get ("disrupted")
+then
+affs:del_queue ("disrupted")
+fst:disable ("disrupted")
+end --if</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Gag"
+   match="^You are already wielding (?:.*)\.$"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>if (to_rewield) then
+&#9;to_rewield = to_rewield - 1
+&#9;if (to_rewield == 0) then
+&#9;&#9;to_rewield = nil
+&#9;end --if
+end --if</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Cheks"
+   match="^You are asleep and can do nothing\. WAKE will attempt to wake you\.$"
+   name="check_asleep"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>affs:add ("asleep")</send>
+  </trigger>
+  <trigger
+   custom_colour="6"
+   enabled="y"
+   group="Scan"
+   match="^You are being strangled by (?:.*)\.$"
+   name="scan_vestiphobia2"
+   regexp="y"
+   script="add_vestiphobia"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Scan"
+   match="^You are being strangled by .* and rip it off of your body\, throwing it on the ground\.$"
+   name="scan_vestiphobia"
+   regexp="y"
+   script="add_vestiphobia"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   group="Cond"
+   match="^You are carried off to the (up|down|in|out|east|west|north|south|northeast|northwest|southeast|southwest)\.$"
+   name="charge_carried"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+   other_text_colour="yellow"
+   other_back_colour="red"
+  >
+  <send>ColourTell ("silver", "", "You are carried off to the ")
+ColourNote ("white", "red", "NORTH")</send>
+  </trigger>
+  <trigger
+   match="^You are dead and cannot do that\.$"
+   name="dead_action"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>reset_aff ()
+reset_def ()
+reset_misc ()
+reset_vars ()
+reset_trigs ()
+EnableTrigger ("dead_action", false)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Scan"
+   match="^You are feeling far too tranquil to attempt such a violent act\.$"
+   name="scan_pacified"
+   regexp="y"
+   script="add_pacified"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Scan"
+   match="^You are gripped with fear \- you cannot leave the ground\.$"
+   name="scan_vertigo"
+   regexp="y"
+   script="add_vertigo"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Medbag"
+   lines_to_match="2"
+   match="^You are holding\:$\n^\&quot;bag(\d+)\&quot;\s+a medicine bag$"
+   multi_line="y"
+   name="id_medbag"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>SetVariable ("medbag", "%1")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Elementalism"
+   lines_to_match="2"
+   match="^You are hurled to the (east|west|south|north|northeast|northwest|southeast|southwest|up|down|in|out)\.$"
+   name="el_gust"
+   regexp="y"
+   script="gust"
+   send_to="12"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Awaken"
+   match="^You are jerked awake by the need to vomit\.$"
+   name="cureasleep4"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>prompt:queue (function ()
+system:cured_asleep
+affs:add ("vomiting")
+flags:add_check ("recklessness")
+end, "awake_vomiting", true)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Awaken"
+   match="^You are jerked awake by the pain\.$"
+   name="cureasleep3"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>prompt:queue (function ()
+system:cured_asleep ()
+end, "awake_pain", true)
+flags:add_check ("recklessness")</send>
+  </trigger>
+  <trigger
+   group="Cond"
+   match="^You are knocked off your feet by the force of the blow\.$"
+   name="headslam_prone"
+   omit_from_output="y"
+   regexp="y"
+   script="add_prone"
+   send_to="14"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   group="Veritas.Harvesting"
+   match="^You are not certain how to go about harvesting that herb\.$"
+   name="Harvest_impossible"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>EnableTrigger ("harvest_trigger", false)
+EnableTrigger ("harvest_impossible", false)
+EnableAlias ("harvest_reset", false)
+EnableTrigger ("harvest_gag1", false)
+EnableTrigger ("harvest_gag2", false)
+EnableAlias ("harvest_alias", true)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Scan"
+   lines_to_match="2"
+   match="^You are overcome by it all and topple over in a dead faint\.\n-$"
+   multi_line="y"
+   name="scan_vapors"
+   regexp="y"
+   script="add_vapors"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Scan"
+   match="^You are paralysed and unable to (?:drop anything|do that)\.$"
+   name="check_paralysis1"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>if (affs.prone) then
+&#9;add_paralysis ()
+end --if</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Stealth"
+   match="^You are somewhat surprised to see [A-Z][a-z]+ suddenly moving much faster than before\.$"
+   name="stea_rushing"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>syswarn ("rushing !!! Shield or hinder?")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Scan"
+   match="^You are stunned by a vision of divine astral beings\.$"
+   name="scan_hallucinations"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>flags:add_check ("hallucinations")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Scan"
+   match="^You are too confused to concentrate properly\.$"
+   name="scan_confusion"
+   regexp="y"
+   script="add_confusion"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Scan"
+   match="^You are too impatient to focus on anything\.$"
+   name="scan_impatience"
+   regexp="y"
+   script="add_impatience"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Scan"
+   match="^You are too stunned to be able to do anything\.$"
+   name="scan_stun"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>add_stun ()</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Checks"
+   match="^You are too tangled up to do that\.$"
+   name="check_entangled2"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>if
+affs:has ("prone")
+then
+affs:add ("entangled")
+end --if</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Scan"
+   match="^You are transfixed and cannot move\.$"
+   name="scan_transfixed"
+   regexp="y"
+   script="add_transfixed"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Scan"
+   match="^You are unable to maintain a stance for any period of time while your kneecaps are cracked\.$"
+   name="scan_kneecap"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>if (affs.crackedleftkneecap == nil) and (affs.crackedrightkneecap == nil) then
+&#9;add_crackedkneecap ("", "", {"left"})
+&#9;sysinfo ("Kneecap randomly chosen")
+end --if</send>
+  </trigger>
+  <trigger
+   group="System_Parry_Check"
+   match="^You are weighing your attention spent parrying yourself as follows\:$"
+   name="parry_start"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>flags:del ("waiting_for_parry")
+fst:disable ("parry")
+parry:reset ("silent")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_WNocure"
+   match="^You aren\'t bound in ropes\! You begin to writhe helplessly\, throwing your body off balance\.$"
+   name="ncroped"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>prompt:queue (function () nocure:writhe("roped")end, "ncroped", true)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_WNocure"
+   match="^You aren\'t entangled\! You begin to writhe helplessly\, throwing your body off balance\.$"
+   name="ncentangled"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>prompt:queue (function () nocure:writhe("entangled")end, "ncentangled", true)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_WNocure"
+   match="^You aren\'t grappled\! You begin to writhe helplessly\, throwing your body off balance\.$"
+   name="ncgrappled"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>prompt:queue (function () nocure:writhe("grappled")end, "ncgrappled", true)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_WNocure"
+   match="^You aren\'t hoisted\! You begin to writhe helplessly\, throwing your body off balance\.$"
+   name="nchoisted"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>prompt:queue (function () nocure:writhe("hoisted")end, "nchoisted", true)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_WNocure"
+   match="^You aren\'t shackled\! You begin to writhe helplessly\, throwing your body off balance\.$"
+   name="ncshackled"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>prompt:queue (function () nocure:writhe("shackled")end, "ncshackled", true)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_WNocure"
+   match="^You aren\'t transfixed\! You begin to writhe helplessly\, throwing your body off balance\.$"
+   name="nctransfixed"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>prompt:queue (function ()nocure:writhe ("transfixed")end, "nctransfixed",true)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_WNocure"
+   match="^You aren\'t trussed up\! You begin to writhe helplessly\, throwing your body off balance\.$"
+   name="nctrussed"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>prompt:queue (function () nocure:writhe("trussed")end, "nctrussed", true)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   match="^You assess the bodily wounds as follows\:$"
+   name="start_assess"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>EnableTriggerGroup ("Assess", true)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Scan"
+   match="^You attempt to inhale\, but only end up coughing out more black phlegm\.$"
+   name="scan_blacklung2"
+   regexp="y"
+   script="add_blacklung"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Scan"
+   match="^You attempt to inhale\, but only end up making a wheezing noise\.$"
+   name="scan_phrenicnerve"
+   regexp="y"
+   script="add_phrenicnerve"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Telekinesis"
+   match="^You attempt to move\, but the muscles of your legs are locked\.$"
+   name="tel_leglock"
+   omit_from_output="y"
+   regexp="y"
+   script="add_leglock"
+   send_to="14"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Scan"
+   match="^You begin feeling slightly flushed\.$"
+   name="scan_crotamine1"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>add_crotamine ()
+scan.hypochondria = "crotamine"</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Focus"
+   match="^You begin focusing your mind on your motor skills\.$"
+   name="focusbody"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>bals:offbal ("focus")
+EnableTriggerGroup ("System_Focus", false)</send>
+  </trigger>
+  <trigger
+   group="Focus"
+   match="^You begin focusing your mind on your motor skills\.$"
+   name="begin_focus"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>bals:offbal ("focus")
+EnableTriggerGroup ("System_Focus", false)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Scan"
+   match="^You begin moving your frozen body slowly (?:north|south|west|east|southwest|southeast|northwest|northeast|down|up|in|out)\.$"
+   name="scan_frozen_movement"
+   regexp="y"
+   script="add_frozen"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   group="Hexes"
+   match="^You begin to panic as the thought of wearing clothing strangles you\.$"
+   name="he_vestiphobia"
+   omit_from_output="y"
+   regexp="y"
+   script="add_vestiphobia"
+   send_to="12"
+   sequence="100"
+  >
+  <send>EnableTriggerGroup ("Hexes", false)
+if (glyph_throw == 1) then
+&#9;glyph_hit = 1
+&#9;glyph_throw = nil
+end --if</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_WStart"
+   match="^You begin to struggle free of your entanglement\.$"
+   name="startentangled"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>prompt:queue (function ()
+affs:impaled (0)
+affs:pinleg (0)
+act:writhing_start () end, "start_entangled", true)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Ninjakari"
+   match="^You begin to twitch uncontrollably\.$"
+   name="nin_ninaali"
+   regexp="y"
+   script="add_trembling"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Gag"
+   match="^You begin to wield (?:.*)\.$"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>if (to_rewield) then
+&#9;to_rewield = to_rewield - 1
+&#9;if (to_rewield == 0) then
+&#9;&#9;to_rewield = nil
+&#9;end --if
+end --if</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_WStart"
+   match="^You begin to wrench your (left|right) arm from the mutt\'s mouth\.$"
+   name="startclamped"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>prompt:queue (function ()
+affs:impaled (0)
+affs:pinleg (0)  
+act:writhing_start () end, "start_clamped", true)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_WStart"
+   match="^You begin to writhe furiously to escape (?:from the iron cross|the antlers that have impaled you|the blade that has impaled you)\.$"
+   name="startimpaled"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>prompt:queue (function ()
+affs:pinleg (0)
+act:writhing_start () end, "start_impaled", true)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_WStart"
+   match="^You begin to writhe furiously to escape the blade that has impaled your (right|left) foot\.$"
+   name="starpinleg"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>prompt:queue (function ()
+act:writhing_start () end, "start_pinleg", true)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_WNocure"
+   match="^You begin to writhe helplessly\, throwing your body off balance\.$"
+   name="ncwrithe"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>prompt:queue (function () nocure:writhe()end, "ncwrithe", true)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_WStart"
+   match="^You begin trying to wrest your mind free of that which has transfixed it\.$"
+   name="starttransfixed"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>prompt:queue (function ()
+affs:impaled (0)
+affs:pinleg (0)
+act:writhing_start () end, "start_transfixed", true)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Gag"
+   match="^You begin wielding (?:.*)\.$"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>if (to_rewield) then
+&#9;to_rewield = to_rewield - 1
+&#9;if (to_rewield == 0) then
+&#9;&#9;to_rewield = nil
+&#9;end --if
+end --if</send>
+  </trigger>
+  <trigger
+   group="System_Awaken"
+   match="^You begin your struggle to escape from the dreamworld\.$"
+   name="begin_waking"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>prompt:queue (function ()
+display.system ("beginning to wake up...")
+fst:enable ("asleep")
+end, "waking_up", true)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Scan.Daydreaming"
+   match="^You briefly imagine yourself taking over Bob\'s trading business\, causing a small chuckle to grace your lips\.$"
+   regexp="y"
+   script="add_daydreaming"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   group="Tracking"
+   match="^You can climb no higher\.$"
+   name="pit_nopit"
+   omit_from_output="y"
+   regexp="y"
+   script="cured_pit"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   group="No_focus"
+   match="^You can not focus that\!$"
+   name="nocure_focus_mind"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>nocure:focus_mind</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Scan"
+   match="^You cannot contain the convulsions in your stomach any longer and double over\, retching violently\.$"
+   name="scan_vomiting"
+   regexp="y"
+   script="add_vomiting"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Cured"
+   match="^You carefully watch your footing and shimmy down from the treetops\.$"
+   name="cured_intrees"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>affs:del ("intrees")
+flags:del ("climbing")
+fst:disable ("climbing")
+display.cured ("intrees")</send>
+  </trigger>
+  <trigger
+   custom_colour="7"
+   enabled="y"
+   group="Gag"
+   match="^You cease wielding (?:.*)\.$"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>to_rewield = 2</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Telekinesis"
+   match="^You consume (?:a|an)(?:.*)$"
+   name="tel_forcefeed"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>system:gcond ({"Poisons"})</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_WContinue"
+   match="^You continue trying to wrest your (left|right) arm free from that filthy mutt\.$"
+   name="cclamped"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>prompt:queue (function () act:writhing () end, "cclamped", true)</send>
+  </trigger>
+  <trigger
+   group="System_WContinue"
+   match="^You continue trying to wrest your mind free\.$"
+   name="ctransfixed"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>prompt:queue (function () act:writhing () end, "ctransfixed", true)</send>
+  </trigger>
+  <trigger
+   group="System_Awaken"
+   match="^You continue your struggle to escape from the dreamworld\.$"
+   name="waking_up"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>prompt:queue (function ()
+display.system ("waking up...")
+fst:enable ("asleep")
+end, "waking_up", true) </send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Telekinesis"
+   match="^You cough as something gets lodged deep in your throat\.$"
+   name="tel_throatlock"
+   omit_from_output="y"
+   regexp="y"
+   script="add_throatlock"
+   send_to="14"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   custom_colour="17"
+   enabled="y"
+   group="Scan"
+   match="^You cough suddenly\, expelling black fluid with bits of what looks to be tissue suspended in it\.$"
+   name="scan_crotamine3"
+   regexp="y"
+   script="add_crotamine"
+   sequence="100"
+   other_text_colour="deeppink"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Scan"
+   match="^You cough uncontrollably\, as you hack up some black phlegm\.$"
+   name="scan_blacklung1"
+   regexp="y"
+   script="add_blacklung"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   lines_to_match="2"
+   match="^You feel a slight tug within your chest and the air around you sparkles with motes of bright light\.$"
+   name="teleport_try"
+   regexp="y"
+   script="teleport_try"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   group="Hexes"
+   match="^You feel nauseous and your skin turns blotchy\.$"
+   name="he_pox"
+   omit_from_output="y"
+   regexp="y"
+   script="add_pox"
+   send_to="14"
+   sequence="100"
+  >
+  <send>EnableTriggerGroup ("Hexes", false)
+if (glyph_throw == 1) then
+&#9;glyph_hit = 1
+&#9;glyph_throw = nil
+end --if</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   match="^You feel the Substratus channel open again\.$"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>settings.locked = settings.locked - 1</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   match="^You feel the \w+ channel has been fully locked\.$"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>settings.locked = settings.locked + 1</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   match="^You feel the strength ebb from your body as the cold takes its toll\.$"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>if (affs.frozen == nil) and (affs.chills == nil) then
+&#9;add_frozen ()
+end --if</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Scan"
+   match="^You feel your allergy to the sun going into temporary remission\.$"
+   name="scan_sunallergy1"
+   regexp="y"
+   script="add_sunallergy"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   custom_colour="2"
+   enabled="y"
+   make_underline="y"
+   match="^You feel your will manipulated by a pooka(?: bound in shadows)?\.$"
+   name="pooka"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Nihilism"
+   match="^You feel yourself compelled to leave the room\, beckoned by the will of a hideous archdemon\.$"
+   name="beckon"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>syswarn ("beckon beckon beckon beckon beckon! shield shield shield shield")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Scan"
+   match="^You find you cannot bear to part from ([A-Z][a-z]+)\.$"
+   name="scan_attraction"
+   regexp="y"
+   script="add_attraction"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Scan"
+   match="^You find yourself unwilling to drink while this music is playing\.$"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>if (GetVariable ("elixir") == "0.5") then
+&#9;fst_elixir ()
+elseif (GetVariable ("purg") == "0.5") then
+&#9;fst_purg ()
+elseif (GetVariable ("speed") == "0.5") then
+&#9;fst_speed ()
+elseif (GetVariable ("ah") == "0.5") then
+&#9;fst_ah ()
+end --if</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Scan"
+   match="^You find yourself unwilling to eat while this music is playing\.$"
+   name="scan_recessional"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>if (GetVariable ("herb") == "0.5") then
+&#9;fst_herb ()
+elseif (flag.eating) then
+&#9;fst_eating ()
+elseif (GetVariable ("sparklies") == "0.5") then
+&#9;fst_sparklies ()
+end --if</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Scan.Stupidity"
+   match="^You flap your arms madly\.$"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>if
+&#9;not affs:get ("stupidity") and
+&#9;not affs:get ("fracturedskull")
+&#9;&#9;then
+&#9;affs:add ("stupidity")
+&#9;flags:add_check ("fracturedskull", "stupidity")
+end --if</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Scan.Stupidity"
+   match="^You flip the bird\.$"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>if
+&#9;not affs:get ("stupidity") and
+&#9;not affs:get ("fracturedskull")
+&#9;&#9;then
+&#9;affs:add ("stupidity")
+&#9;flags:add_check ("fracturedskull", "stupidity")
+end --if</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Focus"
+   match="^You focus your mind intently on curing your (mental|spiritual) maladies\.$"
+   name="focusmind_or_spirit"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>if "%1" == "mental" then
+nocure:init ("focus_mind")
+else
+nocure:init ("focus_spirit")
+end--if
+system:cures_on ()
+EnableTriggerGroup ("System_Focus", false)</send>
+  </trigger>
+  <trigger
+   group="Focus"
+   match="^You focus your mind intently on curing your mental maladies\.$"
+   name="focusmind"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>flag.lc = flag.lc or {}
+flag.lc ["focusmind"] = 1
+EnableTriggerGroup ("No_focus", false)
+EnableTriggerGroup ("Focus", false)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Focus"
+   match="^You focus your mind on your motor skills but find you are already mobile\.$"
+   name="nocurefocus_body"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>nocure:found ("focus_body")
+EnableTriggerGroup ("System_Focus", false)</send>
+  </trigger>
+  <trigger
+   group="No_focus"
+   match="^You focus your mind on your motor skills but find you are already mobile\.$"
+   name="nocure_focus_body"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>nocure:focus_body ()</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Scan.Stupidity"
+   match="^You fondle yourself absently\.$"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>if
+&#9;not affs:get ("stupidity") and
+&#9;not affs:get ("fracturedskull")
+&#9;&#9;then
+&#9;affs:add ("stupidity")
+&#9;flags:add_check ("fracturedskull", "stupidity")
+end --if</send>
+  </trigger>
+  <trigger
+   group="Poisons"
+   match="^You gasp and stumble as part of your precious energy reserves are sapped from you\.$"
+   name="po_escozul"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Ninjakari"
+   match="^You gasp hoarsely for breath as the wind is knocked out of you from the brutal impact\.$"
+   name="nin_ninombhi_chest"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>mwound ("chest")
+if (ruptures.chest &gt;= 1) then
+&#9;add_disrupted ()
+end --if</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Ninjakari"
+   match="^You grimace as the muscles in your (left leg|right leg|left arm|left arm|gut|chest|head) painfully spasm\.$"
+   name="ruptures"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>addruptures ("%1")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Scan"
+   match="^You have a particularly intense shiver\.$"
+   name="shivering"
+   omit_from_output="y"
+   regexp="y"
+   script="add_disrupted"
+   send_to="14"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   group="Veritas.Harvesting"
+   keep_evaluating="y"
+   match="^You have recovered balance on all limbs\.$"
+   name="harvest_trigger"
+   regexp="y"
+   script="harvest"
+   send_to="12"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   match="^You have slain (?:a|an) (.*)\.$"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>toget = GetVariable ("target")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Scan"
+   match="^You hear a dark thrumming\, and pain wracks your entire being\.$"
+   name="scan_powerspikes"
+   regexp="y"
+   script="add_powerspikes"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   match="^You hear a rustling and turn to see ([A-Z][a-z]+).* emerging from the undergrowth\.$"
+   name="flow"
+   omit_from_output="y"
+   regexp="y"
+   script="flow"
+   send_to="14"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Dreamweaving"
+   match="^You hear a voice hiss in your ears\, sending chills down your spine as you look around for its source\.$"
+   name="dw_spook"
+   regexp="y"
+   script="add_fear"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Scan"
+   match="^You hear an ominous sound\, and a dull pain stab throbs throughout your head\.$"
+   name="scan_manabarbs"
+   regexp="y"
+   script="add_manabarbs"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Scan"
+   match="^You hear strange whispers\, and a sharp pain stabs you between the eyes\.$"
+   name="scan_egovice"
+   regexp="y"
+   script="add_egovice"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Medbag"
+   match="^You hold your hands in the air and pray to the stag totem for succor\. A medicine bag forms in your hands\.$"
+   name="summon_medbag"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>settings.medbag = 1
+sysinfo ("-- ( MedBag ) --")
+EnableTriggerGroup ("Medbag", false)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Ninjakari"
+   match="^You howl as the vicious chain rips through your gut\, bursting your intestines and sending a disgusting wetness seeping through your bowels \.$"
+   name="nin_ninthugi_dysenetry"
+   regexp="y"
+   script="add_dysentery"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Shofangi"
+   match="^You howl in agony as the shofa digs deep and pierces your spine\. Your body suddenly starts to feel numb\.$"
+   name="shoaf_kumaki"
+   regexp="y"
+   script="add_paralysis"
+   send_to="12"
+   sequence="100"
+  >
+  <send>wounds.gut = wounds.gut or 0
+wounds.gut = wounds.gut + tonumber (GetVariable ("mwounds"))/2
+g_cond ("Poisons")
+c_weapon = "shofa"</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Scan.Stupidity"
+   match="^You let out a massive belch into the air\.$"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>if
+&#9;not affs:get ("stupidity") and
+&#9;not affs:get ("fracturedskull")
+&#9;&#9;then
+&#9;affs:add ("stupidity")
+&#9;flags:add_check ("fracturedskull", "stupidity")
+end --if</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   match="^You lose your footing and tumble crashing down to the forest floor\.$"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>cond ({"fall_aff_broken"})</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Scan"
+   match="^You love ([A-Z][a-z]+) far too much to even THINK of hurting (?:him|her)\.$"
+   name="scan_lovers"
+   regexp="y"
+   script="add_lovers"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Scan"
+   match="^You lurch forward and vomit out a puddle of blood\.$"
+   name="scan_vimitingblood"
+   regexp="y"
+   script="add_vomitingblood"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   match="^You manage to resist the attempt to summon you\.$"
+   name="summon_try"
+   regexp="y"
+   script="summon_try"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   match="^You may not take another dose of allheale so soon\.$"
+   name="offah"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Balances"
+   match="^You may take another dose of allheale\.$"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>bals:onbal ("ah")
+--maybe to always queue drink_allheale if I have a certain number of afflictions, like more than 5, or 6</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Scan"
+   match="^You move sluggishly into action\.$"
+   name="aeon_check"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>if
+&#9;next (affs ["current"]) and
+&#9;next (flags ["current"]) --if I have sent a cure command, totally useless because I am always curing in battle
+&#9;&#9;then
+&#9;aeon_check ("slowed")
+end --if</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Scan"
+   match="^You must have two legs to do that\.$"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>if
+flags:get ("prone")
+then
+affs:create ("apply_mending_to_legs", "salve", "apply_mending_to_legs")
+end --if</send>
+  </trigger>
+  <trigger
+   group="Ssytem_Cures"
+   match="^You no longer have any temporary insanity\.$"
+   name="cureinsanity2"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>affs:insawarped ("insanity", -1, "none")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Awaken"
+   match="^You open your eyes and (?:yawn mightily|stretch languidly\, feeling deliciously well\-rested)\.$"
+   name="cureasleep1"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>if flags:get ("asleep") then
+prompt:queue (function () system:cured_asleep ()end, "cured_asleep", true)
+end--if</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Awaken"
+   match="^You open your eyes and stretch languidly\, feeling deliciously well-rested\.$"
+   name="awaken1"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>system:cured_asleep ()</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Awaken"
+   match="^You open your eyes and yawn mightily\.$"
+   name="awaken2"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>system:cured_asleep ()</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Scan.Daydreaming"
+   match="^You pause momentarily as you try to imagine what true peace would be like\.$"
+   regexp="y"
+   script="add_daydreaming"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Awaken"
+   match="^You quickly pull yourself out of sleep\.$"
+   name="ondef_metawakeeffect"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>prompt:queue (function ()
+if affs:has ("asleep") then
+  system:cured_asleep ()
+end--if
+defs:ondef ("metawake")
+end, "cured_asleep", true)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   match="^You raze ([A-Z][a-z]+)\'s aura of rebounding with (?:a|an) (?:.*).$"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>rebounds [string.lower ("%1")] = nil</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   expand_variables="y"
+   group="Highlight"
+   match="^You raze @target(?:\'s|\') speed defen[sc]e with(?:.*)\.$"
+   name="raze_speed"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>ColourNote ("white", "blue", "NO SPEED NO SPEED NO SPEED NO SPEED NO SPEED NO SPEED NO SPEED NO SPEED NO SPEED")</send>
+  </trigger>
+  <trigger
+   group="Veritas.Harvesting"
+   match="^You reach down and carefully harvest"
+   name="harvest_gag1"
+   omit_from_output="y"
+   regexp="y"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Affs"
+   match="^You reach upwards and concentrate on finding a sturdy branch\, then lift yourself up with relative ease\.$"
+   name="aff_intrees"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>--affs:add_queue ("intrees")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Scan"
+   match="^You realise that you have been left alone \- you must find companionship\!$"
+   name="scan_loneliness"
+   regexp="y"
+   script="add_loneliness"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   expand_variables="y"
+   group="Lusted"
+   match="^You reject the friendship of ([A-Z][a-z]+)\.$"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>affs.lust [#affs.lust] = nil
+flag.lust = nil
+EnableTimer ("fst_lusted", false)
+Send ("enemy %1")
+if (next(affs.lust)) then
+&#9;lust ("", "", affs.lust [#affs.lust])
+else
+&#9;sysinfo ("Lust cured")
+&#9;affs.lust = {}
+&#9;affs.lust = nil
+end --if
+EnableTriggerGroup ("Lusted", false)
+</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   match="^You remove a brightly polished suit of hunter\'s field plate armour\.$"
+   regexp="y"
+   sequence="100"
+  >
+  <send>wear 130730</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   match="^You remove a warm cloak of autumn hues\.$"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>Send ("wear cloak63513")
+ColourNote ("orangered", "", "WARNING! ")
+</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Medbag"
+   match="^You rub a medicine bag against your (chest|head|gut|left arm|right arm|left leg|right leg)\, allowing the healing properties of the herbs inside to soak through your flesh\.$"
+   name="rubbing_medbag"
+   omit_from_output="y"
+   regexp="y"
+   script="rubbing_medbag"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Medbag"
+   match="^You rub yourself a bit with a medicine bag\, to no effect\.$"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>EnableTriggerGroup ("Medbag", false)
+if (next (last_cure)) then
+&#9;for k, cure in ipairs (last_cure) do
+&#9;&#9;if (string.find (cure, "health")) and (string.len (cure) &gt;= 9) then
+&#9;&#9;&#9;_G ["nocure_"..cure] ()
+&#9;&#9;&#9;break
+&#9;&#9;end --if
+&#9;end --for
+end --if</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Medbag"
+   match="^You rub yourself with a medicine bag\, but the healing herbs cannot absorb into your skin\.$"
+   name="offmedbag"
+   omit_from_output="y"
+   regexp="y"
+   script="offelixir"
+   send_to="14"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Scan"
+   match="^You rush about in a state of utter panic\.$"
+   name="scan_fear"
+   regexp="y"
+   script="add_fear"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   group="Hexes"
+   match="^You rush about in a state of utter panic\.$"
+   name="he_fear"
+   omit_from_output="y"
+   regexp="y"
+   script="add_fear"
+   send_to="14"
+   sequence="100"
+  >
+  <send>EnableTriggerGroup ("Hexes", false)
+if (glyph_throw == 1) then
+&#9;glyph_hit = 1
+&#9;glyph_throw = nil
+end --if</send>
+  </trigger>
+  <trigger
+   group="Cond"
+   match="^You scream in absolute agony and spin violently through the air in a spray of crimson blood\, crashing painfully to the ground elsewhere\.$"
+   name="kumato_throw"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>ColourNote ("brown", "skyblue", "MOVED   MOVED   MOVED   MOVED   MOVED   MOVED   MOVED   MOVED   MOVED   MOVED")
+if (attacker) then
+&#9;flag.writhing = nil
+&#9;EnableTimer ("fst_writhe", false)
+&#9;EnableTriggerGroup ("Writhing", false)
+&#9;ColourNote ("aqua", "", "&gt;&gt;&gt; GO &gt;&gt;&gt; GO &gt;&gt;&gt; GO &gt;&gt;&gt; GO &gt;&gt;&gt; GO &gt;&gt;&gt; GO &gt;&gt;&gt; GO &gt;&gt;&gt; GO &gt;&gt;&gt; GO &gt;&gt;&gt; GO &gt;&gt;&gt;")
+&#9;for aff, v in pairs (affs) do
+&#9;&#9;if (string.find (aff, "grappled_")) and (v == attacker) then
+&#9;&#9;&#9;affs [aff] = nil
+&#9;&#9;&#9;bpart = string.sub (aff, 10)
+&#9;&#9;&#9;wounds [bpart] = wounds [bpart] or 0
+&#9;&#9;&#9;wounds [bpart] = wounds [bpart] + tonumber (GetVariable ("mwounds"))/2
+&#9;&#9;&#9;bpart = nil
+&#9;&#9;end --if
+&#9;end --for
+&#9;attacker = nil
+end --if</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Hartstone"
+   match="^You scream in agony as thorny vines suddenly sprout out of your skin and wrap you in a bloody embrace\.$"
+   name="ht_darkseed"
+   regexp="y"
+   script="add_entangled"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   group="Veritas.Combat.Cured"
+   match="^You shake your head, wondering what you ever saw in (?:.*)\.$"
+   name="cured_lovers"
+   omit_from_output="y"
+   regexp="y"
+   script="cured_lovers"
+   send_to="14"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Scan"
+   match="^You slowly hobble \w+\.$"
+   name="scan_broken"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>addunk ("mendinglegs")
+scan.pierced = "mendinglegs"</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Scan"
+   match="^You smile with pleasure as you ram your fist into your jaw\.$"
+   name="scan_masochism3"
+   regexp="y"
+   script="add_masochism"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Tracking"
+   lines_to_match="2"
+   match="^You spring a trap\!\!$\n^A dart streaks from out of \w+ and slams into you\.$"
+   multi_line="y"
+   name="darts"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>g_cond ("Poisons")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Tracking"
+   lines_to_match="2"
+   match="^You spring a trap\!\!$\n^You step on a concealed plate\, which springs up and tosses you violently out of the room\.$"
+   multi_line="y"
+   name="springtrap"
+   regexp="y"
+   script="add_stun"
+   send_to="12"
+   sequence="100"
+  >
+  <send>syswarn ("moooooooved room out of the room moooooooved room out of the room")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Checks"
+   match="^You stand straight up\.$"
+   name="check_frozen"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>if flags:get ("stand") then
+flags:add_check ("frozen")
+end --if</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_WStart"
+   match="^You strain against the bindings that have you painfully trussed up\.$"
+   name="starttrussed"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>prompt:queue (function ()
+affs:impaled (0)
+affs:pinleg (0)  
+act:writhing_start () end, "start_trussed", true)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_WStart"
+   match="^You struggle to free your limbs from the thorny vines\.$"
+   name="startlashed"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>prompt:queue (function ()
+affs:impaled (0)
+affs:pinleg (0)
+act:writhing_start () end, "start_lashed", true)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_WStart"
+   match="^You struggle to free yourself from being hoisted in the air\.$"
+   name="starthoisted"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>prompt:queue (function ()
+affs:impaled (0)
+affs:pinleg (0)    
+act:writhing_start () end, "start_hoisted", true)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Highlight"
+   lines_to_match="2"
+   match="^You suddenly perceive the vague outline of an aura of rebounding around ([A-Z][a-z]+)\.$"
+   name="highlight_rebound"
+   omit_from_output="y"
+   regexp="y"
+   script="highlight_rebound"
+   send_to="14"
+   sequence="100"
+   lowercase_wildcard="y"
+  >
+  <send>rebounds [string.lower ("%1")] = 1</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Scan"
+   lines_to_match="2"
+   match="^You suffer acute pain as you chew\.$\n^You eat .*"
+   multi_line="y"
+   name="scan_shatteredjaw"
+   regexp="y"
+   script="add_shatteredjaw"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Scan.Stupidity"
+   match="^You sweep your trained eye across the room for the hidden exits\.$"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>if
+&#9;not affs:get ("stupidity") and
+&#9;not affs:get ("fracturedskull")
+&#9;&#9;then
+&#9;affs:add ("stupidity")
+&#9;flags:add_check ("fracturedskull", "stupidity")
+end --if</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Scan"
+   match="^You swoon as you suffer a toxic relapse\.$"
+   name="scan_relapsing"
+   regexp="y"
+   script="add_relapsing"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Cured"
+   match="^You touch your medicine bag and feel your wounds close and heal\.$"
+   name="cured_health_medbag"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>prompt:queue (function () system:cured_health ("medbag_touch") end)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Scan"
+   match="^You try to raise the strength in your limbs\, but find yourself too weary\.$"
+   name="scan_weakness"
+   regexp="y"
+   script="add_weakness"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Scan"
+   match="^You try to speak\, but the hole in your throat inhibits your speaking abilities\.$"
+   name="scan_slitthroat1"
+   regexp="y"
+   script="add_slitthroat"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Scan"
+   match="^You try to speak\, but your crushed windpipe inhibits your abilities\.$"
+   name="scan_windpipe1"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>affs:add ("windpipe")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_WContinue"
+   match="^You twist and turn as you attempt to escape from your entanglement\.$"
+   name="centangled"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>prompt:queue (function () act:writhing () end, "centangled", true)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_WStart"
+   match="^You twist and turn as you struggle to break free of the (?:shackles that bind you|grapple that holds you)\.$"
+   name="cshackled_grappled"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>prompt:queue (function () act:writhing () end, "cshackled", true)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_WStart"
+   match="^You twist and turn as you struggle to break free of the ropes that bind you\.$"
+   name="startroped"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>prompt:queue (function ()
+affs:impaled (0)
+affs:pinleg (0)  
+act:writhing_start () end, "start_roped", true)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Scan"
+   match="^You use your right foot to stomp on your left as hard as possible\.$"
+   name="scan_masochism2"
+   regexp="y"
+   script="add_masochism"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Scan"
+   match="^You watch helplessly as your lifeforce drains into [A-Z][a-z]+\.$"
+   name="scan_healthleech"
+   regexp="y"
+   script="add_healthleech"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Demesne"
+   match="^You weave a fierce phantasm and set it upon [A-Z][a-z]+\, where it begins to hungrily rake (?:her|his) skin with its claws\.$"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>EnableTimer ("claws", true)
+ResetTimer ("claws")</send>
+  </trigger>
+  <trigger
+   group="Cond"
+   match="^You wince in pain and lose control of(?:.*)\.$"
+   name="disarm_success"
+   regexp="y"
+   sequence="100"
+  >
+  <send>to_rewield = 1</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Gag"
+   match="^Your (?:left|right) arm is off balance\.$"
+   omit_from_output="y"
+   regexp="y"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Kata.Mods"
+   match="^Your (left|right) (arm) breaks with a loud crack\.$"
+   name="kata_broken_arm"
+   regexp="y"
+   script="add_broken"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Ninjakari"
+   match="^Your (left|right) (arm|leg) numbs as the entangled chain cuts off the flow of blood and constricts the nerves\.$"
+   name="nin_ninombhi_numbed"
+   regexp="y"
+   sequence="100"
+  >
+  <send>if (ruptures ["%1%2"] &gt;= 1) then
+&#9;add_numbed ("", "", {"%1", "%2"})
+end --if</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Scan"
+   match="^Your (left|right) (arm|leg) suddenly stiffens and loses all feeling sensation\, rendering it useless\.$"
+   name="scan_rigormortis"
+   regexp="y"
+   script="add_broken"
+   send_to="12"
+   sequence="100"
+  >
+  <send>add_rigormortis ()</send>
+  </trigger>
+  <trigger
+   group="Stag"
+   match="^Your (left|right) (leg) is crushed under the fierce stomping\!$"
+   name="st_broken"
+   omit_from_output="y"
+   regexp="y"
+   script="add_broken"
+   send_to="14"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Kata.Mods"
+   match="^Your (left|right) (leg) shatters under the force of the blow\.$"
+   name="kata_broken_leg"
+   regexp="y"
+   script="add_broken"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Ninjakari"
+   match="^Your (right|left) (arm|leg) breaks with a loud crack\.$"
+   name="nin_ninughi"
+   regexp="y"
+   script="add_broken"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Cond"
+   match="^Your artistic eye immediately notices the flaws in what is obviously an illusion\.$"
+   name="illusion"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>if (next(affs)) then
+&#9;affs [last_aff] = nil
+end --if
+sysprint ("aqua", "", "illusion, sucker, bite on this - grrr")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Scan.Daydreaming"
+   match="^Your attention slips away from the material world as you ponder on the wonders of the Planes\.$"
+   regexp="y"
+   script="add_daydreaming"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Shadowbeat"
+   match="^Your bleeding wounds sting painfully\, causing your limbs to stiffen up\.$"
+   name="shadowpulse"
+   regexp="y"
+   script="add_paralysis"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Checks"
+   match="^Your blood refuses to clot\.$"
+   name="check_hemophilia"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>if
+&#9;flags:get ("clotting")
+&#9;&#9;then
+&#9;affs:add_queue ("hemophilia")
+end --if</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Scan"
+   match="^Your bowels turn to water and are voided as you double over from a sharp pain in your stomach\.$"
+   name="scan_dysentery"
+   regexp="y"
+   script="add_dysentery"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Scan"
+   match="^Your crushed windpipe inhibits your ability to swallow\.$"
+   name="scan_windpipe2"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>if (next(wounds)) then
+&#9;if (GetVariable("elixir") == "0.5") then
+&#9;&#9;fst_elixir ()
+&#9;end --if
+&#9;if (GetVariable ("herb") == "0.5") then
+&#9;&#9;fst_herb ()
+&#9;end --if
+&#9;if (GetVariable ("purg") == "0.5") then
+&#9;&#9;fst_purg ()
+&#9;end --if
+end --if
+affs:add ("windpipe")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Crow"
+   match="^Your empty eyesockets can see nothing but the oblivion of utter darkness\.$"
+   name="cr_aff_blindness"
+   regexp="y"
+   script="add_blindness"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Music"
+   match="^Your entire being quivers as the ringing note in the air suddenly reaches a reverberating harmonic unity\.$"
+   name="mu_octavedropped"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>if (scan.octave) then
+&#9;syswarn ("octave octave octave move the bard move the bard octave octave")
+&#9;scan.octave = nil
+else
+&#9;syswarn ("wtf - octave illusion?")
+end --if
+</send>
+  </trigger>
+  <trigger
+   group="Cond"
+   match="^Your eyeballs are missing and thus cannot be cured\.$"
+   name="cond_eyepeck"
+   regexp="y"
+   sequence="100"
+  >
+  <send>add_peckedeye ("", "", {"left"})
+sysinfo ("Eye randomly chosen")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Scan"
+   match="^Your gashed cheek violently spasms\, causing your entire body to jerk reflexively\.$"
+   name="scan_gashedcheek"
+   regexp="y"
+   script="add_gashedcheek"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Scan"
+   match="^Your heart is filled with divine love\, violence is abhorrent to you\.$"
+   name="scan_peace"
+   regexp="y"
+   script="add_peace"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   match="^Your heart thumps as you gaze at ([A-Z][a-z]+) with love and adoration\.$"
+   regexp="y"
+   script="lust"
+   send_to="12"
+   sequence="100"
+  >
+  <send>add_love ()</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Scan"
+   match="^Your hypersomnia prevents your insomnia\.$"
+   name="scan_hypersomnia"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>if
+flags:get ("no_insomnia")
+then
+affs:add ("hypersomnia")
+fst:fire ("insomnia")
+end--if</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Cond"
+   match="^Your insomnia has cleared up\.$"
+   name="lostdef_insomnia"
+   omit_from_output="y"
+   regexp="y"
+   script="lostdef_insomnia"
+   send_to="14"
+   sequence="100"
+  >
+  <send>EnableTrigger ("lostdef_insomnia", false)
+if (glyph_throw == 1) then
+&#9;glyph_hit = 1
+&#9;glyph_throw = nil
+end --if
+</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Scan"
+   match="^Your limbs begin to jerk and shake uncontrollably\, and you begin to foam at the mouth\.$"
+   name="scan_epilepsy"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>scan.epilepsy = 1</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Scan"
+   match="^Your lungs are much too constricted to smoke\.$"
+   name="scan_asthma"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>add_asthma ()</send>
+  </trigger>
+  <trigger
+   group="System_Medbag"
+   match="^Your medicine bag crumbles into dust\.$"
+   name="medbag_usedup"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>system:set_auto ("medbag", 0)
+display.warning ("medbag gone")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Balances"
+   match="^Your mind is able to focus once again\.$"
+   name="on_focus"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>bals:onbal ("focus")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Scan"
+   match="^Your mind swirls in a fog as you try to remember what you were doing a moment ago\.$"
+   name="scan_amnesia"
+   omit_from_output="y"
+   regexp="y"
+   script="add_amnesia"
+   send_to="14"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Scan.Daydreaming"
+   match="^Your mind wanders momentarily as you imagine how it would be to channel all the force of the Elemental Plane of Water\.$"
+   regexp="y"
+   script="add_daydreaming"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Kata.Mods"
+   match="^Your nose is savagely hit and breaks\, causing blood to splurt forth\. $"
+   name="kata_break_nose"
+   regexp="y"
+   script="add_brokennose"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Ninjakari"
+   match="^Your ribcage shatters violently under the relentless assault\, collapsing your chest and piercing your skin with jagged fragments of broken bone\.$"
+   name="nin_ninthugi_brokenchest"
+   regexp="y"
+   script="add_brokenchest"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Checks"
+   match="^Your state of paralysis prevents you from doing that\.$"
+   name="check_paralysis2"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>if
+affs:has ("prone")--rather useless
+then
+affs:add ("paralysis")
+end --if</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Scan"
+   match="^Your throat has been locked\, and thus you cannot swallow\.$"
+   name="scan_throatlock"
+   omit_from_output="y"
+   regexp="y"
+   script="add_throatlock"
+   send_to="14"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Cosmic"
+   lines_to_match="2"
+   match="^Your vision blurs as your target suddenly shifts away from you\, causing you to lose track of your target\.$"
+   name="c_timeslip"
+   regexp="y"
+   script="timeslip"
+   send_to="12"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Shofangi"
+   match="^Your vision goes white with pain as ([A-Z][a-z]+) slams your (left leg|right leg|left arm|right arm|chest|head|gut) into (?:her|his) raised knee with a loud crunch of bone\.$"
+   name="shof_crunch"
+   regexp="y"
+   script="cured_grappled"
+   send_to="12"
+   sequence="100"
+  >
+  <send>aux = "%2"
+if (string.find (aux, " ")) then
+&#9;s, e, v1, v2 = string.find (aux, "(%a+) (%a+)")
+&#9;aux = v1..v2
+end --if
+wounds [aux] = wounds [aux] or 0
+wounds [aux] = wounds [aux] + tonumber (GetVariable ("mwounds"))/2</send>
+  </trigger>
+  <trigger
+   group="WoundCheck"
+   match="^Your wound status is\:$"
+   name="start_wound_check"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>g_cond ("WoundCheck")</send>
+  </trigger>
+  <trigger
+   group="Tracking"
+   lines_to_match="4"
+   match="^[A-Z](?:.*)\.$\n^(?:.*)$\n^(?:.*)$\n^(?:You see exits leading .*|You see no obvious exits|You see a single exit .*|A duststorm obscures your vision)\.$"
+   multi_line="y"
+   name="pit_roomdesc2"
+   regexp="y"
+   sequence="100"
+  >
+  <send>s, e = string.find ("%1", "In a pit at ")
+if (s ~= 1) then
+&#9;cured_pit ()
+end --if</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Kata"
+   match="^[A-Z][a-z]+ \w+ out at you\, but (?:.*) misses by mere inches\.$"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Shofangi"
+   match="^[A-Z][a-z]+ \w+ through your (chest|head|gut|left arm|right arm|left leg|right leg) in a graceful arc with (?:.*)\.$"
+   name="shof_attack"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>aux = "%1"
+if (string.find (aux, " ")) then
+&#9;s, e, v1, v2 = string.find (aux, "(%a+) (%a+)")
+&#9;aux = v1..v2
+end --if
+wounds [aux] = wounds [aux] or 0
+wounds [aux] = wounds [aux] + 0.5 * tonumber (GetVariable ("mwounds"))/2
+g_cond ("Poisons")
+c_weapon = "shofa"</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Music"
+   match="^[A-Z][a-z]+ appears to play (?:.*), but you hear no sound\.$"
+   name="mu_blanknote"
+   regexp="y"
+   script="add_blanknote"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Kata.Mods"
+   match="^[A-Z][a-z]+ applies precise pressure and burning agony shoots up your (right|left) (leg|arm) as it snaps\.$"
+   name="kata_snap_broken"
+   regexp="y"
+   script="add_broken"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Kata.Mods"
+   match="^[A-Z][a-z]+ applies precise pressure and burning agony shoots up your chest as it snaps\.$"
+   name="kata_snap_chest"
+   regexp="y"
+   script="add_stun"
+   send_to="12"
+   sequence="100"
+  >
+  <send>add_brokenchest ()</send>
+  </trigger>
+  <trigger
+   custom_colour="7"
+   enabled="y"
+   match="^[A-Z][a-z]+ begins to bear down on you (?:.*)?\, whirling (.*)\.$"
+   name="pb_decapitate2"
+   regexp="y"
+   script="pb_decapitate"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Rituals"
+   match="^[A-Z][a-z]+ begins to chant and raises (?:his|her) arms\. Shafts of blue light rise up around the location\, like the bars of a prison\.$"
+   name="ri_carcer"
+   regexp="y"
+   script="carcer"
+   send_to="12"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Aquamancy"
+   match="^[A-Z][a-z]+ blows out a great big bubble that grows to an enormous girth and height\. It floats towards you and then engulfs you\.$"
+   name="aq_bubble"
+   regexp="y"
+   script="aq_bubble"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Necromancy"
+   match="^[A-Z][a-z]+ bows (?:[Hh]is|[Hh]er) head and chants your name\, and you feel your reservoir of power draining away\.$"
+   name="necro_drain"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>syswarn ("Drain !!! Power drain")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Sacraments"
+   match="^[A-Z][a-z]+ brands you a heretic for your crimes against the Light\.$"
+   name="sa_heretic"
+   regexp="y"
+   script="add_heretic"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Sacraments"
+   match="^[A-Z][a-z]+ calls down an inquisition upon you\, and a pillar of holy fire strikes you from the heavens\. A bright pain streaks through your body but you cannot move or even cry out in agony\.$"
+   name="sa_inquisition"
+   regexp="y"
+   script="inquisition"
+   send_to="12"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Totems"
+   match="^[A-Z][a-z]+ caws like a crow\, giving you the primal urge to flee in terror\.$"
+   name="to_crow"
+   regexp="y"
+   script="add_fear"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Necromancy"
+   match="^[A-Z][a-z]+ chants harshly at you\, while cracking his knuckles loudly\.$"
+   name="necro_shrivel"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>cond ({"shriveled_limb"})</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Druidry"
+   match="^[A-Z][a-z]+ crosses (?:[hH]er|[hH]is) arms and shakes (?:[hH]er|[hH]is) head vigorously\, then points accusingly at you\. A shadow passes through the trees\, whispering your name\.$"
+   name="dr_aff_treebane"
+   regexp="y"
+   script="add_treebane"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Night"
+   match="^[A-Z][a-z]+ dances in a circle\, raising (?:his|her) arms to the heavens\. Darkness whirls up around (?:him|her) and forms a solid black tower that arches overhead\.$"
+   name="ni_brumetower"
+   omit_from_output="y"
+   regexp="y"
+   script="brumetower"
+   send_to="14"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Stealth"
+   match="^[A-Z][a-z]+ dips a dart into a vial\, and then shoots it through a blowgun at you\.$"
+   name="stea_blowdarts_room"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>cond ({"Poisons"})</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   match="^[A-Z][a-z]+ dissolves the shimmering field around you\.$"
+   name="dissolve"
+   omit_from_output="y"
+   regexp="y"
+   script="lostdef_protection"
+   send_to="14"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Shofangi"
+   match="^[A-Z][a-z]+ drives (?:.*) deep into your (chest)\, hooking it in your ribs\.$"
+   name="shof_kumati"
+   regexp="y"
+   script="add_grappled"
+   send_to="12"
+   sequence="100"
+  >
+  <send>wounds.chest = wounds.chest or 0
+wounds.chest = wounds.chest + tonumber (GetVariable ("mwounds"))/2
+g_cond ("Poisons")
+c_weapon = "shofa"</send>
+  </trigger>
+  <trigger
+   custom_colour="6"
+   enabled="y"
+   group="Demesne"
+   match="^[A-Z][a-z]+ enters your demesne\.$"
+   regexp="y"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Tarot"
+   match="^[A-Z][a-z]+ flings a tarot card at you which turns an ominous\, sickly red before striking you in the head\.$"
+   name="t_moon"
+   regexp="y"
+   script="moon"
+   send_to="12"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Tarot"
+   match="^[A-Z][a-z]+ flings a tarot card at you, which expands into an image of Juliana\. A set of scales appears above your head and one side of the scale quickly descends\. You have a bad feeling about this\.$"
+   name="t_justice"
+   regexp="y"
+   script="add_justice"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Tarot"
+   lines_to_match="3"
+   match="^[A-Z][a-z]+ flings a tarot card at you\, and a jester appears with a slack jawed expression\. With a mad jingling of his bells the fool (?:throws a custard pie in your face|squirts water at you from a large flower|plants an enormous kiss on your lips)\.$"
+   name="t_fool"
+   regexp="y"
+   script="fool"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Crow"
+   match="^[A-Z][a-z]+ holds .* in one hand and displays it for all to see\, then suddenly tosses it into the air where it disappears from sight\. [A-Z][a-z]+ laughs madly as you suddenly realize that .* is in your mouth and involuntarily swallow\.$"
+   name="cr_trickster"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>g_cond ("Poisons")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Tarot"
+   lines_to_match="3"
+   match="^[A-Z][a-z]+ hurls a tarot card with the image of the Hanged Man on it at you\. As it reaches you\, a huge mass of rope bursts out of it\, entrapping and hindering you\.$"
+   name="t_hangedman"
+   regexp="y"
+   script="add_roped"
+   send_to="12"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Hartstone"
+   match="^[A-Z][a-z]+ kneels down and touches (?:[hH]er|[hH]is) forehead to the earth\, then whispers softly\. A deep emerald glow ripples across the ground and [A-Z][a-z]+\'s eyes momentarily flash with a matching emerald light\.$"
+   name="ht_meld"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>sysinfo ("Hartstone | Meld")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Blacktalon"
+   match="^[A-Z][a-z]+ kneels down and touches (?:[hH]is|[Hh]er) forehead to the earth\, then whispers softly\. A deep emerald glow ripples across the ground and [A-Z][a-z]+\'s eyes momentarily flash with a matching emerald light\.$"
+   name="bt_meld"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>sysinfo ("Blacktalon | Meld")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   match="^[A-Z][a-z]+ lashes out at you as you turn to flee\.$"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>g_cond ("Poisons")</send>
+  </trigger>
+  <trigger
+   custom_colour="6"
+   enabled="y"
+   match="^[A-Z][a-z]+ leaves your demesne\.$"
+   regexp="y"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Totems"
+   match="^[A-Z][a-z]+ locks (?:her|his) arms about you and carries you up into the trees\.$"
+   name="to_monkey"
+   regexp="y"
+   script="monkey"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Ninjakari"
+   match="^[A-Z][a-z]+ loops about your head\, then suddenly pulls taut\, fracturing your skull with a sickening crunch\.$"
+   name="nin_ninthugi_fracturedskull"
+   regexp="y"
+   script="add_fracturedskull"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Stag"
+   match="^[A-Z][a-z]+ lowers (?:[Hh]er|[Hh]is) head and charges you\, impaling you on (?:[Hh]er|[Hh]is) antlers\.$"
+   name="st_gore"
+   regexp="y"
+   script="add_impaled"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Cosmic"
+   lines_to_match="2"
+   match="^[A-Z][a-z]+ makes a series of complex gestures before you\, and (?:he|she) suddenly grows much larger\. Come to think of it\, everything looks larger than normal\.$"
+   name="c_diminish"
+   regexp="y"
+   script="add_diminish"
+   send_to="12"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Cosmic"
+   lines_to_match="2"
+   match="^[A-Z][a-z]+ makes a series of complex gestures before you\, and he|she suddenly shrinks in size\. In fact, everything around you seems to be much smaller\!$"
+   name="c_enlarge"
+   regexp="y"
+   script="add_enlarge"
+   send_to="12"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Sacraments"
+   match="^[A-Z][a-z]+ marks you as an infidel for your utter contempt for the Light\.$"
+   name="sa_infidel"
+   regexp="y"
+   script="add_infidel"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Music"
+   lines_to_match="2"
+   match="^[A-Z][a-z]+ plays (?:.*) and directs the jarring notes towards you\.$\n^The jarring sound causes a cold pain to stab you in the forehead\.$"
+   multi_line="y"
+   name="mu_majorseventh"
+   regexp="y"
+   script="add_powerspikes"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Music"
+   lines_to_match="2"
+   match="^[A-Z][a-z]+ plays (?:.*) and directs the ominous notes towards you\.$\n^Your head begins throbbing to the beat of the ominous noise\.$"
+   multi_line="y"
+   name="mu_tritone"
+   regexp="y"
+   script="add_manabarbs"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Music"
+   lines_to_match="2"
+   match="^[A-Z][a-z]+ plays (?:.*) and directs the whispering notes towards you\.$\n^As the whispers enter your mind\, a sinking feeling drops into the pit of your stomach\.$"
+   multi_line="y"
+   name="mu_majorsecond"
+   regexp="y"
+   script="add_egovice"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Music"
+   lines_to_match="2"
+   match="^[A-Z][a-z]+ plays (?:.*)\, directing the dissonant notes at you\.$\n^You scream in agony as the violent chord threatens to rip you asunder\.$"
+   multi_line="y"
+   name="mu_discordantchord"
+   regexp="y"
+   script="discordantchord"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Music"
+   match="^[A-Z][a-z]+ plays (?:.*)\, striking a single perfect note that lingers in the air and builds in strength\.$"
+   name="mu_octavesetup"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>scan.octave = 1
+syswarn ("octave being set up! prepare gust prepare gust, octave coming!")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Music"
+   lines_to_match="2"
+   match="^[A-Z][a-z]+ plays(?:.*) and directs the screeching notes towards you\.$\n^You blanch as the high\-pitched screech settles deep within your mind\.$"
+   multi_line="y"
+   name="mu_minorseventh"
+   regexp="y"
+   script="add_achromaticaura"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Music"
+   match="^[A-Z][a-z]+ plays(?:.*), and you cry out as your deaf ears open up to the sound of a high\-pitched note\.$"
+   name="mu_blanknote_stripth"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>cond ({"lostdef_truehearing"})</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Aquamancy"
+   match="^[A-Z][a-z]+ points (?:his|her) staff at you\, icy water erupting forth and pounding into your body\. The shock of the cold water makes you gasp involuntarily\, knocking the breath out of you\.$"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>scan.recklessness = "staff"</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Nature"
+   match="^[A-Z][a-z]+ points .* at you and a beam of flickering light shoots forth\, covering you with colourful flame\.$"
+   name="na_aff_illuminated"
+   regexp="y"
+   script="add_illuminated"
+   send_to="12"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Nature"
+   match="^[A-Z][a-z]+ points .* at you and vines shoot forth\, entangling you with a thorny embrace\.$"
+   name="na_aff_entangled"
+   regexp="y"
+   script="add_entangled"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Celestialism"
+   lines_to_match="3"
+   match="^[A-Z][a-z]+ points a finger at you and demands that you atone for your sins\. You grit your teeth and grimace as a flash of blinding light briefly overwhelms your senses\.$"
+   name="ce_atone"
+   regexp="y"
+   script="atone"
+   send_to="12"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Nihilism"
+   match="^[A-Z][a-z]+ points at you and shoves a hideous archdemon towards you\. Wicked steel implements appear in his claws as he jumps on you\, then begins to carve deeply and slowly into your flesh\. You scream and convulse in abject agony during this obscene $"
+   name="torture"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>scan.recklessness = 1</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Necromancy"
+   match="^[A-Z][a-z]+ points at you and utters a string of terrible sounds\, which leech away your mental reserves\.$"
+   name="necro_leech"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>syswarn ("mana drain")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Shofangi"
+   match="^[A-Z][a-z]+ powerfully bullkicks your head\, impacting with a sickening crunch\.$"
+   name="shof_bullkick"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>ColourNote ("red", "skyblue", "MOVED   MOVED   MOVED   MOVED   MOVED   MOVED   MOVED   MOVED   MOVED   MOVED")
+wounds.head = wounds.head or 0
+wounds.head = wounds.head + tonumber (GetVariable ("mwounds"))
+g_cond ("Poisons")
+c_weapon = "shofa"</send>
+  </trigger>
+  <trigger
+   custom_colour="17"
+   enabled="y"
+   match="^[A-Z][a-z]+ raises (.*) over (?:his|her) head and begins to swing it in a wide circle\, gaining speed as (?:he|she) goes\.$"
+   name="pb_decapitate1"
+   regexp="y"
+   script="pb_decapitate"
+   send_to="12"
+   sequence="100"
+   other_text_colour="red"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Astrology"
+   lines_to_match="2"
+   match="^[A-Z][a-z]+ raises (?:[Hh]er|[Hh]is) arms to the sky\, as an incandescent glow surrounds (?:[Hh]er|[Hh]im)\.$\n^In a brilliant ray of light\, the power of Aapek lashes down upon you\.$"
+   multi_line="y"
+   name="ast_aapek"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>addunk ("focusmind")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Hartstone"
+   match="^[A-Z][a-z]+ raises (?:[hH]er|[hH]is) arms and hums deeply the note of the forest\. The air sharpens and ethereal trees rise up from the ground\, superimposing a translucent forest that shimmers with vitality\.$"
+   name="ht_forest"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>sysinfo ("Hartstone | Forest")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Blacktalon"
+   match="^[A-Z][a-z]+ raises (?:[hH]is|[Hh]er) arms and hums deeply the note of the forest\, which breaks into a discordant tone\. Silhouettes of twisted trees darken in the air\, their long shadows casting a forbidding doom across the ground\.$"
+   name="bt_forest"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>sysinfo ("Blacktalon| Forest")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Astrology"
+   lines_to_match="2"
+   match="^[A-Z][a-z]+ raises (?:[hH]is|[Hh]er) arms to the sky\, as an incandescent glow surrounds (?:[Hh]er|[hH]im)\.$\n^In a brilliant ray of light\, the power of Sidiak lashes down upon you\.$"
+   multi_line="y"
+   name="ast_sidiak"
+   regexp="y"
+   sequence="100"
+  >
+  <send>addunk ("focusmind")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Druidry"
+   lines_to_match="2"
+   match="^[A-Z][a-z]+ raises (?:her|his) cudgel upwards\, saluting the trees\.$\n^Branches swoop down and lift you up into the trees\.$"
+   multi_line="y"
+   name="dr_cudgel"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>affs:add_queue ("intrees")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Astrology"
+   lines_to_match="2"
+   match="^[A-Z][a-z]+ raises (?:his|her) arms to the sky\, as an incandescent glow surrounds her\.$\n^In a brilliant ray of light\, the power of the Moon lashes down upon you\.$"
+   multi_line="y"
+   name="ast_moon"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>addunk ("pennyroyal")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Illusions"
+   match="^[A-Z][a-z]+ raises (?:his|her) hands and a hideous monstrosity rises up from the ground and looms over you\. It stares at you with bulging eyes and dozens of scabrous claws\. This nightmare then opens its massive maw\, which drips with thick mucous and reveals rows of dagger\-like teeth\, and a primal fear surges up the length of your spine\.$"
+   name="il_spook"
+   omit_from_output="y"
+   regexp="y"
+   script="add_fear"
+   send_to="14"
+   sequence="100"
+  >
+  <send>sysinfo ("Illusions| Spook")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Aquamancy"
+   match="^[A-Z][a-z]+ raises a hand towards you and blasts you with cold, frigid air\.$"
+   name="aq_preserve"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>cond ({"aq_lostdef_fire", "aq_shiver", "aq_frozen", "aq_preserve_dead"})</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Phantasms"
+   match="^[A-Z][a-z]+ raises an arm\, pointing in your direction and suddenly thousands of voices bombard you\, urging you to watch your back\, to kill\, while startling you with unexpected screeches\.$"
+   name="pha_whisper"
+   regexp="y"
+   script="add_disrupted"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   match="^[A-Z][a-z]+ razes your aura of rebounding with (?:.*)\.$"
+   name="raze"
+   omit_from_output="y"
+   regexp="y"
+   script="lostdef_rebound"
+   send_to="14"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   match="^[A-Z][a-z]+ razes your speed defence with(?:.*). $"
+   name="razed_speed"
+   omit_from_output="y"
+   regexp="y"
+   script="lostdef_speed"
+   send_to="14"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Cosmic"
+   lines_to_match="2"
+   match="^[A-Z][a-z]+ reaches over and gently squeezes your shoulder\. You find yourself rapidly becoming sleepier and sleepier\.$"
+   name="c_sleep"
+   regexp="y"
+   script="c_sleep"
+   send_to="12"
+   sequence="100"
+  >
+  <send>cond ({"lostdef_insomnia", "sleep3"})</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Crow"
+   match="^[A-Z][a-z]+ regurgitates a chunk of rotting flesh and spits it in your face\, and you cannot help but gag as the warm\, stinking glob slides down your skin\.$"
+   name="cr_spit"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>sysinfo ("Randomly chosen afflictions")
+add_dysentery ()
+add_rigormortis ()</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Geomancy"
+   match="^[A-Z][a-z]+ releases (?:[hH]er|[hH]is) staff\, which hovers in the air before (?:[hH]er|[hH]is)\. (?:She|He) raises up (?:[hH]er|[hH]is) arms\, causing gouts of noxious black clouds to spew up from the ground and surround a twisted staff in a seething column\.$"
+   name="geo_pollute1"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>syswarn ("pullute 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Warrior"
+   keep_evaluating="y"
+   match="^[A-Z][a-z]+ retaliates with a quick (.*)"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>g_cond ("Poisons")
+</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Night"
+   match="^[A-Z][a-z]+ sends a tendril of shadows into your face\. You try to cry out as your vision is blotted and spears of pain stab into your eye sockets\.$"
+   name="ni_scourge"
+   regexp="y"
+   script="ni_scourge"
+   send_to="12"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Shofangi"
+   match="^[A-Z][a-z]+ slices across your head with (?:.*) spilling stinging blood into your eyes\.$"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>g_cond ("Poisons")
+wounds.head = wounds.head or 0
+wounds.head = wounds.head + tonumber (GetVariable ("mwounds"))/2
+c_weapon = "shofa"</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Shofangi"
+   match="^[A-Z][a-z]+ slices cleanly through your mouth with (?:.*) shredding your tongue\.$"
+   name="shof_butojo"
+   regexp="y"
+   script="add_mangledtongue"
+   send_to="12"
+   sequence="100"
+  >
+  <send>g_cond ("Poisons")
+wounds.head = wounds.head or 0
+wounds.head = wounds.head + tonumber (GetVariable ("mwounds"))/2
+c_weapon = "shofa"</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Runes"
+   match="^[A-Z][a-z]+ slings (?:an|a) (\w+) rune at you\, hitting you in the chest\.$"
+   name="ru_hitting"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>if (runes["%1"]) then
+&#9;_G['add_'..runes["%1"]] ()
+end --if</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Shofangi"
+   match="^[A-Z][a-z]+ smashes your (right|left) leg with (?:.*), splintering your kneecap\.$"
+   name="shof_boganji"
+   regexp="y"
+   script="add_crackedkneecap"
+   send_to="12"
+   sequence="100"
+  >
+  <send>g_cond ("Poisons")
+c_weapon = "shofa"
+aux = "%2".."leg"
+wounds [aux] = wounds [aux] or 0
+wounds [aux] = wounds [aux] + tonumber (GetVariable ("mwounds"))/2</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Shofangi"
+   match="^[A-Z][a-z]+ smashes your head with (?:.*) shattering your jaw\.$"
+   name="shof_butanj"
+   regexp="y"
+   script="add_brokenjaw"
+   send_to="12"
+   sequence="100"
+  >
+  <send>wounds.head = wounds.head or 0
+wounds.head = wounds.head + tonumber (GetVariable ("mwounds"))/2
+g_cond ("Poisons")
+c_weapon = "shofa"</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Crow"
+   lines_to_match="2"
+   match="^[A-Z][a-z]+ spreads (?:[hH]is|[hH]er) black wings and flaps madly\, creating a foul windy squall that whips around (?:[hH]im|[hH]er)\.$\n^The foul wind picks you up and hurls you to the (up|down|out|in|south|norht|east|west|northeast|northwest|southeast|southwest)\.$"
+   multi_line="y"
+   name="cr_squall"
+   regexp="y"
+   script="gust"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Tarot"
+   match="^[A-Z][a-z]+ stands an Aeon tarot on (?:his|her) palm and blows it at you\.$"
+   name="t_aeon"
+   regexp="y"
+   script="t_aeon"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Shofangi"
+   match="^[A-Z][a-z]+ stomps at you and snorts loudly in your face\, startling you with (?:her|his) rage\.$"
+   name="shof_bullsnort"
+   regexp="y"
+   script="add_disrupted"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Shofangi"
+   match="^[A-Z][a-z]+ swiftly stomps on your (right|left) (leg)\, causing you to wince\.$"
+   name="shof_stomp"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>if (affs.prone) then
+&#9;add_broken ("", "", {"%1", "%2"})
+&#9;wounds ["%1".."%2"] = wounds ["%1".."%2"] or 0
+&#9;wounds ["%1".."%2"] = wounds ["%1".."%2"] + 400
+else
+&#9;add_crushedfoot ("", "", {"%1"})
+&#9;wounds ["%1".."%2"] = wounds ["%1".."%2"] or 0
+&#9;wounds ["%1".."%2"] = wounds ["%1".."%2"] + 670
+end --if</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Warrior"
+   lines_to_match="2"
+   keep_evaluating="y"
+   match="^[A-Z][a-z]+ swings (.*) at you(?:.*)?\."
+   multi_line="y"
+   regexp="y"
+   script="warrior_attack"
+   send_to="12"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   match="^[A-Z][a-z]+ swoons for a moment then rises again\, flushed but strong\.$"
+   name="vitality_kickingin"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>sysprint ("aqua", "", "vitality kicked in :D")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Tarot"
+   match="^[A-Z][a-z]+ throws a Lovers tarot at you and as it strikes true\, you fall hopelessly in love with (?:him|her)\.$"
+   name="t_lovers"
+   regexp="y"
+   script="add_lovers"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Tarot"
+   match="^[A-Z][a-z]+ throws a Tarot card at the ground and immediately a hazy image of ancient Celest blossoms forth\, with glittering seashell towers and bathed in glorious light\. Suddenly\, the image explodes and crashes down around you\, leaving behind"
+   name="t_fall"
+   omit_from_output="y"
+   regexp="y"
+   script="rubble"
+   send_to="14"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Night"
+   match="^[A-Z][a-z]+ thrusts .* into the ground near you\, then as (?:he|she) withdraws (?:his|her) weapon from the ground\, your shadow comes with it\.$"
+   name="ni_steal"
+   regexp="y"
+   script="ni_steal"
+   send_to="12"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Stag"
+   match="^[A-Z][a-z]+ tilts (?:[hH]er|[hH]is) head back and bellows at you\, forcing you to cover your ears\.$"
+   name="st_bellow"
+   regexp="y"
+   script="add_stun"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Glamours"
+   match="^[A-Z][a-z]+ traces blasphemous patterns in the air with (?:his|her) finger\, weaving a deadly glamour that constricts tightly around you\, unraveling your defenses\.$"
+   name="gla_deadlypattern"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>ColourNote ("yellow", "crimson", "CHECK DEFS DEFS DEFS DEFS DEFS DEFS DEFS CHECK DEFS DEFS DEFS DEFS DEFS DEFS")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Phantasms"
+   match="^[A-Z][a-z]+ waves (?:his|her) hands at you\, and momentarily you see nothing but a throbbing red glow\.$"
+   name="pha_wounds"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>scan.wounds = 1</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Glamours"
+   lines_to_match="2"
+   match="^[A-Z][a-z]+ weaves a beautiful swirl of rainbow-coloured lights\, casting them into alluring patterns of barely restrained imagery\. With a graceful gesture\, (?:he|she) conducts the rainbow patterns to spin recklessly around you\.$"
+   multi_line="y"
+   name="rainbowpattern_rainbowpattern"
+   omit_from_output="y"
+   regexp="y"
+   script="add_rainbowpattern"
+   send_to="14"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Glamours"
+   match="^[A-Z][a-z]+ weaves a soothing\, mesmerizing glamour around you\. The gentle\, soft lights are hypnotic to watch\, and soon you find your eyelids growing heavy\.$"
+   name="gla_mesmerize"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>cond ({"lostdef_insomnia", "sleep3"})</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Ninjakari"
+   match="^[A-Z][a-z]+ whips you with (?:.*)\, lashing the skin from your (right arm|left arm|left leg|right leg|gut|chest|head)\.$"
+   name="nin_jakari"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>mwound ("%1")
+cond ("ruptures")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Druidry"
+   lines_to_match="2"
+   match="^[A-Z][a-z]+ whispers a string of sibilant syllables\, and leaves rustle in answer nearby\. (?:She|He) gestures violently at you\.$\n^A viciously thorned vine spears out from a nearby branch and lashes tightly around your (right|left) (leg|arm)\.$"
+   multi_line="y"
+   name="dr_lashed"
+   regexp="y"
+   script="add_lashed"
+   send_to="12"
+   sequence="100"
+  >
+  <send>EnableTrigger ("cured_lashed_rend", true)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Rituals"
+   match="^[A-Z][a-z]+ whispers your name under (?:his|her) breath as (?:he|she) chants\, and you suddenly feel drained and muddled\.$"
+   name="ri_amissio"
+   regexp="y"
+   script="amissio"
+   send_to="12"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Warrior"
+   keep_evaluating="y"
+   match="^[A-Z][a-z]+ wildly \w+ (.*) at you(?:.*)?\."
+   regexp="y"
+   script="warrior_attack"
+   send_to="12"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Warrior"
+   keep_evaluating="y"
+   match="^[A-Z][a-z]+\'s blade runs down the shaft of your weapon\."
+   name="bm_coule"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>g_cond ("BM")
+g_cond ("Poisons")
+g_cond ("Warrior_assaults")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Shadowbeat"
+   match="^[A-Z][a-z]+\'s deadly\, poisonous blood splashes across you\, and you recoil in pain as your skin hisses and melts\.$"
+   name="widowsmercy"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>scan.recklessness = "widowsmercy"</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Wildarrane"
+   lines_to_match="2"
+   match="^\&quot;Memories rush through me and a shiver keeps the pace\.\&quot; sings [A-Z][a-z]+\, as (?:.*) releases a long booming note\, and (?:he|she) looks directly at you\.$\n^The shimmering image of White Hart appears and stares directly at you\. As the ghostly spirit throws back his head and bellows in harmony with the music\, the beauty of his voice blasts you\, causing your entire body to reel against the blinding force\.$"
+   multi_line="y"
+   name="whitehorn"
+   regexp="y"
+   script="add_narcolepsy"
+   sequence="100"
+  >
+  <send>add_stun ()
+add_blindness ()</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Starhymn"
+   lines_to_match="2"
+   match="^\&quot;The task now falls upon the few\,\&quot; sings [A-Z][a-z]+\, making an iridescent silver lyre fairly weep with tragic notes\, and he looks directly at you\.$\n^Filled with a haunting sorrow and unlimited love\, an excruciatingly beautiful note brings tears to your eyes and a lump to your throat\. Time slows and momentarily a vision fills your eyes of a goddess floating over an ancient pool with tears streaming down her face\.$"
+   multi_line="y"
+   name="princessfarewell"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>cond ({"lostdef_speed", "aeon"})</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Scan.Stupidity"
+   match="^\&quot;The voices\! The voices\! Get them out of my head\!\!\&quot; you moan\, holding your head in pain\.$"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>if
+&#9;not affs:get ("stupidity") and
+&#9;not affs:get ("fracturedskull")
+&#9;&#9;then
+&#9;affs:add ("stupidity")
+&#9;flags:add_check ("fracturedskull", "stupidity")
+end --if</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Necroscream"
+   lines_to_match="2"
+   match="^\&quot;Thick white goop drips\!\&quot; sings [A-Z][a-z]+\, making (?:.*) scream loud enough to wake the dead\, and he looks directly at you\.$\n^Smoky tendrils rise up around you\, wrapping around your arms and legs and solidifying into iron shackles\. You scream in agony as invisible spikes and other unspeakable implements are driven into your flesh\.$"
+   multi_line="y"
+   name="queenslament"
+   regexp="y"
+   script="add_shackled"
+   sequence="100"
+  >
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Assess"
+   match="^\* (Head|Chest|Gut) has (no|negligeable|light|medium|heavy|critical) wounds and (\d+) ruptures\.$"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>colours = {}
+colours = {no = "silver", negligeable = "silver", light = "yellow", medium = "orange", heavy = "lightcoral", critical = "red"}
+ColourTell (colours ["%2"], "", string.upper ("%1").." - "..string.upper ("%2").. " wounds")
+ColourNote ("silver", "", " and %3 ruptures")
+colours = {}
+colours = nil</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Assess"
+   match="^\* (Left|Right) (arm|leg) has (no|negligeable|light|heavy|medium|critical) wounds and (\d+) ruptures\.$"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>colours = {}
+colours = {no = "silver", negligeable = "silver", light = "yellow", medium = "orange", heavy = "lightcoral", critical = "red"}
+ColourTell (colours ["%3"], "", string.upper ("%1").." "..string.upper ("%2").." - "..string.upper ("%3").. " wounds")
+ColourNote ("silver", "", " and %4 ruptures")
+if ("%1" == "Right") and ("%2" == "leg") then
+&#9;EnableTriggerGroup ("Assess", false)
+end --if
+colours = {}
+colours = nil</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="Warrior"
+   match="hits (?:his|her) powerful aura and rebounds back into you"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>g_cond ("Poisons")
+g_cond ("PB")
+g_cond ("Warrior_assaults")</send>
+  </trigger>
+</triggers>
+</muclient>

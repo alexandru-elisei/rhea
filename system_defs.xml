@@ -1,0 +1,1554 @@
+<triggers>
+<!-- General -->
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   match="^You are already moving at an increased pace\.$"
+   name="has_adroitness"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("adroitness")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   match="^You no longer move so adroitly\.$"
+   name="lostdef_adroitness"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:lostdef ("adroitness")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   match="^You inhale a deep breath\, ready to run quickly if the need arises\.$"
+   name="ondef_adroitness"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("adroitness")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   match="^As you wind (.+?) up\, the hands on its face begin to move slower and slower\. Suddenly\, a flurry of bright yellow sparks sprays? out of \1\, and you feel your musical aptitude take on a new dimension\.$"
+   name="ondef_tempo"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:add_queue ("tempo")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   match="^You pour a glowing gold oil into your hand and furiously rub it into the surface of (.*)\. Magically\, the nicks and dull spots of \1 slowly fade away\, leaving behind a keen weapon\.$"
+   name="ondef_sharpness"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>if flags:get ("todo_bal") == "sharpness" then todo:done ("sharpness", "bal") end
+if offense and offense ["current"] then
+local has_sharpness = (defs:has ("sharpness") or 0)+1
+if has_sharpness > #offense ["current"] then has_sharpness = #offense ["current"] end
+if has_sharpness == #offense ["current"] then
+  flags:del_check ("sharpness")
+end --if
+defs:ondef ("sharpness", has_sharpness)
+end--if</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   match="^You can\'t see that item here to coat\.$"
+   name="sharpness_noitem"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>if flags:get ("todo_bal") == "sharpness" then
+for k, tag in ipairs (todo ["bal"]) do
+  if tag ["id"] == "sharpness" then
+    todo:done ("sharpness", "bal")
+  end--if
+end --for
+system:set_auto ("sharpness", 0, "silent")
+flags:del_check ("sharpness")
+display.warning ("You have no wielded weapons!")
+end --if</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   match="^You don\'t see that to coat on (?:a|an) .*\.$"
+   name="sharpness_nooils"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>if flags:get ("todo_bal") == "sharpness" then
+for k, tag in ipairs (todo ["bal"]) do
+  if tag ["id"] == "sharpness" then
+    todo:done ("sharpness", "bal")
+  end--if
+end --for
+flags:del_check ("sharpness")
+system:set_auto ("sharpness", 0, "silent")
+display.warning ("You have no Sharpness Oil!")
+end --if</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   match="^(?:A|An) (?:.*) seems to dull as the oil of sharpness slides away\.$"
+   name="lostdef_sharpness"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("sharpness", (defs:has ("sharpness") or 1)-1, "silent")
+display.lostdef ("sharpness")
+if defs:has ("sharpness") == 0 then
+defs:lostdef ("sharpness", "silent")
+end --if
+</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   match="^Your enhanced sense of music fades from your mind as quickly as it came\.$"
+   name="lostdef_tempo"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:del_queue ("tempo")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   match="^You feel the full potential of the (moonwater|unholy water|holy water) manifest in you\.$"
+   name="ondef_orgpotion"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>if flags:get ("ondef_orgpotion") then
+prompt:queue (function ()
+fst:disable ("ondef_orgpotion")
+flags:del ("ondef_orgpotion")
+defs:add_queue ("orgpotion", "%1")
+end, "ondef_orgpotion", true)
+end</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Cures"
+   match="^(?:A \w+ tingle races through your body|The liquid bubbles within your mouth and then suddenly stops)\.$"
+   name="drinking_orgpotion"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>prompt:queue (function ()
+flags:del ("orgpotion")
+fst:disable ("orgpotion")
+fst:enable ("ondef_orgpotion")
+flags:add ("ondef_orgpotion")
+end, "drinking_orgpotion", true)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   match="^Your vision darkens as the power of the unholy water within you strikes back at [A-Z][a-z]+\.$"
+   name="lostdef_orgpotion"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:del_queue ("orgpotion")
+flags:del ({"orgpotion", "ondef_orgpotion"})
+fst:disable ("orgpotion")
+fst:disable ("ondef_orgpotion")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Cures"
+   match="^Your movements become fluid as you drink the green tea\.$"
+   name="ondef_greentea"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>prompt:queue (function ()
+flags:del ("brew")
+fst:disable ("brew")
+bals:onbal ("brew", "silent")
+end, "brew", true)
+defs:add_queue ("tea", "green")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Cures"
+   match="^The flowery tea awakens a passion within you\.$"
+   name="ondef_oolong"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>prompt:queue (function ()
+flags:del ("brew")
+fst:disable ("brew")
+bals:onbal ("brew", "silent")
+end, "brew", true)
+defs:add_queue ("tea", "oolong")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Cures"
+   match="^Your blood surges as the black tea enters your system\.$"
+   name="ondef_blacktea"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>prompt:queue (function ()
+flags:del ("brew")
+fst:disable ("brew")
+bals:onbal ("brew", "silent")
+end, "brew", true)
+defs:add_queue ("tea", "black")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Cures"
+   match="^As you sip the white tea\, your thoughts become clearer\.$"
+   name="ondef_whitetea"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>prompt:queue (function ()
+flags:del ("brew")
+fst:disable ("brew")
+bals:onbal ("brew", "silent")
+end, "brew", true)
+defs:add_queue ("tea", "white")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Cures"
+   match="^The dark brew stokes a delicious fire within your belly\.$"
+   name="ondef_darkbeer"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>prompt:queue (function ()
+flags:del ("brew")
+fst:disable ("brew")
+bals:onbal ("brew", "silent")
+end, "brew", true)
+defs:add_queue ("beer", "dark")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Cures"
+   match="^You sigh contentedly as the amber brew takes away your pain\.$"
+   name="ondef_amberbeer"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>prompt:queue (function ()
+flags:del ("brew")
+fst:disable ("brew")
+bals:onbal ("brew", "silent")
+end, "brew", true)
+defs:add_queue ("beer", "amber")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   match="^You feel the full potential of the nightsweats manifest in you\.$"
+   name="ondef_nightsweats"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:add_queue ("nightsweats")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   match="^You concentrate for a moment\, surrounding yourself with a psionic barrier\.$"
+   name="ondef_psishield"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:add_queue ("psishield")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   match="^You are already protected against psionic attacks\.$"
+   name="has_psishield"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:add_queue ("psishield")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   match="^You sit upon your throne\, and your heart beats faster as a feeling of transcendent superiority floods through your being\.$"
+   name="ondef_throne"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>defs:add_queue ("throne")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   match="^You touch the cosmos and allow your eyes to pierce through the veil of death\.$"
+   name="ondef_deathsight"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:add_queue ("deathsight")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   match="^Your spirit stirs and inner rage builds against those who stand against your people\.$"
+   name="ondef_enraged"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:add_queue ("enraged")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   match="^Your inner rage subsides\.$"
+   name="lostdef_enraged"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:del_queue ("enraged")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   match="^A pair of faerie wings rapidly flutters\, then carries you up into the skies\.$"
+   name="ondef_flyingartie"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>defs:add_queue ("flying")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   match="^You draw deeply upon your divine essence and rise gracefully into the skies on swirling currents of power\.$"
+   name="ondef_flyingasc"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>defs:add_queue ("flying")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   match="^You are picked up by the twister and thrown up into the sky\.$"
+   name="ondef_flyingtornado"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>defs:add_queue ("flying")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   match="^You begin to rise on a cushion of air\.$"
+   name="ondef_levitate"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:add_queue ("levitate")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   match="^A ray of (purple|golden|green|pink) light suddenly spotlights you\.$"
+   name="ondef_encha"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>local enchants = {
+["purple"] = "mercy",
+["golden"] = "perfection",
+["green"] = "kingdom",
+["pink"] = "beauty",
+}
+defs:add_queue (enchants ["%1"])</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   match="^You narrow your eyes and look around greedily for something to add to your hoard\.$"
+   name="ondef_acquisitio"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:add_queue ("acquisitio")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   match="^A shimmering field of protection flares up around you\.$"
+   name="ondef_protection"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>prompt:queue (function ()
+defs:ondef ("protection")
+affs:del ("no_protection")
+fst:disable ("ondef_protection")
+end, "ondef_protection", true)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   match="^You feel an aura of rebounding surround you\.$"
+   name="ondef_rebound"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>prompt:queue (function ()
+fst:disable ("ondef_rebound")
+affs:del ("no_rebound")
+defs:ondef ("rebound")
+end, "ondef_rebound", true)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   match="^You sprinkle a circle of salt around yourself\, and a shimmering white orb springs up around you\.$"
+   name="ondef_shieldsalt"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:add_queue ("shield")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   match="^A soft moan rises up from the ground as a shadowy bubble forms around you\.$"
+   name="ondef_shieldwyrd"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:add_queue ("shield")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   match="^You now possess the gift of the sixth sense\.$"
+   name="ondef_sixthsense"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>prompt:queue (function ()
+affs:del ("no_sixthsense")
+fst:disable ("ondef_sixthsense")
+defs:ondef ("sixthsense")
+end, "ondef_sixthsense", true)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   match="^Tiny tremors spread through your body as the world seems to slow down\.$"
+   name="ondef_speed"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>prompt:queue (function ()
+affs:del ("no_speed")
+fst:disable ("ondef_speed")
+defs:ondef ("speed")
+end, "ondef_speed", true)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   match="^A silvery thrill runs from the tips of your toes up to the top of your head\.$"
+   name="ondef_vitae"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:add_queue ("vitae")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   match="^You pull a cosmic web down around your feet\, and you sense that gravity will be your ally when entering water\.$"
+   name="ondef_waterwalk"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:add_queue ("waterwalk")
+affs:del ("no_waterwalk")
+fst:disable ("no_waterwalk")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   match="^You are already water walking\.$"
+   name="has_waterwalk"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:add_queue ("waterwalk")
+affs:del ("no_waterwalk")
+fst:disable ("no_waterwalk")</send>
+  </trigger>
+   <trigger
+   enabled="y"
+   group="System_Defs"
+   match="^You are already walking on a small cushion of air\.$"
+   name="has_levitate"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:add_queue ("levitate")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   match="^You briefly hold your hand over your mouth until your lips and tongue tingle\.$"
+   name="ondef_waterbreathe"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:add_queue ("waterbreathe")
+affs:del ("no_waterbreathe")
+fst:disable ("no_waterbreathe")</send>
+  </trigger>
+
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   match="^You belch (?:loudly and begin to feel the pain|deeply and no longer feel so stoked)\.$"
+   name="lostdef_beer"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:del_queue ("beer")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   match="^The faint hint of .+? disappears and you find yourself no longer coated in it\.$"
+   name="lostdef_perfume"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>defs:del_queue ({ "dragonsblood", "jasmine", "musk", "sandalwood", "vanilla" })</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   match="^You allow the charm of Acquisitio to leave you and are no longer gripped by an unnatural need to accumulate things\.$"
+   name="lostdef_acquisitio"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:del_queue ("acquisitio")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   match="^Your psionic barrier (?:dissolves|shatters from a massive blast of psionic energy emanating from [A-Z][a-z]+)\.$"
+   name="lostdef_psishield"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:del_queue ("psishield")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   match="^You begin to descend\, the wind whistling past you as the earth draws ever closer\. You land easily\, back on the ground again\.$"
+   name="lostdef_flyingarti"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>defs:del_queue ("flying")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   match="^You dive towards the ground\, alighting gently upon its surface as the currents of power swirling around you dissipate\.$"
+   name="lostdef_flyingasc"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>defs:del_queue ("flying")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   match="^Lacking any way to fly and any support\, you plummet to the earth below you\!$"
+   name="lostdef_flyingfalling"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>defs:del_queue ("flying")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   lines_to_match="2"
+   match="^The earth below you suddenly splits open\, and a mighty geyser soars skywards\.\nThe geyser strikes you full\-on\, and you tumble to the ground helplessly\.$"
+   multi_line="y"
+   name="lost_flyinggeyser"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>defs:del_queue ("flying")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   match="^[A-Z][a-z]+ suddenly jumps up into the air from far below\, grabbing you firmly around the torso and flinging you towards the earth as it rushes up to meet you\.$"
+   name="lostdef_flyinghighjump"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>defs:del_queue ("flying")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   match="^Violent rain slams into your skin so hard that they hit you like hot needles\.$"
+   name="lostdef_aquarandom"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>defs:del_queue ({ "fire", "frost" })
+display.warning ("defenses lost")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   match="^Your insomnia has cleared up\.$"
+   name="lostdef_insomniapoison"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>if flags:get_check ("sting") then
+prompt:unqueue ("sting")
+flags:del_check ("sting")
+end--if
+defs:del_queue ("insomnia")
+system:del_cure ()</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   match="^[A-Z][a-z]+ dissolves the shimmering field around you\.$"
+   name="lostdef_protection"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:del_queue ("protection")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   match="^Your aura of weapons rebounding disappears\.$"
+   name="lostdef_reboundattk"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:del_queue ("rebound")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   match="^.+? makes a sudden gesture at you and a bolt of black energy shoots out from (?:[hH]is|[hH]er) outward stretched palm and shatters your magical shield of protection\.$"
+   name="lostdef_shieldnullify"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>defs:del_queue ("shield")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   match="^.+? mutters and pokes (?:[hH]is|[hH]er) index finger towards you and makes a hooking gesture\. Invisible energies slam against you\, ripping apart your magical shield of protection\.$"
+   name="lostdef_shieldvoid"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>defs:del_queue ("shield")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   match="^Your magical protection is blown away\.$"
+   name="lostdef_shieldpollute"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>defs:del_queue ("shield")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   match=".+?you no longer see the world through the sixth sense\.$"
+   name="lostdef_sixthsense"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:del_queue ("sixthsense")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   match="^You blink for a moment\, then instantly\, all about you is darkness\.$"
+   name="lostdef_sixthsenseblind"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>defs:del_queue ("sixthsense")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   match="^You are blind and (?:can )?see nothing but darkness\.$"
+   name="lostdef_sixthsensedark"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>defs:del_queue ("sixthsense")</send>
+  </trigger>
+   <trigger
+   enabled="y"
+   group="System_Tracking"
+   match="^Colou?rs fade and everything becomes dark and black\.$"
+   name="lostdef_sixthsensefade"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>defs:del_queue ("sixthsense")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   match="^[A-Z][a-z]+ razes your aura of rebounding with .+?\.$"
+   name="lostdef_reboundraze"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>defs:del_queue ("rebound")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   match="^[A-Z][a-z]+ razes your speed defence with .+?\.$"
+   name="lostdef_speedraze"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>defs:del_queue ("speed")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   match="^Your ears open up\, though you lose your true hearing\.$"
+   name="lostdef_truehearingblank"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>defs:del_queue ("truehearing")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   match="^The aural world fades to silence\.$"
+   name="lostdef_truehearing"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>defs:del_queue ("truehearing")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   match="^A ditty runs through your head and you can\'t stop yourself from singing it\.$"
+   name="lostdef_truehearingditty"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>defs:del_queue ("truehearing")</send>
+  </trigger>
+
+<!-- Beastmastery -->
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   match="^You climb up on (.+?)\.$"
+   name="ondef_mounted"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>defs:add_queue ("mounted", "%1")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   match="^You easily vault onto the back of (.+?)\.$"
+   name="ondef_mountedvault"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>defs:add_queue ("mounted", "%1")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   match="^.+? flaps its wings a few times and lifts you into the skies\.$"
+   name="ondef_flyingmount"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>defs:add_queue ("flying")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   keep_evaluating="y"
+   match="^.+? lowers ([hH](?:is|er)) head and stares at you\, eyes alight with a preternatural glow\, as a stream of sparkling smoke blows out \1 nostrils and forms a reflection of you\.$"
+   name="ondef_beastreflection"
+   regexp="y"
+   send_to="12"
+   sequence="9000"
+  >
+  <send>defs:add_queue ("reflection")</send>
+  </trigger>
+
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   match="^You step down off of .+?\.$"
+   name="lostdef_dismount"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>defs:del_queue ("mounted")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   match="^You lose purchase on .+?\.$"
+   name="lostdef_mounted"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>defs:del_queue ("mounted")</send>
+  </trigger>
+
+<!-- Discernment -->
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   match="^Your vision sharpens with light as you gain night sight\.$"
+   name="ondef_nightsight"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:add_queue ("nightsight")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   match="^Your eyes are already attuned to the shadows of night\.$"
+   name="has_nightsight"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:add_queue ("nightsight")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   match="^You shut your eyes and concentrate on the end of life\. A moment later\, you feel inextricably linked with the strings of fate\.$"
+   name="ondef_deathsense"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:add_queue ("deathsense")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   match="^You now possess the gift of the third eye\.$"
+   name="ondef_thirdeye"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:add_queue ("thirdeye")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   match="^You will now lip read to overcome the effects of deafness\.$"
+   name="ondef_lipread"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:add_queue ("lipread")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   match="^You bow your head and concentrate on blurring your personal energies until your power is masked\.$"
+   name="ondef_powermask"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:add_queue ("powermask")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   match="^You open your eyes wide\, concentrating on the small strands of aether around you\.$"
+   name="ondef_aethersight"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:add_queue ("aethersight")</send>
+  </trigger>
+
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   match="^Your mind is already linked to the strings of fate\.$"
+   name="has_deathsense"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:add_queue ("deathsense")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   match="^You already possess the thirdeye\.$"
+   name="has_thirdeye"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:add_queue ("thirdeye")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   match="^You are already lipread\.$"
+   name="has_lipread"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:add_queue ("lipread")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   match="^You are already sensing disruptions in the aether\.$"
+   name="has_aethersight"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:add_queue ("aethersight")</send>
+  </trigger>
+
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   match="^You close your eyes for a moment\, and cease concentrating on the aether\.$"
+   name="lostdef_aethersight"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:del_queue ("aethersight")</send>
+  </trigger>
+
+<!-- Discipline -->
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   match="^You clench your fists\, grit your teeth\, and banish all possibility of sleep\.$"
+   name="ondef_insomnia"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>prompt:queue (function ()
+defs:ondef ("insomnia")
+affs:del ("no_insomnia")
+fst:disable ("no_insomnia")
+end, "ondef_insomnia", true)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   match="^You order your mind to ensure you will not journey far into the dreamworld\.$"
+   name="ondef_metawake"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>prompt:queue (function ()
+affs:del ("no_metawake")
+fst:disable ("no_metawake")
+defs:ondef ("metawake")
+sca:check ()
+end, "ondef_metawake", true)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   match="^You inhale deeply and begin holding your breath\.$"
+   name="ondef_holdbreath"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:add_queue ("holdbreath")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   match="^You rub your hands together greedily\.$"
+   name="ondef_selfishness"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:add_queue ("selfishness")
+affs:del ("no_selfishness")
+fst:disable ("no_selfishness")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   match="^You are already an insomniac\.$"
+   name="has_insomnia"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>prompt:queue (function ()
+defs:ondef ("insomnia")
+affs:del ("no_insomnia")
+fst:disable ("no_insomnia")
+end, "has_insomnia", true)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   match="^You already have metawake turned on\.$"
+   name="has_metawake"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>prompt:queue (function ()
+affs:del ("no_metawake")
+fst:disable ("no_metawake")
+defs:ondef ("metawake")
+end, "has_metawake", true)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Awaken"
+   match="^You quickly pull yourself out of sleep\.$"
+   name="ondef_metawakeeffect"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>prompt:queue (function ()
+if affs:has ("asleep") then
+  system:cured_queue ("asleep")
+end--if
+affs:del ("no_metawake")
+fst:disable ("no_metawake")
+defs:ondef ("metawake")
+affs:prone ()
+end, "cured_asleep", true)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   match="^You already are a selfish bastard\.$"
+   name="has_selfishness"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:add_queue ("selfishness")
+affs:del ("no_selfishness")
+fst:disable ("no_selfishness")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   match="^You cease concentrating on maintaining distance from the dreamworld\.$"
+   name="lostdef_metawakeoff"
+   omit_from_output="y"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>defs:del_queue ("metawake")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   match="^You cease holding your breath and exhale loudly\.$"
+   name="lostdef_holdbreath"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>defs:del_queue ("holdbreath")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   match="^A feeling of generosity spreads throughout you\.$"
+   name="lostdef_selfishness1"
+   omit_from_output="y"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>defs:del_queue ("selfishness")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   match="^No worries\. You\'re not a selfish bastard as is\.$"
+   name="lostdef_selfishness2"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:del_queue ("selfishness")</send>
+  </trigger>
+
+<!-- Dramatics -->
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   match="^You take a deep breath and mentally shift into performance mode\.$"
+   name="ondef_performance"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>defs:add_queue ("performance")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   lines_to_match="2"
+   match="^Furrowing your brow into a scowl\, you clench your jaw and flare your nostrils\, twisting your lips into a cruel grin\.\nYou transform yourself into a bully\!$"
+   multi_line="y"
+   name="ondef_role_bully"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>defs:add_queue ("role", "bully")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   lines_to_match="2"
+   match="^Slicking back your hair\, you put on your best greasy grin and bob your head like a toady\.\nYou transform yourself into a sycophant\!$"
+   multi_line="y"
+   name="defup_role_sycophant"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>defs:add_queue ("role", "sycophant")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   match="^You belch and begin swaying back and forth like a drunkard\.$"
+   name="defup_role_drunkard"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>defs:add_queue ("drunkard")
+defs:del_queue ("sober")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   match="^You stand up a little straighter and try to act more sober\.$"
+   name="defup_role_sober"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>defs:add_queue ("sober")
+defs:del_queue ("drunkard")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   match="^You begin a performance to act more wounded than you are\.$"
+   name="defup_role_wounded"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>defs:add_queue ("wounded")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   lines_to_match="2"
+   match="^Puffing up your chest in self\-importance\, you plaster a condescending smile on your lips and develop a knowing smirk\.\nYou transform yourself into a bureaucrat\!$"
+   multi_line="y"
+   name="defup_role_bureaucrat"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>defs:add_queue ("role", "bureaucrat")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   lines_to_match="2"
+   match="^Tossing back your hair\, you rub some life in your cheeks and smile sensually\.\nYou transform yourself into a gorgeous beauty\!$"
+   multi_line="y"
+   name="defup_role_gorgeous"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>defs:add_queue ("role", "gorgeous")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   lines_to_match="2"
+   match="^You tousle your hair and rub dirt on your face\, then hunch your shoulders in a slouch\.\nYou transform yourself into a vagabond\!$"
+   multi_line="y"
+   name="defup_role_vagabond"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>defs:add_queue ("role", "vagabond")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   match="^You review the performances of others around you\.$"
+   name="defup_review"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>defs:add_queue ("review")</send>
+  </trigger>
+
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   match="^You let out a deep breath and release yourself from performing\.$"
+   name="lostdef_performances"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>defs:del({ "drunkard", "performance", "role", "sober", "wounded" })</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   match="^You cease reviewing the performances of others\.$"
+   name="lostdef_review"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>defs:del_queue ("review")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   match="^You cease acting (drunk|sober|wounded)\.$"
+   name="lostdef_drunk_sober_wounded"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>if "%1" == "drunk" then
+  defs:del_queue ("drunkard")
+else
+  defs:del_queue ("%1")
+end</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   match="^You .+?\, no longer performing the role of the .+?\.$"
+   name="lostdef_role"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>defs:del_queue ("role")</send>
+  </trigger>
+
+<!-- Environment -->
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   match="^Kneeling to place a hand upon the ground\, you close your eyes and breathe deeply\, allowing your senses to intermingle with the (.+?) around you\.$"
+   name="ondef_attuned"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>defs:add_queue ("attuned", "%1")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   match="^Focusing your will on the bond between you and the environment here\, you draw as much strength as you can before the bond snaps completely in a sudden wave of energy which fills your every fibre with a soothing warmth\.$"
+   name="lostdef_attuned"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>defs:del_queue ("attuned")</send>
+  </trigger>
+
+<!-- Illusions -->
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   match="^[A-Z][a-z]+ creates a sparkling cloud and then molds it until it appears exactly like you\.$"
+   name="ondef_reflectionother"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>defs:add_queue ("reflection")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   match="^One of your reflections has been destroyed\! You have 0 left\.$"
+   name="lostdef_reflection"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:del_queue ("reflection")</send>
+  </trigger>
+
+<!-- Influence -->
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   match="^Summoning all your influence\, you begin to verily radiate charisma\, creating an aura about yourself and those loyal to you\.$"
+   name="ondef_charismaticaura"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>defs:add_queue ("charismaticaura")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   match="^You already exude a charismatic aura\.$"
+   name="has_charismaticaura"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>defs:add_queue ("charismaticaura")</send>
+  </trigger>
+
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   match="^Your posture relaxes as you allow your charismatic aura to drain away\, your mind feeling less strained\, though those loyal to you appear slightly disappointed\.$"
+   name="lostdef_charismaticaura"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>defs:del_queue ("charismaticaura")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Defs"
+   match="^Forks of flame lick against your skin\, melting away your protection against fire\.$"
+   name="lostdef_frostfirey"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>defs:del_queue ("frost")</send>
+  </trigger>
+</triggers>

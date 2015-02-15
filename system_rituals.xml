@@ -1,0 +1,149 @@
+<triggers>
+<!-- DEF -->
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^You are reaping the gifts of Fortuna\.$"
+   name="def_fortuna"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("fortuna", nil, nil, "fromdef")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^You are filled with the wrath of Rubeus\.$"
+   name="def_rubeus"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("rubeus", nil, nil, "fromdef")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^You are filled with exuberance\.$"
+   name="def_populus"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("populus", nil, nil, "fromdef")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^You are surrounded by numinous dragon scales\.$"
+   name="def_draconis"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("draconis", nil, nil, "fromdef")</send>
+  </trigger>
+
+  <trigger
+   enabled="y"
+   group="System_Rituals"
+   match="^The air around you blurs as you chant the ritual of Fortuna\. You feel the winds of chance and change pass through you\.$"
+   name="ondef_fortuna"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("fortuna")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Rituals"
+   match="^A red haze fills your field of vision as you chant the ritual of Rubeus\.$"
+   name="ondef_rubeus"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("rubeus")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Rituals"
+   match="^Confidence and exuberance fills you as you chant the joyful ritual of Populus\.$"
+   name="ondef_populus"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("populus")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Rituals"
+   match="^You chant the ritual of Draconis and sense a numinous layer of dragon scales surround you\.$"
+   name="ondef_draconis"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("draconis")</send>
+  </trigger>
+
+  <trigger
+   enabled="y"
+   group="System_Rituals"
+   match="^You are already reaping the gifts of Fortuna\.$"
+   name="has_fortuna"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("fortuna")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Rituals"
+   match="^The red haze of [rR]ubeus already fills you\.$"
+   name="has_rubeus"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("rubeus")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Rituals"
+   match="^You are already filled with the exuber[ae]nce of Populus\.$"
+   name="has_populus"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("populus")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Rituals"
+   match="^Your skin is already thick\.$"
+   name="has_draconis"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("draconis")</send>
+  </trigger>
+</triggers>

@@ -1,0 +1,524 @@
+<triggers>
+<!-- Athletics defense tracking -->
+  <trigger
+   enabled="y"
+   group="System_Athletics"
+   match="^You call upon your physical training and transmute your mana into pure health\.$"
+   name="transmuting1"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>if flags:get ("transmute") then
+affs:del ("transmute")
+fst:disable ("transmute")
+flags:add_check ("recklessness")
+end--if
+display.system ("Transmuting")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Athletics"
+   match="^You do not have that much mana to transmute\.$"
+   name="transmuting2"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>if flags:get ("transmute") then
+affs:del ("transmute")
+fst:disable ("transmute")
+end--if
+display.system ("Transmuting Aborted")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Athletics"
+   match="^A brief shiver runs through your body\.$"
+   name="ondef_weathering"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("weathering")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Athletics"
+   match="^You need to be fully healthy in both body and mind before you can call upon your vitality\.$"
+   name="not_ablevitality"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:del ("vitality")
+flags:del ("deffing")
+fst:disable ("deffing")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Athletics"
+   match="^Your body positively glows with health and vitality\.$"
+   name="ondef_vitality"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("vitality")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Athletics"
+   match="^Vitality already sings in your bloodstream\.$"
+   name="has_vitality"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("vitality")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Athletics"
+   match="^You take a few deep breaths to prepare your body for a marathon workout\.$"
+   name="ondef_breathe"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("breathe")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Athletics"
+   match="^Your body is already prepped for a marathon workout\.$"
+   name="has_breathe"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>defs:ondef("breathe")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Athletics"
+   match="^You cross your arms\, standing firm and resolute\.$"
+   name="ondef_sturdiness"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef("sturdiness")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Athletics"
+   match="^You begin to concentrate on regeneration of your wounds\.$"
+   name="ondef_regeneration"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("regeneration")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Athletics"
+   match="^You call aloud and feel an aura of resistance shroud itself silently about you\.$"
+   name="ondef_resistance"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("resistance")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Athletics"
+   match="^You already have an aura of resistance\.$"
+   name="has_resistance"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("resistance")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Athletics"
+   match="^You clench the muscles in your stomach\, determined to assert your superior constitution\.$"
+   name="ondef_constitution"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("constitution")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Athletics"
+   match="^You flex your muscles\, which bulge and pop in a spectacular display of your outstanding physique\.$"
+   name="ondef_strength"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("strength")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Athletics"
+   match="^You will remain conscious at all times\.$"
+   name="ondef_consciousness"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("consciousness")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Athletics"
+   match="^You call upon your inner strength to boost your health regeneration\.$"
+   name="ondef_boosting"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("boosting")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Athletics"
+   match="^You close your eyes and grit your teeth\, feeling the heat of the blood pumping through your veins\.$"
+   name="ondef_immunity"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("immunity")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Athletics"
+   match="^You pound your chest with your fists\, and bellow fiercely\. Your body expands to heroic proportions\.$"
+   name="ondef_surge"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("surge")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Athletics"
+   match="^A surge of adrenaline courses through your veins\.$"
+   name="ondef_adrenaline"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>prompt:queue (function ()
+defs:ondef ("adrenaline", true, "silent")
+fst:disable ("speed")
+fst:enable ("ondef_speed")
+if (flags:get ("curing") or "nil") == "adrenaline" then
+	system:cured ("aeon")
+end --if
+end, "ondef_adrenaline", true)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Athletics"
+   match="^You are already speeded\.$"
+   name="has_speed"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>prompt:queue (function ()
+affs:del ("no_speed")
+fst:disable ("ondef_speed")
+fst:disable ("speed")
+defs:ondef ("speed")
+if (flags:get ("curing") or "nil") == "adrenaline" then
+	system:cured ("aeon")
+end --if
+end, "ondef_speed", true)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Athletics"
+   match="^Your body is already surged to maximum potential\.$"
+   name="has_surge"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef("surge")</send>
+  </trigger>
+
+  <trigger
+   enabled="y"
+   group="System_Athletics"
+   match="^A surge of rejuvenating energy floods your system\, healing your wounds\.$"
+   name="lostdef_vitality_"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:lostdef ("vitality")
+flags:add_check ("recklessness")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Athletics"
+   match="^You cease to stand firm against attempts to move you\.$"
+   name="lostdef_sturdiness"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:lostdef("sturdiness")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Athletics"
+   match="^You call a halt to the regenerative process\.$"
+   name="lostdef_regenerationoff"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:lostdef ({ "regeneration", "boosting" })</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Athletics"
+   match="^You no longer possess sufficient mana to sustain your regeneration\.$"
+   name="lostdef_regenerationmana"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:lostdef ({ "regeneration", "boosting" })</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Athletics"
+   match="^Your willpower is insufficient to continue regenerating your health\.$"
+   name="lostdef_regenerationwill"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:lostdef ({ "regeneration", "boosting" })</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Athletics"
+   match="^You will no longer concentrate on retaining full consciousness\.$"
+   name="lostdef_consciousness"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:lostdef ("consciousness")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Athletics"
+   match="^Your blood settles down\, its poison immunity fading\.$"
+   name="lostdef_immunity"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:lostdef ("immunity")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Athletics"
+   match="^You relax the surge of power through your body\,? and dwindle to normal proportions\.$"
+   name="lostdef_surge"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:lostdef ("surg")</send>
+  </trigger>
+
+<!-- DEF -->
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^Your regeneration is boosted\.$"
+   name="def_boosting"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>defs:ondef ("boosting", nil, nil, true)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^Your body is prepared for a marathon workout\.$"
+   name="def_breathe"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>defs:ondef("breathe", nil, nil, true)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^You are maintaining consciousness at all times\.$"
+   name="def_consciousness"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>defs:ondef("consciousness", nil, nil, true)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^You are using your superior constitution to prevent nausea\.$"
+   name="def_constitution"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>defs:ondef("constitution", nil, nil, true)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^You have tempered your bloodstream to reject poisons\.$"
+   name="def_immunity"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>defs:ondef("immunity", nil, nil, true)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^You are regenerating lost health\.$"
+   name="def_regeneration"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>defs:ondef("regeneration", nil, nil, true)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^You are resisting magical damage\.$"
+   name="def_resistance"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>defs:ondef("resistance", nil, nil, true)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^Your muscles are flexed for increased strength\.$"
+   name="def_strength"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>defs:ondef("strength", nil, nil, true)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^You are standing firm against attempts to move you\.$"
+   name="def_sturdiness"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>defs:ondef("sturdiness", nil, nil, true)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^Your essence is surging into your body\.$"
+   name="def_surge"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>defs:ondef("surge", nil, nil, true)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^You will call upon your fortitude in need\.$"
+   name="def_vitality"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>defs:ondef("vitality", nil, nil, true)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^Your body is weathering the storm of life a little better\.$"
+   name="def_weathering"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>defs:ondef("weathering", nil, nil, true)</send>
+  </trigger>
+</triggers>

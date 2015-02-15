@@ -1,0 +1,93 @@
+<triggers>
+  <trigger
+   enabled="y"
+   group="System_Herbs"
+   match="^(.*) \(\w+\)\s+(\d+) left\.$"
+   name="get_herbs"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>herbs:get (string.lower ("%1"), tonumber ("%2"))
+</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Herbs"
+   match="^The following plants are growing in this room\:$"
+   name="start_herbs"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>EnableTrigger ("get_herbs", true)
+herbs ["inroom"] = {}
+prompt:queue (function ()
+EnableTrigger ("start_herbs", false)
+EnableTrigger ("get_herbs", false)
+end, "start_herbs")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Herbs"
+   match="^Hmm\, that wasn\'t the herb you thought after all\. It was some rare spices\!$"
+   name="harvesting_spices"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>herbs:picked("spices")</send>
+  </trigger>
+   <trigger
+   enabled="n"
+   group="System_Herbs"
+   match="^You reach down and carefully harvest .*\.$"
+   name="harvesting_"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>herbs:picked()</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Herbs"
+   match="^The (\w+) disappears into its own hibernation\.$"
+   name="harvesting_stripped1"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>display.system ("You Stripped Harvested the Herb! DIE!")
+herbs:del ()</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Herbs"
+   match="^The .* here droop over and become mulch\.$"
+   name="harvesting_stripped2"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>display.system ("You Stripped Harvested the Herb! DIE!")
+herbs:del ()</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Herbs"
+   match="^The plant refuses to release its bounty\.$"
+   name="harvesting_guarded"
+   regexp="y"
+   send_to="14"
+   sequence="1000"
+  >
+  <send>display.system ("Herb Guarded")
+herbs:del ()</send>
+  </trigger>
+</triggers>

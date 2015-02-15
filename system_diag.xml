@@ -1,0 +1,2328 @@
+<triggers>
+<trigger
+   enabled="n"
+   group="System_Diag"
+   match="^You are\:$"
+   name="diag_start"
+   regexp="y"
+   send_to="12"
+   sequence="10"
+  >
+  <send>affs:diag_start ()</send>
+  </trigger>
+
+  <!-- Afflictions -->
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^paralysed\.$"
+   name="diag1"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("paralysis")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^entangled\.$"
+   name="diag2"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("entangled")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^bound and tied\.$"
+   name="diag3"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("roped")</send>
+  </trigger>
+
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^transfixed\.$"
+   name="diag4"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("transfixed")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^shackled\.$"
+   name="diag5"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("shackled")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^Desperately in love with [A-Z][a-z]+\.$"
+   name="diag6"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("lovers")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^afflicted with a mental powersink\.$"
+   name="diag7"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("powersink")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^unnaturally stupid\.$"
+   name="diag8"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("stupidity")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^suffering from a severed artery in the (left|right) (arm|leg)\.$"
+   name="diag9"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add ("artery", "%1%2")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^afflicted with clumsiness\.$"
+   name="diag10"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("clumsiness")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^reckless\.$"
+   name="diag11"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("recklessness")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^afflicted by thin blood\.$"
+   name="diag12"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("relapsing")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^afflicted with the curse of the Aeon\.$"
+   name="diag13"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:aeon()</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^confused\.$"
+   name="diag14"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("confusion")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^extremely oily\.$"
+   name="diag15"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("slickness")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^afflicted by unbearable shyness\.$"
+   name="diag16"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("shyness")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^paranoid\.$"
+   name="diag17"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("paranoia")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^anorexic\.$"
+   name="diag18"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("anorexia")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^afraid of heights\.$"
+   name="diag19"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("vertigo")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^afraid of clothing\.$"
+   name="diag20"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("vestiphobia")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^infected with scabies mites\.$"
+   name="diag21"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("scabies")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^has a partially damaged head\.$"
+   name="diag22"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("damagedhead")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^overcome by dizziness\.$"
+   name="diag23"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("dizziness")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^missing the (left|right) ear\.$"
+   name="diag24"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("severedear_%1")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^allergic to sunlight\.$"
+   name="diag25"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>if flags:get_check ("sunallergy") then
+affs:add ("sunallergy_"..flags:get_check ("sunallergy"))
+else
+	affs:add ("sunallergy_2")
+end --if</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^sensitive to pain\.$"
+   name="diag26"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("sensitivity")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^hallucinating\.$"
+   name="diag27"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("hallucinations")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^suffering from epilepsy\.$"
+   name="diag28"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("epilepsy")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^dying from crotamine\.$"
+   name="diag29"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>if not flags:get_check ("crotamine") then
+affs:add("crotamine_4")
+else
+affs:add ("crotamine_"..flags:get_check ("crotamine"))
+end--if</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^hypersomnic\.$"
+   name="diag30"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("hypersomnia")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^wearied in body\.$"
+   name="diag31"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("weakness")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^suffering from a bad bout of dysentery\.$"
+   name="diag32"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("dysentery")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^violently ill\.$"
+   name="diag33"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("vomiting")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^extremely generous\.$"
+   name="diag34"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("generosity")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^a certified hypochondriac\.$"
+   name="diag35"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("hypochondria")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^turning stiff like a corpse\.$"
+   name="diag36"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("rigormortis")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^masochistic\.$"
+   name="diag37"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("masochism")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^stricken by the vapors\.$"
+   name="diag38"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("vapors")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^afflicted by horrible asthma\.$"
+   name="diag39"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("asthma")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^demented\.$"
+   name="diag40"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("dementia")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^has a serious concussion\.$"
+   name="diag41"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("concussion")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^suffering from a sliced open forehead\.$"
+   name="diag42"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("artery", "head")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^paraly[sz]ed on the (left|right) side\.$"
+   name="diag43"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("hemiplegy_%1")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^suffering from a pox\.$"
+   name="diag44"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("pox")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^suffering from a sliced open gut\.$"
+   name="diag45"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("slicedopengut")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^suffering from a pierced (left|right) (arm|leg)\.$"
+   name="diag46"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("pierced_%1%2")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^ablaze\.$"
+   name="diag47"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("ablaze")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^infected with stomach worms\.$"
+   name="diag48"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("worms")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^gluttonous\.$"
+   name="diag49"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("gluttony")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^surrounded by the aura of justice\.$"
+   name="diag50"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("justice")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^feeling unnaturally tranquil\.$"
+   name="diag51"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("pacifism")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^cursed with the healthleech\.$"
+   name="diag52"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("healthleech")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^suffering from a broken jaw\.$"
+   name="diag53"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("brokenjaw")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^suffering from a fractured skull\.$"
+   name="diag54"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("fracturedskull")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^vomiting blood\.$"
+   name="diag55"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("vomitingblood")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^suffering from a fractured (left|right) arm\.$"
+   name="diag56"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("fractured_%1arm")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^suffering from a broken chest\.$"
+   name="diag57"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("brokenchest")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^suffering a crushed chest\.$"
+   name="diag58"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("crushedchest")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^suffering a broken nose\.$"
+   name="diag59"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("brokennose")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^suffering from collapsed lungs\.$"
+   name="diag60"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("collapsedlungs")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^agoraphobic\.$"
+   name="diag61"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("agoraphobia")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^suffering from a sliced tendon in the (left|right) leg\.$"
+   name="diag62"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("tendon_%1leg")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^suffering a broken (left|right) wrist(?:\.)?$"
+   name="diag63"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("brokenwrist_%1arm")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^addicted to elixirs\.$"
+   name="diag64"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("addiction")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^afflicted by ha?emophilia\.$"
+   name="diag65"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("hemophilia")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^impatient\.$"
+   name="diag66"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("impatience")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^has an aura of repugnance\.$"
+   name="diag67"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("disloyalty")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^claustrophobic\.$"
+   name="diag68"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("claustrophobia")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^pacified\.$"
+   name="diag69"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("peace")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^feeling rather lethargic\.$"
+   name="diag70"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("lethargy")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^plagued by childish daydreams\.$"
+   name="diag71"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("daydreaming")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^narcoleptic\.$"
+   name="diag72"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("narcolepsy")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^punctured in the etheric substance of your aura\.$"
+   name="diag73"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("lightheaded")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^suffering from a punctured (chest|lung)\.$"
+   name="diag74"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("punctured%1")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^coughing up dreadful black phlegm\.$"
+   name="diag75"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("blacklung")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^without a (left|right) eye\.$"
+   name="diag76"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("peckedeye_%1")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^covered in ectoplasm\.$"
+   name="diag77"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("ectoplasm")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^suffering a locked throat\.$"
+   name="diag78"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("throatlock")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^suffering locked leg muscles\.$"
+   name="diag79"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("leglock")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^afraid of the world\.$"
+   name="diag80"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("omniphobia")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^disemboweled\.$"
+   name="diag81"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("disemboweled")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^suffering from a slit throat\.$"
+   name="diag82"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("slitthroat")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^suffering a chest that has been opened up\.$"
+   name="diag83"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("slicedopenchest")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^inflicted with a sliced (left|right) (bicep|thigh)\.$"
+   name="diag84"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>bodypart = "%2"
+  if
+  bodypart == "bicep"
+  then
+  bodypart = "arm"
+  else
+  bodypart = "leg"
+  end--if
+  affs:add("sliced_%1"..bodypart)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^inflicted with a cracked (left|right) (kneecap|elbow)\.$"
+   name="diag85"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>local aff
+if "%2" == "elbow" then
+  aff = "elbow_%1arm"
+  parry:reset ("silent")
+else
+	aff = "kneecap_%1leg"
+	stance:reset ("silent")
+end--if
+affs:add(aff)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^scalped\.$"
+   name="diag86"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("scalped")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^surrounded by a colourful light\.$"
+   name="diag87"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("illuminated")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^clamped on the (left|right) arm by a hound\'s jaws\.$"
+   name="diag88"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("clamped_%1")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^succumbing to Mother Moon\.$"
+   name="diag89"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("succumb")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^covered in sticky mud\.$"
+   name="diag90"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("muddy")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^feeling anxious in a debate\.$"
+   name="diag91"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("debate_hurry")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^confounded by circuitous logic in a debate\.$"
+   name="diag92"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("debate_circuitous")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^trapped by a loophole in a debate\.$"
+   name="diag93"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("debate_loophole")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^(health|mana|ego) cursed by Papaxi\.$"
+   name="diag94"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("%1_curse")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^suffering from massive organ failure\.$"
+   name="diag95"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("burstorgans")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^under an ill omen\.$"
+   name="diag96"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("omen")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^marked with the aura of an? (heretic|infidel)\.$"
+   name="diag97"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("%1")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^suffering from ritualistic inquisition\.$"
+   name="diag98"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("inquisition")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^trapped inside a bubble\.$"
+   name="diag99"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("bubble")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^turned into a statue\.$"
+   name="diag100"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("statue")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^sickened by the earth\'s taint\.$"
+   name="diag101"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("taintsick")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^covered in viscous sap\.$"
+   name="diag102"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:sap ()</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^hated by the trees\.$"
+   name="diag103"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("treebane")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^seeing illusory stars\.$"
+   name="diag104"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("stars")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^plagued by an illusory phantom\.$"
+   name="diag105"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("phantoms")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^under the curse of the dark moon\.$"
+   name="diag106"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("darkmoon")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^afflicted by fear\.$"
+   name="diag107"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("fear")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^devoid of senses\.$"
+   name="diag108"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("blackout")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^afflicted by lapses in consciousness\.$"
+   name="diag109"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("drunk")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^of a deadened mind\.$"
+   name="diag110"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("deadened")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^very lonely\.$"
+   name="diag111"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("loneliness")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^has a dissonant nature\.$"
+   name="diag112"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("dissonance")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^surrounded by the Binah Sphere\.$"
+   name="diag113"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("binah_sphere")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^(left|right) (arm|leg) lashed in thorny vines\.$"
+   name="diag114"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("lashed_%1%2")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^afflicted with the darkseed inplanted beneath the skin\.$"
+   name="diag115"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("darkseed")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^covered in vile sticky gunk\.$"
+   name="diag116"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("gunk")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^cursed by ego vice\.$"
+   name="diag117"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("ego_vice")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^cursed by manabarbs\.$"
+   name="diag118"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("manabarbs")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^cursed by power spikes\.$"
+   name="diag119"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("powerspikes")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^afflicted with an achromatic aura\.$"
+   name="diag120"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("achromatic")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^twitching in the face due to a gash\.$"
+   name="diag121"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("gashedcheek")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^suffering from a lacerated (left|right) (arm|leg)\.$"
+   name="diag122"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add ("lacerated", "%1%2")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^suffering from a ruptured stomach\.$"
+   name="diag123"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("rupturedstomach")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^immobile due to a severed spine\.$"
+   name="diag124"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("severedspine")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^suffering from a shattered jaw\.$"
+   name="diag125"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("shatteredjaw")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^having difficulty breathing due to a severed phrenic nerve\.$"
+   name="diag126"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("phrenicnerve")
+flags:clear("phrenic_smoke")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^pained by a snapped rib\.$"
+   name="diag127"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("snappedrib")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^bleeding through a furrowed brow\.$"
+   name="diag128"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("furrowedbrow")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^muted by a crushed windpipe\.$"
+   name="diag129"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("windpipe")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^suffering from a dazzling afterimage\.$"
+   name="diag130"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("afterimage")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^suffering from the effects of blank note\.$"
+   name="diag131"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("blanknote")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^beset by dazzling rainbow coloured patterns\.$"
+   name="diag132"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("rainbowpatterns")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^limping on a crushed (left|right) foot\.$"
+   name="diag133"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("crushedfoot_%1leg")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^muted by a mangled tongue\.$"
+   name="diag134"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("mangledtongue")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^very short of breath\.$"
+   name="diag135"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("shortbreath")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^experiencing heavy chest pain\.$"
+   name="diag136"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("chestpain")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^suffering from a dislocated (left|right) (arm|leg)\.$"
+   name="diag137"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("dislocated_%1%2")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^limping with a shattered (left|right) ankle\.$"
+   name="diag138"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("shatteredankle_%1leg")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^has a scrambled brain\.$"
+   name="diag139"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("scrambledbrain")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^paraly[zs]ed on the lower body\.$"
+   name="diag140"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("hemiplegy_lower")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^has a twisted (left|right) (arm|leg)\.$"
+   name="diag141"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("twisted_%1%2")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^trembling weakly\.$"
+   name="diag142"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("trembling")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^tightly trussed up\.$"
+   name="diag143"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("trussed")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^infected with a parasite of the dreaming\.$"
+   name="diag144"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("void")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^ravaged by an imbalanced homeostasis\.$"
+   name="diag145"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("homeostasis")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^suffering from the blues\.$"
+   name="diag146"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("depression")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^plagued by a bedeviling sickness\.$"
+   name="diag147"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("bedeviled")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^suffering under a warped aura of infirmity\.$"
+   name="diag148"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("aurawarp")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^sprawled on the ground\.$"
+   name="diag149"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:prone()</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^afflicted by a crippled (left|right) (arm|leg)\.$"
+   name="diag150"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("broken_%1%2")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^has a mangled (left|right) (arm|leg)\.$"
+   name="diag151"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("mangled_%1%2")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^without a (left|right) (arm|leg)\.$"
+   name="diag152"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("amputated_%1%2")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^suffering (\d+) burst blood vessels\.$"
+   name="diag153"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add ("vessel", %1)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^afflicted with a blood clot in the (left|right) (hip|shoulder)\.$"
+   name="diag154"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>if "%2" == "shoulder" then
+  affs:add("clot_%1arm")
+else
+  affs:add("clot_%1leg")
+end</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^enfeebled\.$"
+   name="diag155"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("enfeebled")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^has stiff (.+?) muscles\.$"
+   name="diag156"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>if "%1" == "face" then
+  affs:add("stiff_head")
+elseif "%1" == "right arm" then
+  affs:add("stiff_rightarm")
+elseif "%1" == "left arm" then
+  affs:add("stiff_leftarm")
+else
+  affs:add("stiff_%1")
+end</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^an insomniac\.$"
+   name="diag157"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>defs:ondef ("insomnia")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^shivering\.$"
+   name="diag158"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("chills")
+defs:del("fire")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^frozen stiff\.$"
+   name="diag159"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("frozen")
+defs:del("fire")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^under the influence of a love potion\.$"
+   name="diag160"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>if system:is_auto ("love") then
+affs:add("love", true, "silent")
+display.ondef ("love")
+else
+affs:add ("love")
+end --if</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^attracted to ([A-Z][a-z]+)\.$"
+   name="diag161"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>if not system:is_auto("truehearing") then
+  system:auto ("truehearing", 1)
+end</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^grappled by ([A-Z][a-z]+)\.$"
+   name="diag162"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>if not next(affs ["grapples"]) then
+  affs:grappled ("body", "%1")
+else
+  affs:add("grappled")
+end</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^has a numbed (chest|gut|head|left arm|left leg|right arm|right leg)\.$"
+   name="diag163"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>local part = string.gsub("%1", " ", "")
+affs:numb (part, true)
+</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^cursed with (Bat|Herb|Snake) Bane\.$"
+   name="diag164"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("bane_" .. string.lower("%1"))</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^being sapped of power\.$"
+   name="diag165"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("powersap")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^impaled through the gut\.$"
+   name="diag165"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>if affs ["impales"] ["number"] == 0 then
+flags:add_check ("impales", 1)
+end--if</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^suffering from a collapsed (left|right) arm nerve\.$"
+   name="diag166"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("collapsednerve_%1arm")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^choked by shadows\.$"
+   name="diag167"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:choke ()</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^plagued by illusory wounds\.$"
+   name="diag168"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("illusory_wounds")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^crucified\.$"
+   name="diag169"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add("crucified")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^afflicted with .+? \((first|second|third|fourth) degree burns\)\.$"
+   name="diag170"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:burned("%1")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^suffering from a (slight|moderate|major|massive) case of temporary insanity\.$"
+   name="diag171"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>local v = affs ["insanity"] ["number"]
+if v &lt; affs ["insanity"] ["%1"] then
+  if "%1" == "slight" then
+    affs:insawarped ("insanity", (affs ["insanity"] ["moderate"] - affs ["insanity"] ["slight"]) / 2 +affs ["insanity"] ["slight"])
+  elseif "%1" == "moderate" then
+    affs:insawarped ("insanity", (affs ["insanity"] ["major"] - affs ["insanity"] ["moderate"]) / 2 + affs ["insanity"] ["moderate"])
+  elseif "%1" == "major" then
+    affs:insawarped ("insanity", (affs ["insanity"] ["massive"] - affs ["insanity"] ["major"]) / 2 + affs ["insanity"] ["major"])
+  else
+    affs:insawarped ("insanity", 60)
+  end
+end</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^cursed by bad luck\.$"
+   name="diag172"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>affs:add("bad_luck")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^haunted by grey whispers\.$"
+   name="diag173"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>affs:add("grey_whispers")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^strangled by (\d+) coils of cloud\.$"
+   name="diag174"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>affs:add ("coil", %1)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^suffering from echoes in time\.$"
+   name="diag175"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>affs:add("time_echoes")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^(minorly|moderately|majorly|massively) warped in time\.$"
+   name="diag176"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>local v = affs ["timewarped"] ["number"]
+if v &lt; affs ["timewarped"] ["%1"] then
+  if "%1" == "minorly" then
+    affs:insawarped ("timewarped", (affs ["timewarped"] ["moderate"] - affs ["timewarped"] ["slight"]) / 2 +affs ["timewarped"] ["slight"])
+  elseif "%1" == "moderately" then
+    affs:insawarped ("timewarped", (affs ["timewarped"] ["major"] - affs ["timewarped"] ["moderate"]) / 2 + affs ["timewarped"] ["moderate"])
+  elseif "%1" == "majorly" then
+    affs:insawarped ("timewarped", (affs ["timewarped"] ["massive"] - affs ["timewarped"] ["major"]) / 2 + affs ["timewarped"] ["major"])
+  else
+    affs:insawarped ("timewarped", 60)
+  end
+end</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^under the gaze of an oracle\.$"
+   name="diag177"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>affs:add("oracle")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^pinned at the (left|right) leg\.$"
+   name="diag179"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>display.affs ("pinleg %1")
+flags:add_check ("pinlegs", flags:get_check ("pinlegs")+1)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^deaf\.$"
+   name="diag180"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>if defs:has ("truehearing") then
+display.ondef ("truehearing")
+else
+affs:add ("deafness")
+end --if</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^blind\.$"
+   name="diag181"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>if defs:has ("sixthsense") then
+display.ondef ("sixthsense")
+else
+affs:add ("blindness")
+end --if</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^cursed with a powerful jinx\.$"
+   name="diag182"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add ("jinx")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^marked by a murky blotch on the throat\.$"
+   name="diag183"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add ("deathmark", (flags:get_check ("deathmark") or 1))</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^covered in green mucous\.$"
+   name="diag184"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add ("mucous")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^feeling very sluggish\.$"
+   name="diag185"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>if IsTimer ("alert_sluggish") ~= 0 then
+	prompt:add_alert ("sluggish", "Sluggish", 30, -1)
+end--if
+prompt:unqueue ("del_sluggish")--I treat sluggish like an alert</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Diag"
+   match="^tracked by (\d+) ruby crystals\.$"
+   name="diag186"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="10"
+  >
+  <send>affs:add ("rubies", true, %1)</send>
+  </trigger>
+</triggers>

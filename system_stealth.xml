@@ -1,0 +1,386 @@
+<triggers>
+<!-- DEF -->
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^You are sneaking around in the shadows\.$"
+   name="def_sneak"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("sneak", nil, nil, true)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^You are listening to another conversation\.$"
+   name="def_eavesdrop"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("eavesdropping", nil, true, true)
+display.system ("Eavesdropping")</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^You are preparing to mislead to the (.*)\.$"
+   name="def_misleading"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("misleading", nil, true, true)
+local dir = "%1"
+display.system ("Misleading "..string.upper (string.sub (dir,1,1))..string.lower (string.sub (dir,2)))</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^Your agility is enhanced\.$"
+   name="def_agility"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("agility", nil, nil, true)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^You are hyperaware of your surroundings\.$"
+   name="def_awareness"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("awareness", nil, nil, true)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^You are braced to absorb damage\.$"
+   name="def_bracing"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("bracing", nil, nil, true)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^You are speaking in whisper mode\.$"
+   name="def_whisper"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("whisper", nil, nil, true)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^You are screening your belongings against prying eyes\.$"
+   name="def_screen"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("screen", nil, nil, true)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^You are rushing\.$"
+   name="def_rushing"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("rushing", nil, nil, true)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^You are veiled from detection\.$"
+   name="def_veil"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("veil", nil, nil, true)</send>
+  </trigger>
+
+<!-- Defenses up -->
+  <trigger
+   enabled="y"
+   group="System_Stealth"
+   match="^You step backwards\, sneaking into the cover of the shadows\.$"
+   name="defup_sneak"
+   omit_from_output="y"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>defs:ondef ("sneak")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Stealth"
+   match="^You focus your senses to become hyperaware of your surroundings\.$"
+   name="defup_awareness"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("awareness")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Stealth"
+   match="^You are already aware of your surroundings\!$"
+   name="has_awareness"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("awareness")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Stealth"
+   match="^Running in place\, you stretch your muscles and enhance your agility and speed\.$"
+   name="defup_agility"
+   omit_from_output="y"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>defs:ondef ("agility")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Stealth"
+   match="^Grabbing your wrists firmly in opposite hands\, you pull and brace yourself to absorb any damage dealt to you\.$"
+   name="ondef_bracing"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("bracing")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Stealth"
+   match="^You prepare your voice to sound in whisper mode\.$"
+   name="defup_whisper"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("whisper")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Stealth"
+   match="^You shift your belongings around\, screening them from prying eyes\.$"
+   name="defup_screen"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("screen")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Stealth"
+   match="^Surprising those around you\, you unleash your pent up energies\.$"
+   name="defup_rushing"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("rushing")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Stealth"
+   match="^You bow your head and focus upon veiling your aura\.$"
+   name="defup_veil"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("veil")</send>
+  </trigger>
+
+<!-- Defenses already up -->
+  <trigger
+   enabled="y"
+   group="System_Stealth"
+   match="^You already are sneaking around\.$"
+   name="has_sneak"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("sneak")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Stealth"
+   match="^You already have enhanced agility\!$"
+   name="has_agility"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("agility")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Stealth"
+   match="^You are already bracing against damage\!$"
+   name="has_bracing"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("bracing")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Stealth"
+   match="^You are already in whisper mode\!$"
+   name="has_whisper"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("whisper")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Stealth"
+   match="^You are already screening your items\!$"
+   name="has_screen"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("screen")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Stealth"
+   match="^You are already veiled\!$"
+   name="has_veil"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("veil")</send>
+  </trigger>
+
+<!-- Defenses down -->
+  <trigger
+   enabled="y"
+   group="System_Stealth"
+   match="^You (?:step out of the cover of the shadows and cease|already aren\'t) sneaking around\.$"
+   name="lostdef_sneak"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:lostdef ("sneak")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Stealth"
+   match="^Exhausted\, you cease rushing with sudden speed\.$"
+   name="lostdef_rushing"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:lostdef ("rushing")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Stealth"
+   match="^The veil that hides your aura dissip(?:it)?ates\.$"
+   name="lostdef_veil"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:lostdef ("veil")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Stealth"
+   match="^With a relaxing yawn\, you dull your senses and are no longer hyperaware of your surroundings\.$"
+   name="lostdef_awareness"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:lostdef ("awareness")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Stealth"
+   match="^You prepare your next movement to mislead to the (.*)\.$"
+   name="misleading"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>local dir = "%1"
+display.system ("Misleading "..string.upper (string.sub (dir,1,1))..string.lower (string.sub (dir,2)))</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Stealth"
+   match="^You begin to eavesdrop to the (.*)\.$"
+   name="eavesdropping"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>local dir = "%1"
+display.system ("Eavesdropping "..string.upper (string.sub (dir,1,1))..string.lower (string.sub (dir,2)))</send>
+  </trigger>
+</triggers>

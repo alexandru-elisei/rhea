@@ -1,0 +1,455 @@
+<triggers>
+ <!--Autobasher of sorts--> 
+  <trigger
+   enabled="y"
+   group="System_Bashing"
+   match="^.+? sovereigns spill(?:s)? from the corpse\.$"
+   name="getgold"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>todo:add ("bal", "gold_drop", "get gold")
+EnableTrigger ("bashing_nogold", true)
+EnableTrigger ("gotgold", true)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Bashing"
+   match="^I see no \&quot;gold\&quot; to take\.$"
+   name="bashing_nogold"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>todo:done ("gold_drop", "bal")
+EnableTrigger ("bashing_nogold", false)
+EnableTrigger ("gotgold", false)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Bashing"
+   match="^You pick up (?:a|\d+) gold sovereigns."
+   name="gotgold"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>todo:done ("gold_drop", "bal")
+EnableTrigger ("nogold", false)
+EnableTrigger ("gotgold", false)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Bashing"
+   match="^Ahh\, I am truly sorry\, but I do not see anyone by that name here\.$"
+   name="notarget1"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>if (flags:get ("todo_bal") or "nil") == "bash" then
+system:set_auto ("bashing", 0)
+end--if</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Bashing"
+   match="^I do not recognize anything called that here\.$"
+   name="notarget2"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>if (flags:get ("todo_bal") or "nil") == "bash" then
+system:set_auto ("bashing", 0)
+end--if</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Bashing"
+   match="^You cannot see that being here\.$"
+   name="notarget3"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>if (flags:get ("todo_bal") or "nil") == "bash" then
+system:set_auto ("bashing", 0)
+end--if</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Bashing"
+   match="^Nothing can be seen here by that name\.$"
+   name="notarget4"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>if (flags:get ("todo_bal") or "nil") == "bash" then
+system:set_auto ("bashing", 0)
+end--if</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Bashing"
+   match="^You detect nothing here by that name\.$"
+   name="notarget5"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>if (flags:get ("todo_bal") or "nil") == "bash" then
+system:set_auto ("bashing", 0)
+end--if</send>
+  </trigger>
+<!--Bashing lines--> 
+  <trigger
+   enabled="y"
+   group="System_Bashing"
+   match="^A large yellow spider rears up on its hind legs and squirts sticky webbing all over you\.$"
+   name="yspider_entangled"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>affs:prone ("entangled")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Bashing"
+   match="^His beady eyes wavering before you, a large\, hairy solifugid suddenly rears up and sprays you with a mass of sticky black webbing\.$"
+   name="solifugid_entangled"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>affs:prone ("entangled")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Bashing"
+   match="^A spider spirit lunges at you\, sinking his venomous fangs into your flesh and injecting you with poison\.$"
+   name="sspider_freezing"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>affs:freezing ()</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Bashing"
+   match="^An aetheretic slivven suddenly becomes very still before releasing an aetheric pulse which explodes in a sphere through the room causing your mind to sear and the world to slow around you\.$"
+   name="slivven_aeon"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>affs:add ("aeon")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Bashing"
+   match="^Twisting around\, a spider spirit spurts sticky strands of web at you from the spinners on his abdomen\.$"
+   name="sspider_entangled"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>affs:prone ("entangled")</send>
+  </trigger>
+  <trigger
+   group="System_Bashing"
+   enabled="y"
+   match="^The spectre of Rudzine Reltine whispers his story to you\, and the raw emotion becomes manifest\, causing a painful burst behind your eyes\.$"
+   name="rudzine_blackout"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>affs:add ("blackout")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Bashing"
+   match="^A garghast coughs out a flaring cloud of hot embers towards you that singe and burn your skin\.$"
+   name="garghast_blackout"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>affs:add ("blackout")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Bashing"
+   match="^A hooded gatekeeper chants in a deep\, harsh voice and lifts his hands violently\, causing a dark\, swirling mist to encompass you\.$"
+   name="gatekeeper_blackout"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>affs:add ("blackout")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Bashing"
+   match="^A garghast reaches out and grabs you\, holding you tight to its chest in a smouldering embrace\.$"
+   name="garghast_brokenlimb"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>affs:add_custom ("garghast", "salve", "apply mending to arms")
+affs:add_queue ("broken_rightleg")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Bashing"
+   match="^A garghast swipes at you with a crooked arm\, and you feel numb throughout your body\.$"
+   name="garghast_paralysis"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>affs:prone ("paralysis")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Bashing"
+   match="^A sadistic mitran lets forth a bloodcurdling screech\.$"
+   name="mitran_fear"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>affs:add_queue ("fear")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Bashing"
+   match="^A spectral garwight\'s arm becomes translucent as it punches you in the chest\. You feel only a slight tingle for a moment before a spectral garwight seems to clench its fist and a wave of cold pain shoots through your body\, causing you to shiver uncontrollably\.$"
+   name="garwight_freezing"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>affs:freezing ()</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Bashing"
+   match="^A mass of sticky tendrils streak out from a morbidly\-tainted grub\, wrapping you in a cocoon of slime\.$"
+   name="grub_entangled"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>affs:prone ("entangled")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Bashing"
+   match="^Countless filaments suddenly lash out at you from an aetheretic slivven\, tiny poisonous barbs dig into your flesh causing you to stagger on your feet as your body locks up in agony\.$"
+   name="slivven_attack"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>affs:reject_try ()
+prompt:queue (function ()
+	if string.find (prompt ["status"], "p") then
+		affs:add_simple ("paralysis")
+	else
+		affs:masked (1)
+	end
+end, "affs_add_slivven_attack", true)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Bashing"
+   match="^A spectral (?:man|boy|girl|woman|paladin) whispers (?:her|his) story to you\, and the raw emotion becomes manifest\, causing a painful burst behind your eyes\.$"
+   name="spectre_blackout"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>affs:add ("blackout")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Bashing"
+   match="^A spectral (?:man|boy|girl|woman|paladin)\'s eyes widen and (?:he|she) points at you\, coating your skin with a fine layer of ice\.$"
+   name="spectre_freezing"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>affs:freezing ()</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Bashing"
+   match="^Eyes glowing red\, .+? bellows and a shield of protection flickers into view around (?:[Hh]is|[Hh]er) form\.$"
+   name="bashing_circle"
+   regexp="y"
+   send_to="12"
+   sequence="101"
+  >
+  <send>display.mult ("yellow", "", "((SHIELD))")
+if system:is_auto ("bashing") then
+	flags:add_check ("raze")
+end--if</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Bashing"
+   match="^.+? mutters and traces a cobalt blue pentagram in the air that remains hovering before (?:[Hh]im|[Hh]er)\.$"
+   name="bashing_pentagram"
+   regexp="y"
+   send_to="12"
+   sequence="101"
+  >
+  <send>display.mult ("yellow", "", "((SHIELD))")
+if system:is_auto ("bashing") then
+	flags:add_check ("raze")
+end--if</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Bashing"
+   match="^A slimy\, amphibious adorath hisses and plunges one of his barbed tentacles deep into your chest to inject his poison as the pain drains swiftly away\.$"
+   name="adorath_paralysis"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>system:poisons_on ()</send>
+  </trigger>
+   <trigger
+   enabled="y"
+   group="System_Bashing"
+   lines_to_match="2"
+   match="^You feel a burning sensation emanating from the wound\.$\n^You realize that your heroic actions can no longer continue unnoticed\, and you take it upon yourself to rectify the situation\.$"
+   multi_line="y"
+   name="surtami_recklessness"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>affs:add_queue ("recklessness")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Bashing"
+   match="A green eyelash viper bites deeply into your arm. You feel the bones liquify and skin blacken\.$"
+   name="greenviper_arm"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>affs:add_custom ("greenviperarm", "salve", "apply mending to arms")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Bashing"
+   match="^A kephera \w+ scoops your legs out from under you\, quickly coming down against you and pinning your limbs in a secure grapple\.$"
+   name="kephera_grapple"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>affs:prone ("entangled")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Bashing"
+   match="^A festering garghoul stretches out and swipes you with a slime covered hand\, and your body tingles with an odd sensation\.$"
+   name="garghoul_diag"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>affs:add_queue ("masked", 1)</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Bashing"
+   match="^A garghast reaches out and grabs you\, holding you tight to its chest in a smouldering embrace\.$"
+   name="garghast_mending"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>affs:add_custom ("garghast", "salve", "apply mending to arms")
+affs:add_queue ("broken_rightleg")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Bashing"
+   match="^A garghast swipes at you with a crooked arm\, and you feel numb throughout your body\.$"
+   name="garghast_paralysis"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>affs:prone ("paralysis")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Bashing"
+   match="^A spectral garwight\'s arm becomes translucent as it punches you in the chest\. You feel only a slight tingle for a moment before a spectral garwight seems to clench its fist and a wave of cold pain shoots through your body\, causing you to shiver uncontrollably\.$"
+   name="garwight_freeze"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>affs:add_queue ("freezing")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Bashing"
+   match="^The lips of a female manticore peel back as she roars wildly\, the sound intensifying to such a point that bursts your eardrums and causes fierce pain to course violently through your body\.$"
+   name="manticore_deafness"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>defs:del_queue ("truehearing")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Bashing"
+   match="^Rapidly beating his wings\, .+? causes the air to stir violently and buffets you with great force\. The impact sends you flying into the wall headfirst\.$"
+   name="manticore_stupidity"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>affs:add_queue ("stupidity")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Bashing"
+   match="^A slavering stoneghast spits a black mist into your eyes\.$"
+   name="stoneghast_blindness"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>defs:del_queue ("sixthsense")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Bashing"
+   match="^\(Ship\)\: .+? says\, \&quot;I have been infested by an aetheretic slivven\!\&quot;$"
+   name="slivvens_infest"
+   regexp="y"
+   sequence="100"
+   sound="C:\WINDOWS\Media\ding.wav"
+  >
+  </trigger>
+  
+</triggers>

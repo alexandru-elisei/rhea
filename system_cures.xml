@@ -1,0 +1,3864 @@
+<triggers>
+<!-- Abilities that are sometimes followed by cure lines -->
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^Energy wreathes itself about your body to heal your limbs\.$"
+	name="restoration"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>affs:del ({"stun", "unconscious"})
+  fst:disable ("stun")
+  if flags:get ("restore") then
+  flags:del ("restore")
+  fst:disable ("restore")
+  system:add_cure ("restore")
+  system:cures_on ()
+  end --if</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^You begin to wield (.+?) in your (?:right|left) hand\.$"
+	name="cureunwield1"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>affs:del ({"stun", "unconscious"})
+fst:disable ("stun")
+if flags:get ("unwield") then
+	affs:unwield ("%1", true)
+end --if</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^You are already wielding (.+?) in your (?:right|left) hand\.$"
+	name="cureunwield2"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>affs:del ({"stun", "unconscious"})
+fst:disable ("stun")
+if flags:get ("unwield") then
+	affs:unwield ("%1", true)
+end --if</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^Pressing your hands together before you\, you concentrate on your heart chakra\. An emerald glow suffuses your chest and you feel your afflictions drain away\.$"
+	name="green"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+	<send>affs:del ({"stun", "unconscious"})
+  fst:disable ("stun")
+if flags:get ("powercure") then
+	flags:del ("powercure")
+	fst:disable ("powercure")
+	system:add_cure ("powercure")
+	system:cures_on ()
+end --if</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^Muttering the secret names of Gedulah\, you trace a glowing circle above you\. The circle passes through your body and you feel your afflictions drain away\.$"
+	name="gedulah"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+	<send>affs:del ({"stun", "unconscious"})
+  fst:disable ("stun")
+if flags:get ("powercure") then
+	flags:del ("powercure")
+	fst:disable ("powercure")
+	system:add_cure ("powercure")
+	system:cures_on ()
+end --if</send>
+  </trigger>
+	 <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^You regain consciousness with a start\.$"
+	name="cureunconscious"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>affs:prone()
+prompt:queue (function ()
+	if string.find (prompt ["status"], "p") and affs:has ("unconscious") then
+		affs:del ("unconscious")
+		affs:add ("disrupted")
+		affs:masked (2)
+	end
+end, "cureunconscious", true)</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^You return to the normal timestream\.$"
+	name="cureaeon_passive"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>system:cured_queue ("aeon")</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^Swinging about in a wild dance\, you call down upon the powers of the moon to heal you of afflictions\. A soft beam of moonlight suffuses you\, curing you of sickness\.$"
+	name="full"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>affs:del ({"stun", "unconscious"})
+  fst:disable ("stun")
+if flags:get ("powercure") then
+	flags:del ("powercure")
+	fst:disable ("powercure")
+	system:add_cure ("powercure")
+	system:cures_on ()
+end</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^The blood of [A-Z][a-z]+ surges through .+?\, washing you with its healing powers\.$"
+	name="sacrifice"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>system:cures_on ()</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^White teeth shining brightly\, you flash a compellingly charismatic smile to all around you\.$"
+	name="charismaticsmile"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>system:cures_on ()</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^The healing presence of (?:[A-Z][a-z]+\'s|your) spirit totem washes over you\.$"
+	name="totem"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>system:cures_on ()
+system:add_cure ("totem")</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^A westerly breeze brings in a clean\, sweet scent that invigorates your body\.$"
+	name="aero_westwind"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>system:cures_on()
+system:add_cure ("westwind")</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^As you rub your fingers against a phial of celestial holy water\, you are surrounded by holy light\.$"
+	name="phial_cure"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>affs:del ({"stun", "unconscious"})
+  fst:disable ("stun")
+  if flags:get ("phial") then
+	flags:del ("phial")
+	system:add_cure ("phial")
+	system:cures_on ()
+  end --if</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^You bathe in the glory of the holy light that surrounds you\.$"
+	name="holylight_cure"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>system:cures_on ()</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^A pale glow surrounds you as the moonwater soothes you\.$"
+	name="moonwater_cure"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>defs:del_queue ("moonwater")</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^The presence of your Deity\'s avatar soothes you\.$"
+	name="exalt_aura"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>system:cures_on ()</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^The divine aura of curing around you hums briefly as it draws an affliction from your body\.$"
+	name="shrine_cure"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>system:cures_on ()</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^(?:A warm zephyr caresses your skin and clears your mind|You pass through a pink cloud and feel refreshed|A westerly breeze brings in a clean\,? sweet scent that invigorates your body)\.$"
+	name="aero_cures"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>system:cures_on ()</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	keep_evaluating="y"
+	match="[Ww]arm water showers down upon you"
+	name="cleansed"
+	regexp="y"
+	send_to="12"
+	sequence="90"
+  >
+  <send>if flags:get ("cleanse")then
+  affs:del ({"stun", "unconscious"})
+  fst:disable ("stun")
+  flags:del("cleanse")
+  fst:disable("cleanse")
+  if flags:get_check ("magic") == "cleanse" then
+	magic:used ("cleanse")
+  end--if
+  EnableTriggerGroup("System_Cleanse", true)
+  prompt:queue(function () EnableTriggerGroup("System_Cleanse", false)end, "cleansed", true)
+end</send>
+  </trigger>
+
+<!-- Divine fire is so OP -->
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	lines_to_match="2"
+	match="^You use \d+ of your divine essence\.\nYou exert your will and wreathe yourself in translucent divine fire\.$"
+	multi_line="y"
+	name="divine_fired"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>flags:add_check("divine_fire")
+  fst:enable ("divine_fire")</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^The aura of divine fire seethes around you\, restoring you fully\.$"
+	name="divine_fire_cures"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>if flags:get_check("divine_fire") then
+prompt:queue (function ()
+defs:del("insomnia")
+affs:reset()
+wounds:reset()
+flags:reset()
+end, "divine_fire", true)
+end--if</send>
+  </trigger>
+
+<!-- Passive Cures - may appear separately from any other lines -->
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^You stand straight up\.$"
+	name="cureprone"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>if flags:get ("prone") then
+system:cured_queue ("prone")
+end--if</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^You stand up and stretch your arms out wide\.$"
+	name="cureprone1"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>if flags:get ("prone") then
+system:cured_queue ("prone")
+end--if</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^You are not fallen or kneeling\.$"
+	name="cureprone2"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>if flags:get ("prone") then
+system:cured_queue ("prone")
+end--if</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^Your bout of bad luck has ended\.$"
+	name="curebadluck"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>affs:del_queue("bad_luck")</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^You reject the friendship of ([A-Z][a-z]+)\.$"
+	name="curelust1"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>if flags:get ("reject") then
+affs:lusted ("%1", true)
+flags:del ("reject")
+fst:disable ("reject")
+end--if</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^Why would you reject that person\?$"
+	name="curelust2"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>if flags:get ("reject") then
+affs:lusted (flags:get ("reject"), true)
+flags:del ("reject")
+fst:disable ("reject")
+end--if</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^([A-Z][a-z]+) is now one of your enemies\.$"
+	name="enemying1"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>if (flags:get ("todo_free") or "nil") == "enemying" then
+	adven:enemied ("%1")
+elseif flags:get ("enemying") then
+	flags:del ("enemying")
+	adven:set_enemy ("%1")
+end--if</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^You find ([A-Z][a-z]+) far too irresistable to declare an enemy\.$"
+	name="enemying2"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>if (flags:get ("todo_free") or "nil") == "enemying" or flags:get ("enemying") then
+todo:done ("enemying", "free")
+flags:del ("enemying")
+affs:lusted ("%1")
+end--if</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^([A-Z][a-z]+) is already an enemy\.$"
+	name="enemying3"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>if (flags:get ("todo_free") or "") == "enemying" then
+	adven:enemied ("%1")
+elseif flags:get ("enemying") then
+	todo:done ("enemying", "free")
+	system:set_enemy ("%1")
+	flags:del ("enemying")
+end--if</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^You are not on the ground\!$"
+	name="cureprone_springup"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>if flags:get ("prone") then
+	if system:is_enabled ("diag") then
+		affs:add_queue ("diag", nil, "shush")
+	else
+		affs:masked (2)
+	end
+end</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^You stand straight up\.$"
+	name="cureprone1"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>if flags:get ("prone") then
+affs:prone ("frozen")
+end</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^You stand up and stretch your arms out wide\.$"
+	name="cureprone2"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>if flags:get ("prone") then
+affs:prone ("frozen")
+end --if</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^You are not fallen or kneeling\.$"
+	name="cureprone3"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>--wtf here?</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^You are no longer stunned(?: and have a brief stun immunity)?\.$"
+	name="curestun"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>if affs:has ("stun") then
+system:cured_queue ("stun")
+flags:add_check ("stun_immunity")
+EnableTrigger ("curestunimmune", true)
+end --if</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Tracking"
+	match="^You are no longer immune from stun\.$"
+	name="curestunimmune"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>flags:del_check ("stun_immunity")
+EnableTrigger ("curestunimmune", true)</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^Your muscles unlock\; you are no longer paralysed\.$"
+	name="cureparalysis"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue ("paralysis")</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^You feel the dark mark upon your body finally disappear\.$"
+	name="curedeathmark_passive"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>affs:del_queue ("deathmark")
+display.cured ("deathmark")</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^You feel the curse of the (Bat|Herb|Snake) Bane lift(?:s|ed) from your being\.$"
+	name="curebane"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>affs:del_queue ("bane_" .. string.lower("%1"))</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^You no longer feel so sluggish\.$"
+	name="curesluggish"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>prompt:del_alert ("sluggish")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Awaken"
+	match="^You begin your struggle to escape from the dreamworld\.$"
+	name="begin_waking"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>prompt:queue (function ()
+display.system ("beginning to wake up...")
+fst:enable ("asleep")
+sca:check ()
+end, "waking_up", true)</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Awaken"
+	match="^You continue your struggle to escape from the dreamworld\.$"
+	name="waking_up"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>prompt:queue (function ()
+display.system ("waking up...")
+fst:enable ("asleep")
+end, "waking_up", true) </send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Awaken"
+	match="^You open your eyes and (?:yawn mightily|stretch languidly\, feeling deliciously well\-rested)\.$"
+	name="cureasleep1"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>if flags:get ("asleep") then
+system:cured_queue ("asleep")
+end--if</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Awaken"
+	match="^You already are awake\.$"
+	name="cureasleep2"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>if flags:get ("asleep") then
+system:cured_queue ("asleep")
+end--if</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Awaken"
+	match="^You are jerked awake by the pain\.$"
+	name="cureasleep3"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>prompt:queue (function ()
+system:cured ("asleep")
+flags:add_check ("recklessness")
+end, "awake_pain", true)</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Awaken"
+	match="^You are jerked awake by the need to vomit\.$"
+	name="cureasleep4"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>prompt:queue (function ()
+system:cured ("asleep")
+affs:add ("vomiting")
+flags:add_check ("recklessness")
+end, "awake_vomiting", true)</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^You already possess equilibrium\.$"
+	name="curedisrupted"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>if flags:get ("disrupted") then
+system:cured ("disrupted")
+fst:disable ("disrupted")
+end--if</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^You are already concentrating on regaining equilibrium\.$"
+	name="notdisrupted"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>if flags:get ("disrupted") then
+system:cured ("disrupted")
+fst:disable ("disrupted")
+end--if</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^(?:A )?[Pp]igwidgeon(?: bound in shadows)? is not following or leading you\.$"
+	name="curepigwidgeon1"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>if flags:get ("todo_bal") == "pigwidgeon" then
+todo:done ("pigwidgeon", "bal")
+end
+display.system ("Pigwidgeon Lost")</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^You move about quickly and lose a pigwidgeon"
+	name="curepigwidgeon2"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>if flags:get ("todo_bal") == "pigwidgeon" then
+todo:done ("pigwidgeon", "bal")
+end
+display.system ("Pigwidgeon Lost")</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^Your mood lightens as the oppressive melancholy lifts from your thoughts\.$"
+	name="curedepression"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+ <send>prompt:queue (function ()
+ affs:del ("depression")
+ display.cured ("depression")
+ end, "cured_depression", true)</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^The (.+?) aura surrounding you dissipates\.$"
+	name="curehealingaura"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>if "%1" == "deadly bedeviling" then
+affs:del_queue("bedeviled")
+elseif "%1" == "deadly aurawarp" then
+  affs:del_queue("aurawarp")
+  affs:del_queue("homeostasis")
+--else
+  --affs:lostaura ("%1")
+end</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^You are capable of offensive acts once more\.$"
+	name="curepacifism"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue ("pacifism")</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^Your (left|right) (arm|leg) is greatly healed\, but still damaged\.$"
+	name="curemangledlimb"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue ("mangled_%1%2")
+affs:add ("broken_%1%2")</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^Your head is greatly healed\, but still damaged\.$"
+	name="cureconcussion1"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue ("damagedhead")
+affs:add_queue ("damagedhead")</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^As your concussion lifts\, your thinking becomes clearer\.$"
+	name="cureconcussion2"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue ("concussion")
+affs:add_queue ("damagedhead")</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^Your head feels stronger and healthier\.$"
+	name="curedamagedhead"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue ("damagedhead")</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^The pains in your stomach subside\.$"
+	name="curerupturedgut"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue ("rupturedstomach")</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^Your jaw partially realigns into place as the bones there partially heal\.$"
+	name="cureshatteredjaw"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue ("shatteredjaw")
+affs:add_queue ("brokenjaw")</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^A new (left|right) (arm|leg) grows where the old one was\, though one that is quite sickly and in poor repair\.$"
+	name="cureseveredlimb"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>local part = "%2"
+  local side = "%1"
+  system:cured_queue ("amputated_"..side..part)
+  affs:add_queue ("mangled_"..side..part)</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^Dexterity returns to your (left|right) arm as your cracked elbow heals\.$"
+	name="cureelbowcrack"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue ("elbow_%1arm")</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^Your nervous system calms down as the collapsed nerve in your (left|right) (arm) mends\.$"
+	name="curenervecollapse"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue ("collapsednerve_%1%2")</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^Dexterity returns to your legs as your cracked (left|right) kneecap heals\.$"
+	name="curekneecap"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue ("kneecap_%1leg")</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^The pain in your gut subsides as health returns to your internal organs\.$"
+	name="cureburstorgans"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue ("burstorgans")</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^The pain in your gut subsides as your innards regenerate\.$"
+	name="curedisemboweled"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue ("disemboweled")</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^The tendon in your (left|right) leg reattaches itself\.$"
+	name="curetendons"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue ("tendon_%1leg")</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^You feel the muscles in your legs unlocking\.$"
+	name="cureleglocked"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>system:cured_queue ("leglock")</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^You feel the muscles in your throat opening up again\.$"
+	name="curethroatlocked"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>prompt:queue (function ()
+  system:cured ("throatlock")
+  if bals:get ("elixir")==0.5 and not string.find (flags:get ("applying_salve") or "nil", "apply_health_to_") then fst:fire ("elixir", "now") end
+  if bals:get ("purg")==0.5 then fst:fire ("purg", "now")end
+  if bals:get ("herb")==0.5 and not flags:get ("smoking") and not string.find (flags:get ("applying_salve") or "nil", "apply_health_to_") then fst:fire ("herb", "now")end
+  if bals:get ("sparklies") ==0.5 then fst:fire ("sparklies", "now") end
+  if bals:get ("speed") ==0.5 then fst:fire ("purg", "now") end
+  if flags:get ("orgpotion") then fst:fire ("orgpotion", "now") end
+  if flags:get ("brew") then fst:fire ("brew", "now") end
+  if bals:get ("ah") ==0.5 then fst:fire ("ah", "now") end
+  end, "curesthroat", true)</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^You shrug off your impatience and focus your mind once again\.$"
+	name="cureimpatient"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>system:cured_queue ("impatience")</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^Your ability to breathe greatly improves as your collapsed lung fills with air once again\.$"
+	name="curecollapsedlungs"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>system:cured_queue ("collapsedlungs")
+affs:add_queue ("puncturedlung")</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^Your chest expands as your entire ribcage heals and cracks into place\.$"
+	name="curecrushedchest"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>system:cured_queue ("crushedchest")</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^Your (left|right) eye socket itches as a new eyeball suddenly fills the empty cavity\.$"
+	name="curelosteye"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>prompt:queue (function ()
+system:cured ("peckedeye_%1")
+affs:del ({ "concussion", "damagedhead"})
+end, "cured_peckedeye", true)</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^The majesty of Mother Moon fades from your mind\.$"
+	name="curesuccumbing"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>system:cured_queue ("succumb")
+prompt:queue (function () system ["hme_priority"] = (GetVariable ("system_hme_priority") or "health")
+display.option ("priority", system ["hme_priority"])
+end, "curesuccumbing", true)</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^With a snarl of contempt\, [A-Z][a-z]+ allows you to slide free of (?:[hH]is|[hH]er) antlers\.$"
+	name="cureantlerimpale"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>affs:add_queue ("impaled", -1)</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^Your flesh is sliced to shreds as all the thorny vines are ripped away\.$"
+	name="cureallthorns1"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>affs:del_queue({ "lashed_leftarm", "lashed_leftleg", "lashed_rightarm", "lashed_rightleg" })
+affs:add_queue ("bleeding", 250)
+display.free ()</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^All the thorny vines that cover you wither away\.$"
+	name="cureallthorns2"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>if flags:get("ignite") then
+prompt:queue (function ()
+flags:del("ignite")
+fst:disable("ignite")
+affs:del({ "lashed_leftarm", "lashed_leftleg", "lashed_rightarm", "lashed_rightleg" })
+end, "cured_lashed_ignite", true)
+end--if</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^The thorny vines on your (left|right) (arm|leg) wither away\.$"
+	name="cureonethorn"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>affs:del_queue ("lashed_%1%2")</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^You sigh in relief as the fire on your body flickers and fades\.$"
+	name="cureablazeauto"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>affs:del_queue("ablaze")</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^With a loud hiss of steam\, you sigh in relief as the waters put out the flames on your body\.$"
+	name="cureablazewater1"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>affs:del_queue("ablaze")</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^The ugly\, cankerous sores on your skin clear up and close\.$"
+	name="curetaintsick"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>affs:del_queue("taint_sick")</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^There is nothing to fear but fear itself\.$"
+	name="curefear1"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>system:cured_queue ("fear")
+fst:disable ("fear")</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^Your fear has been cured\.$"
+	name="curefear2"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>system:cured_queue ("fear")
+fst:disable ("fear")</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^The phantom shadows that plague your mind are lifted\.$"
+	name="curephantoms"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>system:cured_queue ("phantoms")</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^The sense of impending doom lifts\.$"
+	name="cureomen"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>system:cured_queue ("omen")</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^You no longer feel lightheaded and weak\.$"
+	name="curelightheaded"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>system:cured_queue ("lightheaded")</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^You do not bleed\, my friend\.$"
+	name="clotstop"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>system:cured_queue ("bleeding")</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^Some insect has crawled up your throat and into your mouth\. You gag and spit out a sickly green beetle\.$"
+	name="curescarab"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>affs:del_queue("scarab")
+flags:add_check ("recklessness")</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^Your fingers and toes begin to tingle\, and before long the grey fades from your skin and flushes a healthy colour\. You are no longer a statue\!$"
+	name="curestatued"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>affs:del_queue ("statue")
+if affs:has ("stun") then
+	system:cured_queue ("stun")
+end
+  </send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^The biting cold of the water washes over you and extinguishes the flames on you\.$"
+	name="cureablazewater2"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>affs:del_queue("ablaze")</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^The ache in your ear canals clears up\.$"
+	name="cureblanknote"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>system:cured_queue("blanknote")
+defs:del_queue("truehearing")</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^You begin intense concentration to restore your equilibrium\.$"
+	name="curedisruptedconc"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>if flags:get("disrupted")then --if I am trying to cure disrupted
+system:cured ("disrupted")
+fst:disable ("disrupted")
+end</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^You feel yourself released from the painful inquisition\.$"
+	name="cureinquisition"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>if affs:has ("stun") then
+	system:cured_queue ("stun")
+  end--if</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^The dazzling afterimage fades from your vision\.$"
+	name="cureafterimage"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>affs:del_queue("afterimage")</send>
+  </trigger>
+<!--
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^Your senses return in a rush\.$"
+	name="cureblackout1"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>if defs:has("held_breath") then
+  defs:del_queue("held_breath")
+end
+if affs:has ("blackout") then
+system:cured_queue ("blackout")
+end</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^Your senses return to you as the blackout ends\.$"
+	name="cureblackout2"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>if defs:has("held_breath") then
+  defs:del_queue("held_breath")
+end
+if affs:has ("blackout") then
+system:cured_queue ("blackout")
+end</send>
+  </trigger>
+-->
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^[A-Z][a-z]+ suddenly releases (?:[hH]is|[hH]er) vice\-like grip on you\.$"
+	name="curehoisted"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>system:cured_queue ("hoisted")</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^With an heroic effort you manage to writhe yourself free from the blade through your gut\.$"
+	name="cureimpale"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>affs:add_queue ("impaled", -1)</send>
+  </trigger>
+	<trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^With an heroic effort you manage to writhe yourself free from the blade through your (left|right) foot\.$"
+	name="curepinleg"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>affs:add_queue ("pinleg", -1)</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^With an heroic effort you manage to writhe yourself free from the cross\.$"
+	name="curecrucified"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>system:cured_queue ("crucified")</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^You have writhed free of your ropes\.$"
+	name="cureroped"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>system:cured_queue ("roped")</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^You have writhed free of your tight bindings\.$"
+	name="curetrussed"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>system:cured_queue ("trussed")</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^You have writhed free of your state of transfixion\.$"
+	name="curetransfixed"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>system:cured_queue ("transfixed")</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^You have writhed free of your entanglement\.$"
+	name="cureentangled"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>system:cured_queue ("entangled")</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	lines_to_match="2"
+	match="^Your (left|right) (arm|leg) is sliced to shreds as the thorny vines are ripped away\.\nYou have writhed free of your thorny vines\.$"
+	multi_line="y"
+	name="curelashedwrithe"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>prompt:queue (function ()
+system:cured ("lashed_%1%2")
+affs:add ("bleeding", 200)
+end, "curelashed", true)</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^You have writhed free of the jaws of the mutt clamped on your (left|right) arm\.$"
+	name="cureclampedmutt"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>system:cured_queue (("clamped_%1arm")</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^You have writhed free of your shackles\.$"
+	name="cureshackled"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>system:cured_queue ("shackled")</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^You carefully writhe out of ([A-Z][a-z]+)\'s grapple\, escaping (?:[hH]is|[hH]er) grasp\.$"
+	name="curegrappleperson"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>system:cured_queue ("grappled", "%1")</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^The bones in your (left|right) ankle mend\.$"
+	name="cureankle"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>system:cured_queue ("shatteredankle_%1leg")</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^The pain in your chest clears as your heart resumes its normal rhythm\.$"
+	name="curechestpain"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>system:cured_queue ("chestpain")</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^The coloured lights stop flashing before your eyes\.$"
+	name="curestars"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>affs:del_queue("stars")</send>
+  </trigger>
+<!--
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^The shadows slowly start to dissipate\.$"
+	name="curechoke2"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>affs:del_queue("choke")</send>
+  </trigger>
+-->
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^You begin to vigorously scrub yourself all over\, trying to remove that sticky sap\.$"
+	name="curescrubsap"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>system:cured_queue ("sap")</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^You begin to vigorously scrub yourself all over\, trying to remove that awful mud caked all over your body\.$"
+	name="curescrubmuddy"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>if affs:has ("sap") then
+	system:cured_queue ("sap")
+  end--if
+  affs:del_queue ("muddy")</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^You scrub yourself vigorously and wash away the horrible ectoplasm\.$"
+	name="curescrubectoplasm"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>if affs:has ("sap") then
+	system:cured_queue ("sap")
+  end--if
+  affs:del_queue ({"muddy", "ectoplasm",})</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^You vigourously scrub off the slimy mucous that covers you\.$"
+	name="curescrubmucuous"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>if affs:has ("sap") then
+	system:cured_queue ("sap")
+  end--if
+  affs:del_queue ({"muddy", "ectoplasm", "mucous"})</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^You begin to vigorously scrub yourself all over\, trying to remove that horrible stench\.$"
+	name="curescrubstinky"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>if affs:has ("sap") then
+	system:cured_queue ("sap")
+  end --if
+  affs:del_queue ({"muddy", "ectoplasm", "mucous", "stinky",})</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^You begin to vigorously scrub yourself all over\, trying to remove that vile black gunk\.$"
+	name="curescrubgunk"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>if affs:has ("sap") then
+	system:cured_queue ("sap")
+  end--if
+affs:del_queue ({"mucous", "muddy", "ectoplasm", "mucous", "stinky", "gunk",})
+  </send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^You begin to vigorously scrub yourself all over\, trying to remove that slippery oil that coats your skin\.$"
+	name="curescrubslick"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>if affs:has ("sap") then
+	system:cured_queue ("sap")
+  end--if
+	if affs:has ("slickness") then
+	system:cured_queue ("slickness")
+  end--if
+affs:del_queue ({"mucous", "muddy", "ectoplasm", "mucous", "stinky", "gunk",})</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^You begin to vigorously scrub yourself all over\, trying to remove the dark mark from your skin\.$"
+	name="curescrubdeath"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>if affs:has ("slickness") then
+	system:cured_queue ("slickness")
+end--if
+if affs:has("deathmark")>1 then
+  affs:add_queue("deathmark", affs:has("deathmark") - 1)
+else
+  affs:del_queue("deathmark")
+end
+affs:del_queue({"mucous", "sap", "muddy", "ectoplasm", "mucous", "stinky", "gunk", "ablaze",})</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^You scrub yourself vigorously until you feel squeaky clean\.$"
+	name="curescrubbables"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>if affs:has ("sap") then
+	system:cured_queue ("sap")
+end --if
+if affs:has ("slickness") then
+	system:cured_queue ("slickness")
+end --if
+affs:del_queue({"mucous", "muddy", "ectoplasm", "mucous", "stinky", "gunk", "ablaze", "deathmark",})</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^You sense the choking effect of the shadow leaving you\.$"
+	name="curechoke"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>affs:del_queue("choke")</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^You sigh in relief as the ravaging plague subsides\.$"
+	name="curehomeostasis"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>affs:del_queue("homeostasis")</send>
+  </trigger>
+
+<!--
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match=""
+	name="cure"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send></send>
+  </trigger>
+-->
+
+<!-- Active Cures - require a line preceding this one -->
+	<trigger
+	enabled="n"
+	group="System_Cures"
+	match="^The chain coiled around your (chest|gut|head|left arm|left leg|right arm|right leg) turns the (healing )?salve brown and useless\.$"
+	name="ninjakari_ninshi_salve"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>local part = string.gsub ("%1", " ", "")
+prompt:unqueue ("apply_regeneration_to_"..part)
+if not affs ["ninshi"] [part] then
+  affs:add ("grappled", part, "somebody", "ninshi")
+end--if
+prompt:queue (function ()
+if ("%2"or "salve") == "healing" then
+  fst:fire ("elixir", "now")
+else
+  fst:fire ("salve", "now")
+end--if
+system:del_cure ()
+end, "ninjakari_ninshi_salve", true)</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^You have no ailment that can be cured by this\.$"
+	name="nocure_antidote"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>nocure:check ("drink_antidote")</send>
+  </trigger>
+	<trigger
+	enabled="n"
+	group="System_Cures"
+	match="^The plague of bedeviling sickness causes your insides to clench in sheer agony\.$"
+	name="bedeviled_confirmed"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>prompt:queue (function () nocure:bedeviled_confirmed () end, "bedeviled_confirmed", true)</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^Your (left|right) (arm|leg) strengthens\.$"
+	name="curetwistedlimb"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue ("twisted_%1%2")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^Your glands cease their oily secretion\.$"
+	name="cureslickness"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue ("slickness")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^The lethargy evaporates\, leaving you full of energy\.$"
+	name="curelethargy"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue("lethargy")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^A chill runs over your icy skin\.$"
+	name="curenofrost"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue ("no_frost", "silent")
+defs:add_queue("frost")
+affs:del_queue("ablaze")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^A feeling of comfortable warmth spreads over you\.$"
+	name="curenofire"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue ("no_fire", "silent")
+defs:add_queue ("fire")
+affs:del_queue({ "frozen", "chills" })</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^A jolting surge rumbles through your insides\.$"
+	name="curenogalvanism"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue ("no_galvanism", "silent")
+defs:add_queue ("galvanism")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^Food is no longer repulsive to you\.$"
+	name="cureanorexia"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue ("anorexia")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^The confusion lifts from your mind and it is clear once again\.$"
+	name="cureconfusion"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue("confusion")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^The mental weakness you suffer subsides\.$"
+	name="curepowersink"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue("powersink")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^The raging fire about your skin goes out\.$"
+	name="cureablaze"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue("ablaze")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^Steam rises from your skin as the fires that plague you are extinguished\.$"
+	name="cureablaze2"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue("ablaze")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^Your terrible addiction to lovely elixirs seems to wane\.$"
+	name="cureaddiction"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue("addiction")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^You aren't such a complete idiot anymore\.$"
+	name="curestupidity"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue("stupidity")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^Your body warms up and you stop shivering\.$"
+	name="cureshivering"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue("chills")
+affs:del_queue("frozen")
+defs:del_queue("fire", "silent")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^Though still shivering\, you are no longer frozen solid\.$"
+	name="curefrozen"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue ("frozen")
+affs:add_queue("chills")
+defs:del_queue("fire", "silent")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^Your fear of heights subsides\.$"
+	name="curevertigo"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue ("vertigo")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^Your hallucinations cease to plague you\.$"
+	name="curehallucinations"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue("hallucinations")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^Your nerves suddenly calm down\.$"
+	name="cureepilepsy"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue("epilepsy")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^The flow of blood recedes as your forehead cuts mend\.$"
+	name="curearteryhead"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue ("artery", "head")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^The flow of blood recedes as your (left|right) (arm|leg)\'s main artery mends\.$"
+	name="cureartery_limb"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue ("artery", "%1%2")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^You no longer enjoy pain\.$"
+	name="curemasochism"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue("masochism")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^The hole impaling your (left|right) (arm|leg) muscles closes\.$"
+	name="curepierced_limb"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue("pierced_%1%2")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^Your strength returns as your punctured chest mends\.$"
+	name="curepuncturedchest"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue("puncturedchest")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^Your hearing sharpens as your (left|right) ear regenerates\.$"
+	name="cureseveredear"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue("severedear_%1")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^Your scalp grows back but your forehead still has some remaining wounds\.$"
+	name="curescalped"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue("scalped")
+affs:add_queue("artery", "head")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^The flow of blood recedes as your gut mends\.$"
+	name="cureslicedopengut"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue("slicedopengut")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^Your bowels calm themselves\.$"
+	name="curedysentery"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue("dysentery")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^You breathe a sigh of relief as blood stops gushing from your throat\.$"
+	name="cureslitthroat"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue ("slitthroat")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^The bones in your (left|right) (arm|leg) mend\.$"
+	name="curebroken_limb"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue ("broken_%1%2")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^Oh\, thank the gods\! The infernal itching has subsided at long last\.$"
+	name="curescabies"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue ("scabies")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^You are no longer dizzy\.$"
+	name="curedizziness"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue ("dizziness")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^Your shyness has been cured\. You can now face the world boldly\.$"
+	name="cureshyness"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue ("shyness")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^You breathe easier as your punctured lung mends\.$"
+	name="curepuncturedlung"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue ("puncturedlung")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^Thank Estarra\! Your clumsiness has been cured\.$"
+	name="cureclumsiness"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue ("clumsiness")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^Your muscles relax as the rigormortis subsides\.$"
+	name="curerigormortis"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue ("rigormortis")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^My\, you feel healthier than you have in years\.$"
+	name="curehypochondria"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue ("hypochondria")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^Your stomach rumbles and you cough up dead worms\.$"
+	name="cureworms"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue ("worms")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^The potion burns through your veins\, destroying the deadly poisons that are killing you\.$"
+	name="curecrotamine"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>for k,v in ipairs ({"crotamine_1", "crotamine_2", "crotamine_3", "crotamine_4"}) do
+if affs:has (v) then
+	system:cured_queue (v)
+end --if
+end --for</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^You feel your blood thickening\.$"
+	name="curerelapsing"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue ("relapsing")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^Sanity returns to you and you are no longer demented\.$"
+	name="curedementia"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue ("dementia")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^Small spaces no longer frighten you\.$"
+	name="cureclaustrophobia"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue ("claustrophobia")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^Your gluttonous desires subside\.$"
+	name="curegluttony"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue ("gluttony")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^Your blood regains its ability to clot\.$"
+	name="curehemophilia"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>prompt:queue (function ()
+system:cured ("hemophilia")
+if flags:get ("clotting") then
+  fst:fire ("clotting", "now")
+end--if
+end, "curehemophilia", true)</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^You shake your head and clear it of vapors\.$"
+	name="curevapors"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue ("vapors")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^Your aching\, pain\-wracked body is soothed and calmed\.$"
+	name="curehealthleech"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue ("healthleech")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^The stinging feeling fades\.$"
+	name="curesensitivity"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue ("sensitivity")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^Your jaw clicks into place as the bones there heal\.$"
+	name="curebroken_jaw"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue ("brokenjaw")
+  affs:del_queue ("shatteredjaw")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^Your (left|right) side tingles as feeling returns\.$"
+	name="curehemiplegy_side"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue ("hemiplegy_%1")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^You can breathe easier as your ribs snap into place\.$"
+	name="curebrokenchest"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue ("brokenchest")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^Prudence rules your psyche once again\.$"
+	name="curerecklessness"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue ("recklessness")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^The sores on your skin dry up and disappear\.$"
+	name="curepox"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue ("pox")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^Your stomach becalms itself\.$"
+	name="curevomiting"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue ("vomiting")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^The stomach cramps lift and your gorge settles\.$"
+	name="curevomitingblood"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue ("vomitingblood")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^The pain in your gut subsides as health returns to your internal organs\.$"
+	name="cureburst_organs"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue ("burstorgans")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^The fracture in the bones of your (left|right) arm knit together\.$"
+	name="curefractured_arm"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue ("fractured_%1arm")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^A coil of cloud choking you disperses\.$"
+	name="curecoils"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue ("coils")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^Your double vision subsides as the breaks in your skull fuse together\.$"
+	name="curefracturedskull"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue ("fracturedskull")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^With a loud crack\, your broken nose straightens and heals\.$"
+	name="curebrokennose"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue ("brokennose")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^You are patient once again\.$"
+	name="cureimpatience"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue ("impatience")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^Your limbs strengthen and you feel stronger\.$"
+	name="cureweakness"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue ("weakness")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^No longer will the sunlight harm you\.$"
+	name="curesunallergy"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue ("sunallergy")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^You no longer fear wearing clothes\.$"
+	name="curevestiphobia"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue ("vestiphobia")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^You can handle the idea of open spaces again\.$"
+	name="cureagoraphobia"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue ("agoraphobia")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^Your bronchial tubes open up and your asthma is cured\.$"
+	name="cureasthma"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>prompt:queue (function ()
+  system:cured ("asthma")
+  local aff, cure=flags:bals_try ("herb")
+	--if I diaged before I could smoke
+  if
+	flags:get ("smoking") or
+	(bals:get ("herb")==0.5 and not cure)
+		then
+	fst:fire ("herb", "now")
+  end--if
+  end, "cured_asthma", true)</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^The broken bones of your (left|right) wrist click into place and become whole\.$"
+	name="curebrokenwrist"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue ("brokenwrist_%1arm")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^The curse of justice leaves you\.$"
+	name="curejustice"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue ("justice")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^Mmmm\! You are seized with a sudden desire to find a mate\!$"
+	name="curenolove"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>affs:add_queue ("love", true, "silent")
+system:cured_queue ("no_love", "silent")
+affs:del_queue("disloyalty")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^You no longer will inspire disloyalty among friends\.$"
+	name="cureredisloyalty"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue ("disloyalty")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^You return to the normal timestream\.$"
+	name="cureaeon"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue ("aeon")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^Aaaahhh\. No one is out to get you after all\.$"
+	name="cureparanoia"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue ("paranoia")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^You shrug off your narcoleptic tendencies\.$"
+	name="curenarcolepsy"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue ("narcolepsy")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^You mind quickly focuses on the real world\, shrugging off childish daydreams\.$"
+	name="curedaydreaming"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue ("daydreaming")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^What were you thinking\? You have no desire to find a mate\.$"
+	name="curelove"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue ("love")
+defs:del_queue ("love")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^Your bleeding slows as your blood clots\.$"
+	name="curebleeding"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>prompt:queue (function ()
+affs:add ("bleeding", -40)
+system:del_cure ()
+system:unqueue_cure ("eat_chervil")
+bals:offbal ("herb", "silent")
+display.cured ("bleeding")
+end, "cured_bleeding_chervil", true)</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^You breathe easier as your lungs clear up of the dreadful black phlegm\.$"
+	name="cureblacklung"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>prompt:queue (function ()
+  system:cured ("blacklung")
+  local aff, cure=flags:bals_try ("herb")
+	--if I diaged before I could smoke
+  if
+	flags:get ("smoking") or
+	(bals:get ("herb")==0.5 and not cure)
+		then
+	fst:fire ("herb", "now")
+  end--if
+end, "cured_blacklung", true)</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^You shake your head\, wondering what you ever saw in .+"
+	name="curelovers"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue ("lovers")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^Your amplified fears start to settle down\.$"
+	name="cureomniphobia"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue ("omniphobia")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^You are no longer deadened\.$"
+	name="curedeadened"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue ("deadened")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^The awful loneliness leaves you\.$"
+	name="cureloneliness"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue ("loneliness")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^The deep damage in your (head|chest|gut|left arm|left leg|right arm|right leg) (completely|partially) heals\.$"
+	name="curedeepwounds"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>if "%2" == "partially" then
+  prompt:queue (function () wounds:cured_partially ("%1") end, "wounds_cured_partially", true)
+else 
+  prompt:queue (function () wounds:cured ("%1") end, "wounds_cured", true)
+end</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^Blessed sight returns to you\.$"
+	name="cureblindness"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue ("blindness")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^The sounds of the world gradually return to you\.$"
+	name="curedeafness"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue ("deafness")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^An instant feeling of excitement and edginess overcomes you\.$"
+	name="curekafe"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>prompt:queue (function ()
+system:cured ("no_kafe", "silent")
+display.ondef ("kafe")
+affs:del ({"narcolepsy", "daydreaming",})
+end, "curekafe", true)</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^The gaping wound in your chest closes up\.$"
+	name="cureslicedchest"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue ("slicedchest")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^Your strength surges as your (left|right) (thigh|bicep) mends\.$"
+	name="curethighbicep"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>if "%2"=="bicep" then
+  system:cured_queue ("sliced_%1arm")
+else
+  system:cured_queue ("sliced_%1leg")
+end</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^You notice the glow illuminating you fades away\.$"
+	name="cureilluminated"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue ("illuminated")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^You sense the curse of treebane leaves? your spirit\.$"
+	name="curetreebane"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue ("treebane")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^The Binah Sphere no longer surrounds you\.$"
+	name="curebinah_sphere"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue ("binah_sphere")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^The curse of Papaxi upon your (ego|health|mana)(?: reserves)? lifts\.$"
+	name="curepapaxi"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue ("%1_curse")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^The unnatural feeling of peace leaves you\.$"
+	name="curepeace"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue ("peace")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^You feel the earth\'s taint leave your soul\.$"
+	name="curetaint_sick"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue ("taint_sick")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^You feel a bit more alert and awake\.$"
+	name="curehypersomnia"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue ("hypersomnia")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^The oppressive whispering in your mind dies out\.$"
+	name="cureegovice"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue ("egovice")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^An ominous noise lifts from within your mind\.$"
+	name="curemanabarbs"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue ("manabarbs")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^The screeching fades away from your inner hearing\.$"
+	name="cureachromatic"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue ("achromaticaura")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^The dark thrumming presence around you dissipates\.$"
+	name="curepowerspikes"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue ("powerspikes")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^The flow of blood recedes as your (left|right) (arm|leg)\'s laceration mends\.$"
+	name="curelacerated_limb"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue ("lacerated", "%1%2")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^The twitching in your face settles down\.$"
+	name="curegashedcheek"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue ("gashedcheek")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^You begin to concentrate on the sixth sense\.\.\.$"
+	name="start_sixthsense"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>prompt:queue (function ()
+system:del_cure ()
+system:unqueue_cure ("eat_faeleaf")
+bals:offbal ("herb", "silent")
+fst:enable ("ondef_sixthsense")
+end, "start_sixthsense", true)</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^You already possess truehearing\.$"
+	name="has_truehearing"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>prompt:queue (function ()
+system:cured ("no_truehearing", "silent")
+defs:ondef ("truehearing")
+end, "has_truehearing", true)</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Defs"
+	match="^You now possess the gift of truehearing\.$"
+	name="ondef_truehearing"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>prompt:queue (function ()
+system:cured ("no_truehearing", "silent")
+defs:ondef ("truehearing")
+end, "ondef_truehearing", true)</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^You already possess the gift of the sixth sense\.$"
+	name="has_sixthsense"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>prompt:queue (function ()
+system:cured ("no_sixthsense", "silent")
+fst:disable ("ondef_sixthsense")
+defs:ondef ("sixthsense")
+end, "has_truehearing", true)</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^You suddenly feel incapable of falling asleep\.$"
+	name="ondef_insomniaherb"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>prompt:queue (function ()
+system:cured ("no_insomnia", "silent")
+defs:ondef ("insomnia")
+end, "ondef_insomniaherb", true)</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^Your mind relaxes and you feel as if you could sleep\.$"
+	name="lostdef_insomniaherb"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="99"
+  >
+  <send>defs:lostdef ("insomnia", true)
+system:cured ("insomnia", "silent")
+system:del_cure ()
+if flags:get ("smoking") or flags:get ("forced_smoking") then
+	nocure:check ("smoke_coltsfoot", "shush")
+end</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^The pain in your (left|right) (hip|shoulder) recedes as the blood clot there dissolves\.$"
+	name="cureclot"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>prompt:queue (function ()
+system:cured_clot ("%1%2")end, "cured_clot", true)</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^Strength returns as your shriveled muscles plump up\.$"
+	name="cureenfeebled"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue ("enfeebled")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^Your breath returns to you\.$"
+	name="curephrenicnerve"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue ("phrenicnerve")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^You breathe? easier as the pain in your ribs subsides\.$"
+	name="curesnappedrib"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue ("snappedrib")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^The bleeding in your brow subsides\.$"
+	name="curefurrowed_brow"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue ("furrowedbrow")</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^Miraculously\, your spinal system regenerates\, restoring feeling to the rest of your body\.$"
+	name="cureseveredspine"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue ("severedspine")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^The curse of the dark moon passes from your spirit\.$"
+	name="curedarkmoon"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue ("darkmoon")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^The cartilage and nerves in your windpipe heal and your voice returns\.$"
+	name="curewindpipe"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue ("windpipe")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^Pain flares in your (left|right) (shoulder|hip) as your joints re\-seat themselves\.$"
+	name="curedislocated_limb"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>if "%2" == "hip" then
+  system:cured_queue ("dislocated_%1leg")
+else
+  system:cured_queue ("dislocated_%1arm")
+end</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^You take a deep gasp and regain better control of your lungs\.$"
+	name="cureshortbreath"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue ("shortbreath")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^Your thoughts coalesce into better focus\.$"
+	name="curescrambledbrain"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue ("scrambledbrain")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^Your lower body tingles as feeling returns\.$"
+	name="curehemiplegylower"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue ("hemiplegy_lower")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^A warmth flows through your (chest|gut|head|left arm|left leg|right arm|right leg)\.$"
+	name="curenumb"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>prompt:queue (function ()
+system:cured_numb ("%1")
+end, "cured_numb", true)</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^Your thoughts coalesce into coherence\.$"
+	name="curevoid"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue ("void")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^Your (face|chest|gut|left arm|right arm) muscles loosen up\.$"
+	name="curestiff"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>if "%1" == "face" then
+  system:cured_queue ("stiff_head")
+else
+  system:cured_queue ("stiff_" .. (string.gsub("%1", " ", "")))
+end</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^Your (face|chest|gut|left arm|right arm) muscles loosen ever so slightly\.$"
+	name="curestiffnon"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>local part = string.gsub("%1", " ", "")
+if part == "face" then
+  part = "head"
+end
+system:cured_queue ("stiff_" .. part)
+if not affs ["ootangk"] [part] then
+	affs:add_queue ("grappled", part, "Someone", "ootangk")
+end</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^The sapping of your power subsides\.$"
+	name="curepowersap"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue ("powersap")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^You stop trembling\.$"
+	name="curetrembling"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue ("trembling")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^You feel your mouth return to normalcy as your tongue heals\.$"
+	name="curemangledtongue"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue ("mangledtongue")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^You feel yourself released from the painful inquisition\.$"
+	name="cureinquisition"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>affs:del_queue({ "heretic", "infidel", "inquisition" })</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^Your step becomes more confident as the bones in your (left|right) foot mend\.$"
+	name="curecrushedfoot"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue ("crushedfoot_%1leg")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^Ahhhh\. The freedom to be stingy again\!$"
+	name="curegenerosity"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue ("generosity")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^You feel an invigorating energy rush through you\.$"
+	name="healscroll"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>prompt:queue (function ()
+display.cured ("Heal Scroll")
+flags:del ("healing")
+bals:offbal ("scroll", "silent")
+fst:disable ("scroll")
+magic:used ("healing")
+end, "healing", true)</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^The words of the scroll have no effect on you\.$"
+	name="offbal_scroll"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>prompt:queue (function ()
+flags:del ("healing")
+bals:offbal ("scroll")
+fst:disable ("scroll")
+magic:used ("healing")
+end, "offbal_scroll", true)</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^You sigh in relief as the jinx that confounds your mind lifts\.$"
+	name="curejinx"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue ("jinx")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^The salve fizzles away without effect\.$"
+	name="offbal_salve_wtf"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>prompt:queue (function () act:offbal_salve () end, "offbal_salve_wtf", true)</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^The potion flows down your throat without effect\.$"
+	name="offbal_elixir"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>act:offbal_elixir ()</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^You may not take another dose of allheale so soon\.$"
+	name="offbal_ah"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>fst:fire ("ah", "now")
+bals:offbal ("ah", "silent")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^The allheale burns your throat and makes your eyes water\.$"
+	name="used_allheale"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>if bals:get ("ah") == 0.5 then
+bals:offbal ("ah", "silent")
+local aff, cure = flags:bals_try ("ah")
+if string.find ((cure or "nil"), "custom") then
+	affs:del_custom ("drink_allheale")
+end
+system:add_cure ("drink_allheale")
+end</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^Your mind feels stronger and more alert\.$"
+	name="curemana"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue ("mana")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^The potion heals and soothes you\.$"
+	name="curehealth"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>prompt:queue (function ()
+system:cured_health ("drink_health")
+end, "cured_health", true)</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^Ah, the soothing bromides help strengthen your ego\.$"
+	name="cureego"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>system:cured_queue ("ego")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^You feel your health\, mana and ego replenished\.$"
+	name="curesparklies"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>prompt:queue (function ()
+system:cured_sparklies ()
+end, "cured_sparklies", true)</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^The aftertaste of the berry turns sour\.$"
+	name="offbalsparklies"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>prompt:queue (function ()
+flags:del ({"sparklies", "eat_sparklies"})
+system:del_cure ()
+system:del_cure ("eat_sparkleberry")
+bals:offbal ("sparklies")
+end, "offbalsparklies", true)</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^(.+?) turns to ash in your mouth\, and you spit it out\.$"
+	name="herbrejected"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>prompt:queue (function ()
+act:offbal_herb ()
+end, "offbalherb", true)</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^The (?:herb|plant) has no effect\.$"
+	name="offbalherb"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>prompt:queue (function ()
+  act:offbal_herb ()
+  end, "offbalherb", true)</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^The berry has no effect\.$"
+	name="offbalsparklies2"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>prompt:queue (function ()
+flags:del ({"sparklies", "eat_sparklies"})
+system:del_cure ("eat_sparklies")
+system:unqueue_cure ("eat_sparklies")
+bals:offbal ("sparklies")
+end, "offbalsparklies", true)</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^The brew you drank lies flat on your palate\.$"
+	name="offbalbrew"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>fst:fire ("brew", "now")
+  bals:offbal ("brew")
+  system:del_cure ()</send>
+  </trigger>
+  <trigger
+	enabled="y"
+	group="System_Tracking"
+	match="^The salve dissolves and quickly disappears after you apply it\.$"
+	name="offbalsalve"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>prompt:queue (function ()
+act:offbal_salve ()
+end, "offbal_salve", true)</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^As you luxuriantly rub the resinous\, red oil into your skin\, you sniff abruptly and inhale the enticing aroma of dragon\'s blood\.$"
+	name="defup_dragonsblood"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>defs:add_queue ("dragonsblood")
+defs:del_queue({ "jasmine", "musk", "sandalwood", "vanilla" })</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^As you luxuriantly rub the golden oil into your skin\, you sniff abruptly and inhale the sweet and floral odour of jasmine\.$"
+	name="defup_jasmine"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>defs:add_queue ("jasmine")
+defs:del_queue({ "dragonsblood", "musk", "sandalwood", "vanilla" })</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^As you luxuriantly rub the thick\, purple oil into your skin\, you sniff abruptly and inhale the pungent scent of musk\.$"
+	name="defup_musk"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>defs:add_queue ("musk")
+defs:del_queue({ "dragonsblood", "jasmine", "sandalwood", "vanilla" })</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^As you luxuriantly rub the slippery\, lutescent oil into your skin\, you sniff abruptly and inhale the clean fragrance of sandalwood\.$"
+	name="defup_sandalwood"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>defs:add_queue ("sandalwood")
+defs:del_queue({ "dragonsblood", "jasmine", "musk", "vanilla" })</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^As you luxuriantly rub the smooth, caramel[\- ]coloured oil into your skin\, you sniff abruptly and inhale the buttery redolence of vanilla\.$"
+	name="defup_vanilla"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>defs:add_queue ("vanilla")
+defs:del_queue({ "dragonsblood", "jasmine", "musk", "sandalwood" })</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^You laugh off the circuitous logic in your arguments\.$"
+	name="curedebatecircuitous"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>affs:del_queue("debate_circuitous")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^The patience of a saint surrounds you\, and you refuse to hurry\.$"
+	name="curedebatehurry"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>affs:del_queue("debate_hurry")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^Your mind suddenly cuts through the loopholes in the discussion\.$"
+	name="curedebateloophole"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>affs:del_queue("debate_loophole")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^Your burnt flesh is soothed\.$"
+	name="cureburns1"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>EnableTrigger("cureburns2", true)
+for i=1,4 do
+local aff = "burns_"..tostring (i)
+if affs:has (aff) then
+  system:cured_queue (aff)
+  break
+end--if
+end--for
+prompt:queue (function () EnableTrigger("cureburns2", false) end, "cureburns1")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^(?:You heal some of your burns\,? but you still have (first|second|third|fourth) degree burns|You completely heal your burn damage)\.$"
+	name="cureburns2"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>affs:burned ("%1")</send>
+  </trigger>
+
+<!-- Things cured by cleansing one's self -->
+  <trigger
+	enabled="n"
+	group="System_Cleanse"
+	match="to wash away that sticky sap\.$"
+	name="curesap"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>system:cured_queue ("sap")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cleanse"
+	match="^The vile black gunk that covers your body dissolves\.$"
+	name="curegunk"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>if affs:has ("sap") then
+	system:cured_queue ("sap")
+end
+affs:del_queue("gunk")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cleanse"
+	match="to wash away that awful mud caked all over your body\.$"
+	name="curemuddy"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>affs:del_queue({"gunk", "muddy" })
+if affs:has ("sap") then
+system:cured_queue ("sap")
+end</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cleanse"
+	match="to wash away the horrible ectoplasm\.$"
+	name="cureectoplasm"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>affs:del_queue({"gunk", "muddy", "ectoplasm" })
+if affs:has ("sap") then
+	system:cured_queue ("sap")
+end</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cleanse"
+	match="to wash away the slimy mucous\.$"
+	name="curemucous"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>if affs:has ("sap") then
+	system:cured_queue ("sap")
+end
+affs:del_queue({"gunk", "muddy", "ectoplasm", "mucous"})</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cleanse"
+	match="to wash away that horrible stench\.$"
+	name="curestinky"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>affs:del_queue({"gunk", "muddy", "ectoplasm", "mucous", "stinky",})
+if affs:has ("sap") then
+	system:cured_queue ("sap")
+end</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cleanse"
+	match="^The raging fire about your skin goes out\.$"
+	name="cureablaze_cleanse"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>affs:del_queue({"mucous", "gunk", "muddy", "ectoplasm", "mucous", "stinky", "ablaze",})
+if affs:has ("sap") then
+	system:cured_queue ("sap")
+end</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cleanse"
+	match="scrub all over until the oil on your skin is gone\.$"
+	name="cureslickness_cleanse"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>affs:del_queue({"mucous", "gunk", "muddy", "ectoplasm", "mucous", "stinky", "ablaze"})
+if affs:has ("sap") then
+	system:cured_queue ("sap")
+end
+if affs:has ("slickness") then
+	system:cured_queue ("slickness")
+end --if</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cleanse"
+	match="scrub all over\, trying to wipe away the dark mark that stains your skin\.$"
+	name="curedeathmark_cleanse"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>affs:del_queue({"mucous", "gunk", "muddy", "ectoplasm", "mucous", "stinky", "ablaze",})
+local dm = affs:has("deathmark") or 1
+if dm > 2 then
+  affs:del_queue("deathmark")
+else
+  affs:add_queue("deathmark", dm - 1)
+end
+if affs:has ("sap") then
+	system:cured_queue ("sap")
+end
+if affs:has ("slickness") then
+	system:cured_queue ("slickness")
+end --if</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cleanse"
+	match="you are squeaky clean\.$"
+	name="cureall_cleanse"
+	regexp="y"
+	send_to="12"
+	sequence="100"
+  >
+  <send>affs:del_queue({"mucous", "gunk", "muddy", "ectoplasm","mucous", "stinky", "ablaze", "deathmark" })
+if affs:has ("sap") then
+	system:cured_queue ("sap")
+end
+if affs:has ("slickness") then
+	system:cured_queue ("slickness")
+end--if</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^Your sanity partially returns\, but you still suffer from a (slight|moderate|major|massive) case of temporary insanity\.$"
+	name="cureinsanity1"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>affs:add_queue ("insawarped", "insanity", -4, "%1")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^You no longer have any temporary insanity\.$"
+	name="cureinsanity2"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>affs:add_queue ("insawarped", "insanity", -1, "none")</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^The warping of time lightens\,? but you are still (minorly|moderately|majorly|massively) warped\.$"
+	name="curetimewarp1"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>local threshold= string.gsub ("%1", "ly", "")
+if threshold == "minor" then threshold = "slight"
+affs:add_queue ("insawarped", "timewarped", -4, threshold)</send>
+  </trigger>
+  <trigger
+	enabled="n"
+	group="System_Cures"
+	match="^Time no longer warps around you\.$"
+	name="curetimewarp2"
+	omit_from_output="y"
+	regexp="y"
+	send_to="14"
+	sequence="100"
+  >
+  <send>affs:add_queue ("insawarped", "timewarped", -1, "none")</send>
+  </trigger>
+</triggers>

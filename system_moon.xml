@@ -1,0 +1,137 @@
+<triggers>
+  <trigger
+   enabled="y"
+   group="System_Moon"
+   match="^Swinging about in a wild dance\, you call down upon the powers of the moon to heal you of afflictions\. A soft beam of moonlight suffuses you, curing you of sickness\.$"
+   name="cure_full"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>system:cures_on()</send>
+  </trigger>
+
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^You have the aura of the moon protecting you\.$"
+   name="def_aura"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("aura", nil, nil, true)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^The moon has been drawn closer to you\.$"
+   name="def_drawdown"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("drawdown", nil, nil, true)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^You are shining with the light of .+?\.$"
+   name="def_shine"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("shine", nil, nil, true)</send>
+  </trigger>
+
+  <trigger
+   enabled="y"
+   group="System_Moon"
+   match="^You dance to the spirit of the moon\, asking for protection\. A soft light suffuses you\.$"
+   name="ondef_aura"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("aura")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Moon"
+   match="^You form a triangle with your hands and frame the moon within\. After whispering devotions to the moon\, you lower your hands and feel the power of the moon suffuse your very spirit\.$"
+   name="ondef_drawdown"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("drawdown")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Moon"
+   match="^Raising your hands over head\, you beseech Mother Moon for her many blessings\. A shaft of moonlight falls upon you\, soaking into your skin and filling you with the throbbing cycle of phases\.$"
+   name="ondef_shine"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("shine")</send>
+  </trigger>
+
+  <trigger
+   enabled="y"
+   group="System_Moon"
+   match="^The power of (?:the )?moon has already suffused your spirit\!$"
+   name="has_drawdown"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("drawdown")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Moon"
+   match="^You are already surrounded by the moon aura\.$"
+   name="has_aura"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("aura")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Moon"
+   match="^You already are shining with the light of the moon\.$"
+   name="has_shine"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("shine")</send>
+  </trigger>
+
+  <trigger
+   enabled="y"
+   group="System_Moon"
+   match="^You scan the skies for the moon\, but it is nowhere to be found\.$"
+   name="ondef_nomoon"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:del ({"shine", "drawdown"})</send>
+  </trigger>
+</triggers>

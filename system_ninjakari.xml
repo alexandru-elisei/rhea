@@ -1,0 +1,52 @@
+<triggers>
+<!-- DEF -->
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^Your hands are gripping your wielded items tightly\.$"
+   name="def_grip"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("grip", nil, nil, true)</send>
+  </trigger>
+
+  <trigger
+   enabled="y"
+   group="System_Ninjakari"
+   match="^You concentrate on gripping tightly with your hands\.$"
+   name="ondef_grip"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("grip")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Ninjakari"
+   match="^You already have a firm grip\.$"
+   name="has_grip"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("grip")</send>
+  </trigger>
+
+  <trigger
+   enabled="y"
+   group="System_Ninjakari"
+   match="^(?:You relax your grip|Your grip is already relaxed)\.$"
+   name="lostdef_grip_relax"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>defs:lostdef ("grip")</send>
+  </trigger>
+</triggers>

@@ -1,0 +1,284 @@
+<triggers>
+ <trigger
+   enabled="y"
+   group="System_Acrobatics"
+   match="^In a swift\, fluid motion\, you spring up from your hands to land crouched on your feet\.$"
+   name="cureprone_springup"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>if (flags:get ("prone") or "nil") == "springup" then
+system:cured ("prone")
+end --if</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Acrobatics"
+   match="^You are not on the ground\!"
+   name="notprone"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>if (flags:get ("prone") or "nil") == "springup" then
+system:cured ("prone")
+end --if</send>
+  </trigger>
+
+<!-- Acrobatics defense tracking -->
+   <trigger
+   enabled="y"
+   group="System_Acrobatics"
+   match="^You tense your muscles with the sinuous grace of a predator\, prepared to avoid any incoming blows\.$"
+   name="ondef_avoid"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("avoid")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Acrobatics"
+   match="^You dance as nimbly as a cat\, maintaining your balance on the balls of your feet\.$"
+   name="ondef_balancing"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("balancing")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Acrobatics"
+   match="^You are already protecting yourself against falling\.$"
+   name="has_balancing"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("balancing")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Acrobatics"
+   match="^Casting a wary eye about your surroundings\, you ready yourself for a fall\.$"
+   name="ondef_falling"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("falling")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Acrobatics"
+   match="^Concentrating briefly\, you will parts of your muscles to relax, giving them more elasticity to prevent damage\.$"
+   name="ondef_elasticity"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("elasticity")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Acrobatics"
+   match="^You stretch your muscles\, focusing on swift and nimble movements\.$"
+   name="ondef_limber"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("limber")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Acrobatics"
+   match="^You dance around chaotically\, avoiding incoming blows\.$"
+   name="ondef_tripleflash"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("tripleflash")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Acrobatics"
+   match="^You cease darting around and avoiding blows\.$"
+   name="lostdef_tripleflash"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:lostdef ("tripleflash")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Acrobatics"
+   match="^You are already concentrating on breaking your falls\.$"
+   name="has_falling"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("falling")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Acrobatics"
+   match="^You are already relaxing your muscles to prevent damage to them\.$"
+   name="has_elasticity"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("elasticity")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Acrobatics"
+   match="^You are already quite limber\!$"
+   name="has_limber"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("limber")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Acrobatics"
+   match="^You breathe in and exhale in a regular\, steady rhythm\, mastering your control over your breathing\.$"
+   name="ondef_hyperventilate"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("hyperventilate")</send>
+  </trigger>
+   <trigger
+   enabled="y"
+   group="System_Acrobatics"
+   match="^You are already controlling your breathing masterfully\.$"
+   name="has_hyperventilate"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("hyperventilate")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Acrobatics"
+   match="^You relax your nimble stance\, falling into a comfortable posture\.$"
+   name="lostdef_balancing"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:lostdef ("balancing")</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Acrobatics"
+   match="^You can no longer concentrate on maintaining your balance\.$"
+   name="lostdef_balancing2"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:lostdef ("balancing")</send>
+  </trigger>
+
+<!-- DEF -->
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^You are carefully avoiding the next targeted blow\.$"
+   name="def_avoid"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("avoid", nil, nil, true)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^You are balancing carefully\.$"
+   name="def_balancing"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("balancing", nil, nil, true)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^You are protected against falling suddenly\.$"
+   name="def_falling"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("falling", nil, nil, true)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^You are concentrating on providing your muscles with increased elasticity\.$"
+   name="def_elasticity"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("elasticity", nil, nil, true)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^You are extremely limber\.$"
+   name="def_limber"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("limber", nil, nil, true)</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Def"
+   match="^You are hyperventilating to control your breathing\.$"
+   name="def_hyperventilate"
+   omit_from_output="y"
+   regexp="y"
+   send_to="14"
+   sequence="100"
+  >
+  <send>defs:ondef ("hyperventilate", nil, nil, true)</send>
+  </trigger>
+</triggers>

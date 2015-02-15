@@ -1,0 +1,70 @@
+<aliases>
+  <alias
+   name="aetherhunt_job"
+   match="^sys set (gunner) (0|1|true|false|on|off)$"
+   enabled="y"
+   group="System_Aetherhunt"
+   regexp="y"
+   send_to="12"
+   ignore_case="y"
+   sequence="99"
+  >
+  <send>if "%1" == "0" or "%1" == "false" or "%1" == "off" then
+EnableTrigger ("%1_target", false)
+display.system ("Gunner OFF")
+else
+EnableTrigger ("%1_target", true)
+display.system ("Gunner ON")
+end</send>
+  </alias>
+</aliases>
+
+<triggers>
+  <trigger
+   enabled="n"
+   group="System_Aetherhunt"
+   match="^\(Ship\)\: (?:\w+) say(?:s)?\, \&quot;Target (\w+)\.\&quot;$"
+   name="gunner_target"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>flags:del ("retarget")
+Send ("turret target creature %1")
+EnableTrigger ("gunner_onbal", true)
+EnableTrigger ("gunner_down", true)
+gunner_target = "%1"</send>
+  </trigger>
+  <trigger
+   enabled="n"
+   group="System_Aetherhunt"
+   match="^A battle turret whirrs quietly\, ready to be used once again\.$"
+   name="gunner_onbal"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>if flags:get ("retarget") then
+Send ("turret target creature "..gunner_target)
+flags:del ("retarget")
+else
+Send ("turret fire")
+end</send>
+  </trigger>
+  <trigger
+   enabled="y"
+   group="System_Aetherhunt"
+   match="^.+? suddenly explodes\!$"
+   name="gunner_down"
+   regexp="y"
+   send_to="12"
+   sequence="100"
+  >
+  <send>if gunner_target then
+flags:add ("retarget")
+else
+EnableTrigger ("gunner_onbal", false)
+EnableTrigger ("gunner_down", false)
+end</send>
+  </trigger>
+</triggers>
